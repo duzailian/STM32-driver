@@ -2,5 +2,7 @@
 
 int main(int argc, char **argv)
 {
-    return 0;
+	init_driver();
+	init_bsp();
+	return 0;
 }

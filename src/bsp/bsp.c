@@ -1,6 +1,6 @@
 #include "include.h"
 
-extern void init_int(void)
+void init_bsp(void)
 {
 	return;
 }

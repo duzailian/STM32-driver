@@ -117,4 +117,10 @@ EWARM/settings
 # Ignore all local history of files
 .history
 nrf24l01.si4project/
+.clang-format
+GPATH
+GRTAGS
+GTAGS
+Debug/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++,iar_ewarm,keil
