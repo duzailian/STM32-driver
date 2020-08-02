@@ -21,10 +21,6 @@ GraphEnabled=0
 ShowTimeLog=1
 SumEnabled=0
 ShowTimeSum=1
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Count=0
 [Interrupts]
 Enabled=1
 [MemConfig]
@@ -33,12 +29,55 @@ Manual=0
 Ddf=1
 TypeViol=0
 Stop=1
-[Trace1]
-Enabled=0
-ShowSource=1
-[Aliases]
-Count=0
-SuppressDialog=0
 [Simulator]
 Freq=10000000
 MultiCoreRunAll=1
+[DebugChecksum]
+Checksum=196168319
+[CodeCoverage]
+Enabled=_ 0
+[Exceptions]
+StopOnUncaught=_ 0
+StopOnThrow=_ 0
+[CallStack]
+ShowArgs=0
+[Disassembly]
+MixedMode=1
+[JLinkDriver]
+CStepIntDis=_ 0
+LeaveTargetRunning=_ 0
+TraceBufferSize=0x00010000
+TraceStallIfFIFOFull=0x00000000
+TracePortSize=0x00000004
+[struct_types]
+Fmt0=st_dma_parm_t-mem_addr	4	0
+Fmt1=st_dma_parm_t-per_addr	4	0
+[Trace1]
+Enabled=0
+ShowSource=1
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\src\driver\usart\usart.c}.1.1" 0 0 1 "" 0 "" 0
+Bp1=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\src\driver\usart\usart.c}.217.3" 0 0 1 "" 0 "" 0
+Count=2
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
+[Aliases]
+Count=0
+SuppressDialog=0
+[DriverProfiling]
+Enabled=0
+Mode=1
+Graph=0
+Symbiont=0
+Exclusions=
+[CallStackLog]
+Enabled=0
+[CallStackStripe]
+ShowTiming=1

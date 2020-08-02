@@ -60,16 +60,16 @@
         <option>
           <name>GRuntimeLibSelect</name>
           <version>0</version>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>GRuntimeLibSelectSlave</name>
           <version>0</version>
-          <state>1</state>
+          <state>2</state>
         </option>
         <option>
           <name>RTDescription</name>
-          <state>Use the normal configuration of the C/C++ runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
+          <state>Use the full configuration of the C/C++ runtime library. Full locale interface, C locale, file descriptor support, multibytes in printf and scanf, and hex floats in strtod.</state>
         </option>
         <option>
           <name>OGProductVersion</name>
@@ -89,7 +89,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>STM32F107RC	ST STM32F107RC</state>
+          <state>STM32F107VC	ST STM32F107VC</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -123,7 +123,7 @@
         </option>
         <option>
           <name>RTConfigPath2</name>
-          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Normal.h</state>
+          <state>$TOOLKIT_DIR$\INC\c\DLib_Config_Full.h</state>
         </option>
         <option>
           <name>GBECoreSlave</name>
@@ -149,7 +149,7 @@
         </option>
         <option>
           <name>GFPUDeviceSlave</name>
-          <state>STM32F107RC	ST STM32F107RC</state>
+          <state>STM32F107VC	ST STM32F107VC</state>
         </option>
         <option>
           <name>FPU2</name>
@@ -182,6 +182,7 @@
         <option>
           <name>CCDefines</name>
           <state>STM32F10X_CL</state>
+          <state>USE_STDPERIPH_DRIVER</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -242,7 +243,7 @@
         <option>
           <name>CCAllowList</name>
           <version>1</version>
-          <state>10010100</state>
+          <state>00000000</state>
         </option>
         <option>
           <name>CCDebugInfo</name>
@@ -315,6 +316,14 @@
           <state>$PROJ_DIR$\..\src\bsp</state>
           <state>$PROJ_DIR$\..\src\driver</state>
           <state>$PROJ_DIR$\..\src\lib</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\uC-LIB</state>
+          <state>$PROJ_DIR$\..\src\os</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\uC-LIB</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\cfg\</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\uC-CPU\ARM-Cortex-M3\IAR</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\uC-CPU\</state>
+          <state>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Ports\ARM-Cortex-M3\Generic\IAR\</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -334,7 +343,7 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
@@ -343,7 +352,7 @@
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>2</state>
+          <state>1</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -602,7 +611,7 @@
         <option>
           <name>OOCOutputFormat</name>
           <version>3</version>
-          <state>0</state>
+          <state>4</state>
         </option>
         <option>
           <name>OCOutputOverride</name>
@@ -610,7 +619,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state></state>
+          <state>STM32F107_project.sim</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
@@ -665,7 +674,7 @@
         </option>
         <option>
           <name>IlinkOutputFile</name>
-          <state>STM32F107_project.out</state>
+          <state>STM32F107_project.elf</state>
         </option>
         <option>
           <name>IlinkDebugInfoEnable</name>
@@ -1941,9 +1950,18 @@
     <group>
       <name>nrf24l01</name>
     </group>
+    <file>
+      <name>$PROJ_DIR$\..\src\bsp\bsp.c</name>
+    </file>
   </group>
   <group>
     <name>driver</name>
+    <group>
+      <name>dma</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\dma\dma.c</name>
+      </file>
+    </group>
     <group>
       <name>gpio</name>
       <file>
@@ -1951,11 +1969,35 @@
       </file>
     </group>
     <group>
+      <name>interrpt</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\interrupt\interrupt.c</name>
+      </file>
+    </group>
+    <group>
+      <name>log</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\log\log.c</name>
+      </file>
+    </group>
+    <group>
+      <name>rcc</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\rcc\rcc.c</name>
+      </file>
+    </group>
+    <group>
       <name>spi</name>
     </group>
     <group>
       <name>usart</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\usart\usart.c</name>
+      </file>
     </group>
+    <file>
+      <name>$PROJ_DIR$\..\src\driver\driver.c</name>
+    </file>
   </group>
   <group>
     <name>lib</name>
@@ -1977,12 +2019,180 @@
         <name>$PROJ_DIR$\..\src\lib\ST\src\stm32f10x_it.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$\..\src\lib\ST\src\stm32f10x_rcc.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\src\lib\ST\src\system_stm32f10x.c</name>
       </file>
     </group>
   </group>
   <group>
     <name>os</name>
+    <group>
+      <name>ucos</name>
+      <group>
+        <name>Bsp</name>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\Bsp\os_bsp.c</name>
+        </file>
+      </group>
+      <group>
+        <name>Task</name>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\Task\task.c</name>
+        </file>
+      </group>
+      <group>
+        <name>uC-CPU</name>
+        <group>
+          <name>ARM-Cortex-M3</name>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uC-CPU\ARM-Cortex-M3\IAR\cpu.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uC-CPU\ARM-Cortex-M3\IAR\cpu_a.asm</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uC-CPU\ARM-Cortex-M3\IAR\cpu_c.c</name>
+          </file>
+        </group>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-CPU\cpu_core.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-CPU\cpu_core.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-CPU\cpu_def.h</name>
+        </file>
+      </group>
+      <group>
+        <name>uC-LIB</name>
+        <group>
+          <name>Ports</name>
+          <group>
+            <name>ARM-Cortex-M3</name>
+            <file>
+              <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\Ports\ARM-Cortex-M3\IAR\lib_mem_a.asm</name>
+            </file>
+          </group>
+        </group>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_ascii.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_ascii.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_def.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_math.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_math.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_mem.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_mem.h</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_str.c</name>
+        </file>
+        <file>
+          <name>$PROJ_DIR$\..\src\os\ucos\uC-LIB\lib_str.h</name>
+        </file>
+      </group>
+      <group>
+        <name>uCOS-III</name>
+        <group>
+          <name>Ports</name>
+          <group>
+            <name>ARM-Cortex-M3</name>
+            <group>
+              <name>Generic</name>
+              <file>
+                <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Ports\ARM-Cortex-M3\Generic\IAR\os_cpu.h</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Ports\ARM-Cortex-M3\Generic\IAR\os_cpu_a.asm</name>
+              </file>
+              <file>
+                <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Ports\ARM-Cortex-M3\Generic\IAR\os_cpu_c.c</name>
+              </file>
+            </group>
+          </group>
+        </group>
+        <group>
+          <name>Source</name>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_cfg_app.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_core.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_dbg.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_flag.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_int.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_mem.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_msg.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_mutex.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_pend_multi.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_prio.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_q.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_sem.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_stat.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_task.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_tick.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_time.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_tmr.c</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_type.h</name>
+          </file>
+          <file>
+            <name>$PROJ_DIR$\..\src\os\ucos\uCOS-III\Source\os_var.c</name>
+          </file>
+        </group>
+      </group>
+    </group>
+    <file>
+      <name>$PROJ_DIR$\..\src\os\os.c</name>
+    </file>
   </group>
 </project>
 

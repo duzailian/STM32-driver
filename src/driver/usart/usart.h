@@ -1,13 +1,13 @@
-#ifndef __DRV_H
-#define __DRV_H
+#pragma once
 
 typedef enum {
-	usart1,
-	usart2,
+    usart1,
+    usart2,
+    usart_max,
 } en_usart_t;
 
-extern void init_usart(void);
+extern st_drv_oper_t *open_usart(en_usart_t channel);
 
-extern void usart_send(en_usart_t ch, uint8_t *puc_data, size_t sz_len);
-
+#if USART_DBG
+extern void test_usart(void);
 #endif

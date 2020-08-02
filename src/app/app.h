@@ -1,6 +1,3 @@
-#ifndef __APP_H
-#define __APP_H
+#pragma once
 
 #include "cfg/cfg.h"
-
-#endif

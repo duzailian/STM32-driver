@@ -14,7 +14,8 @@
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE",
-                "STM32F10X_CL"
+                "STM32F10X_CL",
+                "USE_STDPERIPH_DRIVER"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu11",

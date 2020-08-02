@@ -116,11 +116,11 @@ EWARM/settings
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
-nrf24l01.si4project/
+nrf24l01.si4project/*
 .clang-format
 GPATH
 GRTAGS
 GTAGS
-Debug/
+prj/Debug/*
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++,iar_ewarm,keil
