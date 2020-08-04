@@ -11,7 +11,7 @@
   (USART_FLAG_ORE | USART_FLAG_NE | USART_FLAG_FE | USART_FLAG_PE)
 
 typedef struct {
-  uint16_t us_len;      // received data length
+  uint16_t us_len;  // received data length
   uint8_t auc_data[0];
 } __st_recv_packet_t;
 
@@ -89,7 +89,7 @@ static int __ISR(void* pst_info);
               .puc_buffer = &auc_u##ch##_buffer[0][0], \
               .puc_index = &uc_u##ch##index,           \
               .us_len = USART##ch##_BUFFER_SZ,         \
-              .us_num = USART##ch##_BUFFER_SZ,         \
+              .us_num = USART##ch##_BUFFER_NUM,        \
           },                                           \
       .pst_dma = &st_u##ch##dma,                       \
   }
@@ -108,7 +108,8 @@ static int __ISR(void* pst_info);
       .en_dma_ch = USART##ch##_DMA_CH,                            \
       .en_tr_dir = en_to_mem,                                     \
       .per_addr = (uint32_t)&USART##ch->DR,                       \
-      .mem_addr = (uint32_t)&auc_u##ch##_buffer[0][offsetof(__st_recv_packet_t, auc_data)],            \
+      .mem_addr = (uint32_t)&auc_u##ch##_buffer[0][offsetof(      \
+          __st_recv_packet_t, auc_data)],                         \
       .us_len = sizeof(auc_u##ch##_buffer[0]),                    \
       .complete_cb = __ISR,                                       \
       .complete_cb_arg = (void*)&ast_info[usart##ch],             \
@@ -196,8 +197,7 @@ static int __usart_recv(void* __self, uint8_t* puc_data, size_t sz_len) {
   OS_MSG_SIZE msg_size = 0;
   __st_recv_packet_t* pst_ret = NULL;
 
-  pst_ret =
-      OSQPend(pst_q->p_q, 0, OS_OPT_PEND_BLOCKING, &msg_size, NULL, &err);
+  pst_ret = OSQPend(pst_q->p_q, 0, OS_OPT_PEND_BLOCKING, &msg_size, NULL, &err);
   if (OS_ERR_NONE != err) {
     LOG_ERR("usart q wait failed(%d)!", err);
   }
@@ -226,7 +226,12 @@ static void __resart_dma(const st_buffer_t* pst_buffer,
   uc_index++;
   uc_index %= pst_buffer->us_num;
 
-  st_dma.mem_addr = (uint32_t)uc_index * pst_buffer->us_len + offsetof(__st_recv_packet_t, auc_data);
+  st_dma.mem_addr = (uint32_t)((uint32_t)uc_index * pst_buffer->us_len +
+                               offsetof(__st_recv_packet_t, auc_data) +
+                               pst_buffer->puc_buffer);
+#if 0// USART_DBG
+  printf("st_dma.mem_addr:0x%x\r\n", st_dma.mem_addr);
+#endif
   start_dma(&st_dma);
   *pst_buffer->puc_index = uc_index;
   return;
@@ -237,7 +242,8 @@ static void post_data(st_info_t* self, uint8_t uc_data) {
   const st_q_t* pst_q = &self->st_q;
   size_t sz_index = (uint32_t)*pst_buffer->puc_index * pst_buffer->us_len;
   OS_ERR err;
-  __st_recv_packet_t *pst_ret = (__st_recv_packet_t *)&pst_buffer->puc_buffer[sz_index];
+  __st_recv_packet_t* pst_ret =
+      (__st_recv_packet_t*)&pst_buffer->puc_buffer[sz_index];
 
   pst_ret->us_len = get_transterred_size(self->pst_dma);
   OSQPost(pst_q->p_q, pst_ret, sizeof(pst_ret), OS_OPT_POST_FIFO, &err);
