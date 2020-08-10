@@ -122,5 +122,6 @@ GPATH
 GRTAGS
 GTAGS
 prj/Debug/*
+prj/Release/*
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,c++,iar_ewarm,keil

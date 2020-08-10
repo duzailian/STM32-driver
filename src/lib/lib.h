@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef DEBUG_EN
+#ifndef DEBUG_EN
 #define NDEBUG // not debug version ,remove assert()
 #endif
 

@@ -166,13 +166,9 @@ static int __spi_close(void *self) {
 }
 
 extern st_drv_if_t *open_spi(en_spi_t channel) {
-  if ((channel >= sizeof_array(ast_info)) || (NULL == ast_info[channel].SPIx)) {
-    LOG_ERR("SPI:%d not configured!", channel - spi1 + 1);
-    goto Error;
-  }
+  assert(channel < sizeof_array(ast_info));
+  assert(NULL != ast_info[channel].SPIx);
   return __init_ch(&ast_info[channel]);
-Error:
-  return NULL;
 }
 
 #if SPI_DBG

@@ -279,11 +279,8 @@ Return:
 }
 
 extern st_drv_if_t* open_usart(en_usart_t channel) {
-  if ((NULL == &ast_info[channel].USARTx) ||
-      (channel >= sizeof_array(ast_info))) {
-    LOG_ERR("usart%d open fail!", channel);
-    return NULL;
-  }
+  assert(channel < sizeof_array(ast_info));
+  assert(NULL != &ast_info[channel].USARTx);
   return (st_drv_if_t*)__init_channel(&ast_info[channel]);
 }
 

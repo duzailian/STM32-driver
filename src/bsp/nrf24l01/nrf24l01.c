@@ -79,7 +79,7 @@ static st_info_t ast_info[] = {
     INFO(1),
 };
 
-static void write_spi(st_info_t *self, void *buffer, size_t len) {
+static void __write_spi(st_info_t *self, void *buffer, size_t len) {
   st_gpio_t *pst_gpio = &self->st_gpio;
   st_drv_if_t *spi_if = self->pst_spi->drv_if;
 
@@ -90,7 +90,7 @@ static void write_spi(st_info_t *self, void *buffer, size_t len) {
   return;
 }
 
-static void read_spi(st_info_t *self, void *buffer, size_t len) {
+static void __read_spi(st_info_t *self, void *buffer, size_t len) {
   st_gpio_t *pst_gpio = &self->st_gpio;
   st_drv_if_t *spi_if = self->pst_spi->drv_if;
 
@@ -106,19 +106,16 @@ static int __read_reg(st_info_t *self, uint8_t uc_addr, uint8_t *puc_buffer,
   uint8_t auc_tmp[MAX_REG_SZ + 1] = {0};
   size_t len = get_reg_size(uc_addr);  // get register size
 
-  if ((NULL == puc_buffer) || (__len < (len - 1))) {
-    LOG_ERR("nrf24l01(%d) read reg error!", self - &ast_info[0]);
-    goto Error;
-  }
+  assert(NULL != puc_buffer);
+  assert(__len >= (len - 1));
+
   len++;  // add length of STATUS register
 
   auc_tmp[0] = uc_addr & REG_ADDR_MASK;
-  read_spi(self, &auc_tmp[0], len);
+  __read_spi(self, &auc_tmp[0], len);
   // TODO save STATUS register value
   memcpy(puc_buffer, &auc_tmp[1], len - 1);
-  return 0;
-Error:
-  return -1;
+  return len - 1;
 }
 
 static int __write_reg(st_info_t *self, uint8_t uc_addr, uint8_t *puc_buffer) {
@@ -126,17 +123,12 @@ static int __write_reg(st_info_t *self, uint8_t uc_addr, uint8_t *puc_buffer) {
   size_t len = get_reg_size(uc_addr);
   int i = 0;
 
-  if (NULL == puc_buffer) {
-    LOG_ERR("nrf24l01(%d) write reg error!", self - &ast_info[0]);
-    goto Error;
-  }
+  assert(NULL !=puc_buffer);
   auc_tmp[i++] = (uc_addr & REG_ADDR_MASK) | W_REGISTER;
   memcpy(&auc_tmp[i], puc_buffer, len);
 
-  write_spi(self, auc_tmp, len + i);
+  __write_spi(self, auc_tmp, len + i);
   return 0;
-Error:
-  return -1;
 }
 
 #define __clr_status(self, flg)      \
@@ -152,7 +144,7 @@ static inline uint8_t __get_retr_cnt(st_info_t *__self) {
 #define __send_1byte_cmd(self, cmd) \
   do {                              \
     uint8_t tmp = cmd;              \
-    write_spi(self, &tmp, 1);       \
+    __write_spi(self, &tmp, 1);     \
   } while (0)
 
 #define __flush_tx(spi_if)             \
@@ -172,7 +164,7 @@ static inline uint8_t __get_retr_cnt(st_info_t *__self) {
 
 static inline int get_status(st_info_t *self) {
   int tmp = NOP;
-  read_spi(self, &tmp, 1);
+  __read_spi(self, &tmp, 1);
   return tmp;
 }
 
@@ -258,14 +250,9 @@ static st_drv_if_t *__init_ch(st_info_t *self) {
 }
 
 extern st_drv_if_t *open_nrf(en_nrf_t channel) {
-  if ((channel >= sizeof_array(ast_info)) ||
-      (NULL == ast_info[channel].pst_spi)) {
-    goto Error;
-  }
+  assert(channel < sizeof_array(ast_info));
+  assert(NULL != ast_info[channel].pst_spi);
   return __init_ch(&ast_info[channel]);
-Error:
-  LOG_ERR("nRF:%d not configured!", channel - nrf_ch1 + 1);
-  return NULL;
 }
 
 #if NRF_DBG
@@ -273,17 +260,12 @@ extern void dbg_nrf(void) {
   st_drv_if_t *nrf_if = open_nrf(nrf_ch1);
   static uint8_t auc_tmp[100];
 
-  if (NULL == nrf_if) {
-    LOG_ERR("nrf 24l01 open failed!");
-    goto Error;
-  }
+  assert(NULL != nrf_if);
   __read_reg((st_info_t *)nrf_if, 0x0a, auc_tmp, 5);
   printf("nRF24l01 status:0x%x\r\n", get_status((st_info_t *)nrf_if));
   for (int i = 0; i < 5; i++) {
     printf("0x%x ", auc_tmp[i]);
   }
   printf("\r\n");
-Error:
-  return;
 }
 #endif
