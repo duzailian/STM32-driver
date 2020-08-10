@@ -21,10 +21,20 @@ extern void init_gpio(gpio_cfg_t *gpio_cfg) {
   gpiox_t gpiox = gpio_cfg->gpiox;
   st_info_t *info = &ast_info[gpiox];
   GPIO_TypeDef *GPIOX = info->GPIOx;
-  uint32_t tmp = ((gpio_cfg->cnf << 2) | (gpio_cfg->io_mode)) & 0xff;
+  uint32_t tmp = 0;
+  uint8_t cnf = gpio_cfg->cnf;
 
   RCC->APB2ENR |= info->rcc_mask;
-  if ((gpio_cfg->io_mode > gpio_input) && (gpio_cfg->cnf >= gpio_af_opp))
+  if (gpio_input == gpio_cfg->io_mode) {
+    if (gpio_pull_up == cnf) {
+      cnf = gpio_pull_down;
+      GPIOX->BSRR = 1 << gpio_cfg->pinx;  // pull up
+    } else if (gpio_pull_down == cnf) {
+      GPIOX->BRR = 1 << gpio_cfg->pinx;  // pull down
+    }
+  }
+  tmp = ((cnf << 2) | (gpio_cfg->io_mode)) & 0xff;
+  if ((gpio_cfg->io_mode > gpio_input) && (cnf >= gpio_af_opp))
     RCC->APB2ENR |= RCC_APB2ENR(AFIO);
   tmp <<= (gpio_cfg->pinx % 8) * 4;
   if (gpio_cfg->pinx >= gpio_pin8) {
@@ -45,5 +55,21 @@ extern void init_gpio(gpio_cfg_t *gpio_cfg) {
     }
   }
 
+  return;
+}
+
+extern void set_pin(gpiox_t gpiox, gpio_pin_t pinx) {
+  st_info_t *info = &ast_info[gpiox];
+  GPIO_TypeDef *GPIOX = info->GPIOx;
+
+  GPIOX->BSRR = 1 << pinx;
+  return;
+}
+
+extern void reset_pin(gpiox_t gpiox, gpio_pin_t pinx) {
+  st_info_t *info = &ast_info[gpiox];
+  GPIO_TypeDef *GPIOX = info->GPIOx;
+
+  GPIOX->BRR = 1 << pinx;
   return;
 }

@@ -12,6 +12,9 @@ extern void drv_dbg(void) {
 #if USART_DBG
   test_usart();
 #endif
+#if SPI_DBG
+  test_spi();
+#endif
   return;
 }
 #endif

@@ -34,7 +34,7 @@ typedef struct {
 } st_buffer_t;
 
 typedef const struct {
-  st_drv_oper_t st_oper;  // operate API for usart
+  st_drv_if_t st_if;  // operate API for usart
   USART_TypeDef* USARTx;
   st_gpio_t* pst_gpio;
   const st_dma_parm_t* pst_dma;
@@ -49,7 +49,7 @@ typedef const struct {
 static int __usart_send(void* __self, uint8_t* puc_data, size_t sz_len);
 static int __usart_recv(void* __self, uint8_t* puc_buffer, size_t sz_len);
 static int __usart_close(void* __self);
-static int __ISR(void* pst_info);
+static int __ISR(void* self);
 
 #define GPIO_INFO(port, __mode)                                \
   {                                                            \
@@ -60,9 +60,15 @@ static int __ISR(void* pst_info);
     .af_remap_mask = GPIO_USART##port##_REMAP_MASK,            \
   }
 
+#define RCC_USART1_ENR RCC_APB2ENR(USART1)
+#define RCC_USART2_ENR RCC_APB1ENR(USART2)
+#define RCC_USART3_ENR RCC_APB1ENR(USART3)
+#define RCC_USART4_ENR RCC_APB1ENR(UART4)
+#define RCC_USART5_ENR RCC_APB1ENR(UART5)
+
 #define INFO(ch)                                       \
   [usart##ch] = {                                      \
-      .st_oper =                                       \
+      .st_if =                                       \
           {                                            \
               .write = __usart_send,                   \
               .read = __usart_recv,                    \
@@ -70,7 +76,7 @@ static int __ISR(void* pst_info);
           },                                           \
       .USARTx = USART##ch,                             \
       .pst_gpio = &st_u##ch##gpio,                     \
-      .ul_rcc_enr = RCC_APB1ENR(USART##ch),            \
+      .ul_rcc_enr = RCC_USART##ch##_ENR,               \
       .ul_bandrate = USART##ch##_BAUDRATE,             \
       .st_int =                                        \
           {                                            \
@@ -123,8 +129,8 @@ static st_info_t ast_info[] = {
     INFO(2),  // usart2
 };
 
-static void __init_reg(st_info_t* pst_info) {
-  USART_TypeDef* USARTx = pst_info->USARTx;
+static void __init_reg(st_info_t* self) {
+  USART_TypeDef* USARTx = self->USARTx;
   uint32_t fck = 0;
   RCC_ClocksTypeDef RCC_Clocks;
 
@@ -136,22 +142,22 @@ static void __init_reg(st_info_t* pst_info) {
 
   USARTx->CR1 = CR1_IDLEIE_Set | CR1_TE_Set | CR1_RE_Set | CR1_PEIE_Set;
   USARTx->CR3 = CR3_DMAR_Set | CR3_EIE_Set;
-  USARTx->BRR = fck / pst_info->ul_bandrate;
+  USARTx->BRR = fck / self->ul_bandrate;
   USARTx->CR1 |= CR1_UE_Set;
   return;
 }
 
-static void __init_gpio(st_gpio_t* pst_info) {
-  init_gpio(&pst_info->rx);
-  init_gpio(&pst_info->tx);
+static void __init_gpio(st_gpio_t* self) {
+  init_gpio(&self->rx);
+  init_gpio(&self->tx);
   return;
 }
 
-static void inline __init_rcc(st_info_t* pst_info) {
-  if (pst_info->USARTx == USART1)
+static void inline __init_rcc(st_info_t* self) {
+  if (self->USARTx == USART1)
     RCC->APB2ENR |= RCC_APB2ENR(USART1);
   else
-    RCC->APB1ENR |= pst_info->ul_rcc_enr;
+    RCC->APB1ENR |= self->ul_rcc_enr;
 
   return;
 }
@@ -165,14 +171,14 @@ static void __init_q(const st_q_t* pst_q) {
   return;
 }
 
-static st_info_t* __init_channel(st_info_t* pst_info) {
-  __init_rcc(pst_info);
-  __init_reg(pst_info);
-  __init_gpio(pst_info->pst_gpio);
-  __init_q(&pst_info->st_q);
-  start_dma(pst_info->pst_dma);
-  reg_int_func(&pst_info->st_int);
-  return pst_info;
+static st_info_t* __init_channel(st_info_t* self) {
+  __init_rcc(self);
+  __init_reg(self);
+  __init_gpio(self->pst_gpio);
+  __init_q(&self->st_q);
+  start_dma(self->pst_dma);
+  reg_int_func(&self->st_int);
+  return self;
 }
 
 static int __usart_send(void* __self, uint8_t* puc_data, size_t sz_len) {
@@ -229,7 +235,7 @@ static void __resart_dma(const st_buffer_t* pst_buffer,
   st_dma.mem_addr = (uint32_t)((uint32_t)uc_index * pst_buffer->us_len +
                                offsetof(__st_recv_packet_t, auc_data) +
                                pst_buffer->puc_buffer);
-#if 0// USART_DBG
+#if 0  // USART_DBG
   printf("st_dma.mem_addr:0x%x\r\n", st_dma.mem_addr);
 #endif
   start_dma(&st_dma);
@@ -272,13 +278,13 @@ Return:
   return 0;
 }
 
-extern st_drv_oper_t* open_usart(en_usart_t channel) {
+extern st_drv_if_t* open_usart(en_usart_t channel) {
   if ((NULL == &ast_info[channel].USARTx) ||
       (channel >= sizeof_array(ast_info))) {
     LOG_ERR("usart%d open fail!", channel);
     return NULL;
   }
-  return (st_drv_oper_t*)__init_channel(&ast_info[channel]);
+  return (st_drv_if_t*)__init_channel(&ast_info[channel]);
 }
 
 extern int fputc(int ch, FILE* stream) {
@@ -292,7 +298,7 @@ extern int fputc(int ch, FILE* stream) {
 #if USART_DBG
 extern void test_usart(void) {
   static uint8_t auc_tmp[100];
-  st_drv_oper_t* usart = open_usart(usart2);
+  st_drv_if_t* usart = open_usart(usart2);
 
   while (1) {
     usart->read(usart, auc_tmp, sizeof(auc_tmp));

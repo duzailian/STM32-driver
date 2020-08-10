@@ -2,7 +2,6 @@
 #define __DRIVER_H
 
 #include "cfg/cfg.h"
-#include "common.h"
 #include "interrupt/interrupt.h"
 #include "dma/dma.h"
 #include "gpio/gpio.h"

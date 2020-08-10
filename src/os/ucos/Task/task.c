@@ -19,6 +19,9 @@ static void AppTaskStart(void *p_arg) {
 #if DRV_DBG
     drv_dbg();
 #endif
+#if BSP_DBG
+    bsp_dbg();
+#endif
     OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err);
   }
 }

@@ -38,17 +38,17 @@ static st_info_t ast_info[] = {
 };
 
 static int ISR(void *__self) {
-  st_info_t *pst_info = (st_info_t *)__self;
-  DMA_TypeDef *DMA_chx = pst_info->DMAx;
+  st_info_t *self = (st_info_t *)__self;
+  DMA_TypeDef *DMA_chx = self->DMAx;
   uint32_t sta = DMA_chx->ISR;
   uint32_t tmp = 0;
 
-  for (int i = 0; i < sizeof_array(pst_info->DMA_chs); i++) {
+  for (int i = 0; i < sizeof_array(self->DMA_chs); i++) {
     tmp = (1 << (4 * i + 1));
     if (sta & tmp) {  // Channel x transfer complete flag
-      if (pst_info->DMA_chs[i]) {
-        int_func func = pst_info->DMA_chs[i]->st_int_parm.func;
-        void *p_arg = pst_info->DMA_chs[i]->st_int_parm.p_arg;
+      if (self->DMA_chs[i]) {
+        int_func func = self->DMA_chs[i]->st_int_parm.func;
+        void *p_arg = self->DMA_chs[i]->st_int_parm.p_arg;
         if (func) func(p_arg);
         DMA_chx->IFCR = tmp;
       }
@@ -62,12 +62,12 @@ static int ISR(void *__self) {
   return 0;
 }
 
-#define __init_int(pst_ch, pst_info)                   \
+#define __init_int(pst_ch, self)                   \
   do {                                                 \
     st_int_parm_t int_parameter;                       \
     int_parameter.en_int = pst_ch->st_int_parm.en_int; \
     int_parameter.func = ISR;                          \
-    int_parameter.p_arg = (void *)pst_info;            \
+    int_parameter.p_arg = (void *)self;            \
     reg_int_func(&int_parameter);                      \
   } while (0)
 
@@ -104,7 +104,7 @@ static void __int_reg(const st_dma_parm_t *pst_param,
 int start_dma(const st_dma_parm_t *pst_param) {
   en_dma_t en_dma = pst_param->en_dma;
   en_dma_ch_t en_dma_ch = pst_param->en_dma_ch;
-  st_info_t *pst_info = NULL;
+  st_info_t *self = NULL;
   st_channel_t *pst_ch = NULL;
 
   if (en_dma >= sizeof_array(ast_info) ||
@@ -112,13 +112,13 @@ int start_dma(const st_dma_parm_t *pst_param) {
     LOG_ERR("DMA init parameters error!");
     goto Error;
   }
-  pst_info = &ast_info[en_dma];
-  pst_ch = pst_info->DMA_chs[en_dma_ch];
+  self = &ast_info[en_dma];
+  pst_ch = self->DMA_chs[en_dma_ch];
 
   pst_ch->DMA_chx->CCR &= ~CCR_EN;  // disable dma
-  __init_rcc(pst_info->ul_rcc_enr);
+  __init_rcc(self->ul_rcc_enr);
   __init_int(pst_ch,
-             pst_info);  // register ISR function to interrupt management module
+             self);  // register ISR function to interrupt management module
   __int_reg(pst_param, pst_ch->DMA_chx);
   __save_cb(pst_ch, pst_param);    // save callback function
   pst_ch->DMA_chx->CCR |= CCR_EN;  // enable dma
@@ -130,7 +130,7 @@ Error:
 int get_transterred_size(const st_dma_parm_t *pst_param) {
   en_dma_t en_dma = pst_param->en_dma;
   en_dma_ch_t en_dma_ch = pst_param->en_dma_ch;
-  st_info_t *pst_info = NULL;
+  st_info_t *self = NULL;
   st_channel_t *pst_ch = NULL;
 
   if (en_dma >= sizeof_array(ast_info) ||
@@ -139,8 +139,8 @@ int get_transterred_size(const st_dma_parm_t *pst_param) {
     goto Error;
   }
 
-  pst_info = &ast_info[en_dma];
-  pst_ch = pst_info->DMA_chs[en_dma_ch];
+  self = &ast_info[en_dma];
+  pst_ch = self->DMA_chs[en_dma_ch];
 
   return pst_param->us_len - pst_ch->DMA_chx->CNDTR;
 Error:

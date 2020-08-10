@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cfg/cfg.h"
+#include "common.h"
 #include "dma/dma.h"
 #include "gpio/gpio.h"
 #include "interrupt/interrupt.h"
@@ -10,3 +11,6 @@
 #include "usart/usart.h"
 
 extern void init_bsp(void);
+#if BSP_DBG
+extern void bsp_dbg(void);
+#endif

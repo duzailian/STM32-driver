@@ -183,6 +183,7 @@
           <name>CCDefines</name>
           <state>STM32F10X_CL</state>
           <state>USE_STDPERIPH_DRIVER</state>
+          <state>DEBUG_EN</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -386,7 +387,7 @@
         </option>
         <option>
           <name>IccAllowVLA</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>IccCppDialect</name>
@@ -1949,6 +1950,9 @@
     <name>bsp</name>
     <group>
       <name>nrf24l01</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\bsp\nrf24l01\nrf24l01.c</name>
+      </file>
     </group>
     <file>
       <name>$PROJ_DIR$\..\src\bsp\bsp.c</name>
@@ -1988,6 +1992,9 @@
     </group>
     <group>
       <name>spi</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\spi\spi.c</name>
+      </file>
     </group>
     <group>
       <name>usart</name>
