@@ -6,14 +6,14 @@ typedef enum {
   nrf_ch1,
 } en_nrf_t;
 
-#if RF_MODE != MASTER_MODE
+#if NODE_TYPE != MASTER_NODE
 typedef enum {
 
 }en_nrf_ack_t;
 #endif
 
 typedef enum{
-#if RF_MODE == MASTER_MODE
+#if NODE_TYPE == MASTER_NODE
 nrf_set_rx_cb,
 nrt_rpd,
 #else

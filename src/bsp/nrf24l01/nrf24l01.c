@@ -27,7 +27,7 @@ typedef struct {
 } st_spi_t;
 
 typedef struct {
-#if RF_MODE == MASTER_MODE
+#if NODE_TYPE == MASTER_NODE
   // master mode receive data in callback mode
   rx_cb_t rx_cb;
 #else
@@ -97,7 +97,7 @@ typedef const struct {
       .spi = NRF##ch##_SPI_PORT,     \
   };
 
-#if RF_MODE == MASTER_MODE
+#if NODE_TYPE == MASTER_NODE
 #define ADD_CHANNEL(ch)  \
   ADD_CHANNEL_COMMON(ch) \
   static st_ioctl_t __$$##ch##_ioctl = {0};
@@ -178,7 +178,7 @@ static int __write_reg(st_info_t *self, uint8_t uc_addr, uint8_t *puc_buffer) {
     __write_reg(self, STATUS, &flg); \
   } while (0)
 
-#if RF_MODE == MASTER_MODE  // only master always in the rx mode
+#if NODE_TYPE == MASTER_NODE  // only master always in the rx mode
 /*Received Power Detector.*/
 static inline uint8_t __is_channel_busy(st_info_t *self) {
   uint8_t ret = 0;
@@ -331,7 +331,7 @@ Error:
   return -1;
 }
 
-#if RF_MODE != MASTER_MODE
+#if NODE_TYPE != MASTER_NODE
 static int __write_tx_pl(st_info_t *self, uint8_t *puc_buffer, size_t len) {
   uint8_t cmd = W_TX_PAYLOAD;
   uint8_t auc_tmp[len + 1];
@@ -356,7 +356,7 @@ static int __isr(void *__self) {
   int len = 0;
 
   status = __get_status(self);
-#if RF_MODE == MASTER_MODE  // master mode ,receive data in callback
+#if NODE_TYPE == MASTER_NODE  // master mode ,receive data in callback
   if (status & RX_DR) {     // Data Ready RX FIFO interrupt.
     len = __read_rx_pl(self, &channel, &puc_buffer);
     if (len > 0) {  // read payload success
@@ -435,7 +435,7 @@ Error:
 }
 
 static int __nrf_recv(void *__self, uint8_t *puc_buffer, size_t len) {
-#if RF_MODE == MASTER_MODE
+#if NODE_TYPE == MASTER_NODE
   assert(0);  // master receive data only in callback mode
   return -1;
 #else
@@ -452,7 +452,7 @@ static int __nrf_send(void *__self, uint8_t *puc_buffer, size_t len) {
   // TODO
   assert(len <= MAX_FIFO_SZ);
   assert(NULL != puc_buffer);
-#if RF_MODE == MASTER_MODE
+#if NODE_TYPE == MASTER_NODE
   // TODO
   (void)ret;
   (void)self;
@@ -486,7 +486,7 @@ static int __nrf_ctl(void *__self, int req, ...) {
 
   va_start(vl, req);
   switch (req) {
-#if RF_MODE == MASTER_MODE  // master
+#if NODE_TYPE == MASTER_NODE  // master
     case nrf_set_rx_cb: {   //  only master mode receive data in callback mode
       self->pst_ioctl->rx_cb = va_arg(vl, rx_cb_t);
       ret = 0;
@@ -539,7 +539,7 @@ static int __nrf_close(void *__self) {
 static void __init_reg(st_info_t *self) {
   uint8_t uc_tmp = 0;
 
-#if RF_MODE == MASTER_MODE
+#if NODE_TYPE == MASTER_NODE
   uc_tmp = CRCO | EN_CRC | PRIM_RX;  // master is in RX mode
 #else
   uc_tmp = CRCO | EN_CRC;

@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"E:\Program Files (x86)\IAR Systems\Embedded Workbench 7.4\common\bin\cspybat" -f "F:\study\nrf24l01\workspace\prj\settings\STM32F107_project.Debug.general.xcl" --backend -f "F:\study\nrf24l01\workspace\prj\settings\STM32F107_project.Debug.driver.xcl" 
+"E:\Program Files (x86)\IAR Systems\Embedded Workbench 7.4\common\bin\cspybat" -f "F:\study\nrf24l01\workspace\prj\boot\settings\stm32_f107_boot.Debug.general.xcl" --backend -f "F:\study\nrf24l01\workspace\prj\boot\settings\stm32_f107_boot.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"E:\Program Files (x86)\IAR Systems\Embedded Workbench 7.4\common\bin\cspybat" -f "F:\study\nrf24l01\workspace\prj\settings\STM32F107_project.Debug.general.xcl" "--debug_file=%~1" --backend -f "F:\study\nrf24l01\workspace\prj\settings\STM32F107_project.Debug.driver.xcl" 
+"E:\Program Files (x86)\IAR Systems\Embedded Workbench 7.4\common\bin\cspybat" -f "F:\study\nrf24l01\workspace\prj\boot\settings\stm32_f107_boot.Debug.general.xcl" "--debug_file=%~1" --backend -f "F:\study\nrf24l01\workspace\prj\boot\settings\stm32_f107_boot.Debug.driver.xcl" 
 
 @echo off 
 :end

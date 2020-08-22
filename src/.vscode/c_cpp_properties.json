@@ -15,7 +15,8 @@
                 "UNICODE",
                 "_UNICODE",
                 "STM32F10X_CL",
-                "USE_STDPERIPH_DRIVER"
+                "USE_STDPERIPH_DRIVER",
+                "BOOT_PRJ",
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu11",

@@ -2,7 +2,10 @@
 
 <workspace>
   <project>
-    <path>$WS_DIR$\STM32F107_project.ewp</path>
+    <path>$WS_DIR$\boot\stm32_f107_boot.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\firmware\STM32F107_project.ewp</path>
   </project>
   <batchBuild/>
 </workspace>

@@ -68,7 +68,7 @@ static int __ISR(void* self);
 
 #define INFO(ch)                                       \
   [usart##ch] = {                                      \
-      .st_if =                                       \
+      .st_if =                                         \
           {                                            \
               .write = __usart_send,                   \
               .read = __usart_recv,                    \
@@ -162,6 +162,7 @@ static void inline __init_rcc(st_info_t* self) {
   return;
 }
 
+#ifndef BOOT_PRJ
 static void __init_q(const st_q_t* pst_q) {
   OS_ERR err;
   OSQCreate(pst_q->p_q, pst_q->name, pst_q->q_size, &err);
@@ -170,12 +171,15 @@ static void __init_q(const st_q_t* pst_q) {
   }
   return;
 }
+#endif
 
 static st_info_t* __init_channel(st_info_t* self) {
   __init_rcc(self);
   __init_reg(self);
   __init_gpio(self->pst_gpio);
+#ifndef BOOT_PRJ  // TODO
   __init_q(&self->st_q);
+#endif
   start_dma(self->pst_dma);
   reg_int_func(&self->st_int);
   return self;
@@ -197,16 +201,18 @@ static int __usart_send(void* __self, uint8_t* puc_data, size_t sz_len) {
 
 static int __usart_recv(void* __self, uint8_t* puc_data, size_t sz_len) {
   st_info_t* self = (st_info_t*)__self;
-  const st_q_t* pst_q = &self->st_q;
   int ret = 0;
-  OS_ERR err;
   OS_MSG_SIZE msg_size = 0;
   __st_recv_packet_t* pst_ret = NULL;
 
+#ifndef BOOT_PRJ// TODO
+  OS_ERR err;
+  const st_q_t* pst_q = &self->st_q;
   pst_ret = OSQPend(pst_q->p_q, 0, OS_OPT_PEND_BLOCKING, &msg_size, NULL, &err);
   if (OS_ERR_NONE != err) {
     LOG_ERR("usart q wait failed(%d)!", err);
   }
+#endif
   ret = (pst_ret->us_len > sz_len) ? sz_len : pst_ret->us_len;
 
   memcpy(puc_data, pst_ret->auc_data, ret);
@@ -247,15 +253,17 @@ static void post_data(st_info_t* self, uint8_t uc_data) {
   const st_buffer_t* pst_buffer = &self->st_buffer;
   const st_q_t* pst_q = &self->st_q;
   size_t sz_index = (uint32_t)*pst_buffer->puc_index * pst_buffer->us_len;
-  OS_ERR err;
   __st_recv_packet_t* pst_ret =
       (__st_recv_packet_t*)&pst_buffer->puc_buffer[sz_index];
+#ifndef BOOT_PRJ  // TODO
+  OS_ERR err;
 
   pst_ret->us_len = get_transterred_size(self->pst_dma);
   OSQPost(pst_q->p_q, pst_ret, sizeof(pst_ret), OS_OPT_POST_FIFO, &err);
   if (OS_ERR_NONE != err) {
     LOG_ERR("usart data post error(%d)!", err);
   }
+#endif
   return;
 }
 

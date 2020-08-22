@@ -1,5 +1,12 @@
 #include "include.h"
 
+#ifdef BOOT_PRJ
+int main(int arc, char **argv) {
+  init_driver();
+  init_bsp();
+  return 0;
+}
+#else
 int main(int argc, char **argv) {
   OS_ERR err;
 
@@ -9,3 +16,4 @@ int main(int argc, char **argv) {
   OSStart(&err);
   return 0;
 }
+#endif

@@ -7,7 +7,17 @@
       .PreemptPriority = per##_PreemptPriority, \
       .SubPriority = per##_SubPriority,         \
   }
-
+#ifdef BOOT_PRJ
+#define ISR(per)                                       \
+  void per##_IRQHandler(void) {                        \
+    const st_info_t *self = &ast_info[en_##per##_int]; \
+    if (self->func) {                                  \
+      self->func(self->func_arg);                      \
+    } else {                                           \
+      LOG_ERR("ISR not register!");                    \
+    }                                                  \
+  }
+#else
 #define ISR(per)                                       \
   void per##_IRQHandler(void) {                        \
     const st_info_t *self = &ast_info[en_##per##_int]; \
@@ -20,6 +30,7 @@
       LOG_ERR("ISR not register!");                    \
     }                                                  \
   }
+#endif
 
 typedef struct {
   IRQn_Type IRQn;

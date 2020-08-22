@@ -2,7 +2,7 @@
 
 "E:\Program Files (x86)\IAR Systems\Embedded Workbench 7.4\arm\bin\armjlink2.dll" 
 
-"F:\study\nrf24l01\workspace\prj\Debug\Exe\STM32F107_project.elf" 
+"F:\study\nrf24l01\workspace\prj\firmware\Debug\Exe\STM32F107_project.elf" 
 
 --plugin "E:\Program Files (x86)\IAR Systems\Embedded Workbench 7.4\arm\bin\armbat.dll" 
 

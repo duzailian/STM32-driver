@@ -14,6 +14,37 @@ extern void set_log_level(en_log_t en_level) {
   return;
 }
 
+#ifdef BOOT_PRJ
+
+extern void log_output(en_log_t en_log_type, const char *func,
+                       const size_t line, const char *format, ...) {
+  va_list args;
+  const char *apc_level[] = {
+      [en_dbg] = "[DBG]",
+      [en_info] = "[LOG]",
+      [en_warning] = "[WARNING]",
+      [en_err] = "[ERROR]",
+  };
+
+  if (en_log_type < st_info.en_log_level) goto Return;
+
+  printf("%sFunc:%s,Line:%zd,", apc_level[en_log_type], func, line);
+  va_start(args, format);
+  vprintf(format, args);
+  va_end(args);
+Return:
+  return;
+}
+extern void init_log(void) {
+  open_usart(PRINT_USART);
+#if DRV_DBG
+  set_log_level(en_dbg);
+#else
+  set_log_level(en_info);
+#endif
+  return;
+}
+#else
 extern void log_output(en_log_t en_log_type, const char *func,
                        const size_t line, const char *format, ...) {
   va_list args;
@@ -54,3 +85,4 @@ extern void init_log(void) {
 #endif
   return;
 }
+#endif
