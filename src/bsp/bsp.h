@@ -9,6 +9,7 @@
 #include "rcc/rcc.h"
 #include "spi/spi.h"
 #include "usart/usart.h"
+#include "exti/exti.h"
 
 extern void init_bsp(void);
 #if BSP_DBG

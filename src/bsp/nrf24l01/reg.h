@@ -2,6 +2,7 @@
 
 #define MAX_REG_SZ 5
 #define REG_ADDR_MASK (0x1f)
+
 typedef enum {
   CONFIG = 0x00,
   EN_AA,
@@ -97,7 +98,7 @@ typedef enum {
 
 #define RF_CH_MASK ((1 << 7) - 1)
 
-#define CONT_WAVE (1 << 7)   // Enables continuous carrier transmit when high
+#define CONT_WAVE (1 << 7)  // Enables continuous carrier transmit when high
 /*data rates*/
 #define RF_DR_2M (1 << 3)
 #define RF_DR_1M (0)
@@ -110,10 +111,12 @@ typedef enum {
 #define RX_DR (1 << 6)
 #define TX_DS (1 << 5)
 #define MAX_RT (1 << 4)
+
 #define RX_P_NO_POS (1)
 #define RX_P_NO_MASK (0x07 << RX_P_NO_POS)
+
 #define TX_FULL (1 << 0)
-#define get_rx_p_num(status) ((status & RX_P_NO_MASK) >> RX_P_NO_POS)
+
 #define RX_FIFO_EMPTY (0x07)
 
 #define PLOS_CNT_POS 4
@@ -127,23 +130,18 @@ typedef enum {
 // FIFO STATUS
 #define TX_REUSE (1 << 6)
 #ifndef TX_FULL
-#define TX_FULL (1 << 5)
+#define TX_FULL (1 << 5)  // TX_FULL in FIFO STATUS register
 #endif
 #define TX_EMPTY (1 << 4)
 #define RX_FULL (1 << 1)
 #define RX_EMPTY (1 << 0)
 
 /*DYNPD*/
-#define DPL_P5 (1 << 5)
-#define DPL_P4 (1 << 4)
-#define DPL_P3 (1 << 3)
-#define DPL_P2 (1 << 2)
-#define DPL_P1 (1 << 1)
-#define DPL_P0 (1 << 0)
+#define DPL_Px(pip) (1 << (pip))
 
 /*FEATURE*/
 #define EN_DPL (1 << 2)
-#define EN_ACK_PAYd (1 << 1)
+#define EN_ACK_PAY (1 << 1)
 #define EN_DYN_ACK (1 << 0)
 
 #define get_reg_size(addr) \

@@ -10,6 +10,7 @@
 #include "spi/spi.h"
 #include "tool/tool.h"
 #include "usart/usart.h"
+#include "exti/exti.h"
 
 extern void init_driver(void);
 

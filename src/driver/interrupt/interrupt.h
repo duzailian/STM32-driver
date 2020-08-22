@@ -5,6 +5,7 @@ typedef int (*int_func)(void *);
 typedef enum {
   USART2_DMA_IRQ,
   USART2_IRQ,
+  NRF24L01_IRQ,
 } en_int_t;
 
 typedef struct {

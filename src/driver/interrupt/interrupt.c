@@ -32,6 +32,7 @@ typedef struct {
 static st_info_t ast_info[] = {
     INFO(DMA1_Channel6),
     INFO(USART2),
+    INFO(EXTI9_5),
 };
 
 extern void init_int(void) {
@@ -64,4 +65,7 @@ extern int reg_int_func(const st_int_parm_t *parameter) {
 }
 
 ISR(DMA1_Channel6)
+
 ISR(USART2)
+
+ISR(EXTI9_5)

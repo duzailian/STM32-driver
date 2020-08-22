@@ -12,3 +12,6 @@
 #define W_ACK_PAYLOAD 0xa8
 #define W_TX_PAYLOAD_NACK 0xb0
 #define NOP 0xff
+
+#define MAX_FIFO_SZ 32
+
