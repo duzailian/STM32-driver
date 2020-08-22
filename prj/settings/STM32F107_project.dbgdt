@@ -37,7 +37,7 @@
       <Register>
         <RegFindHistory/>
       </Register>
-    <QuickWatch><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths><QWatchHistory><item>auc_u2_buffer</item><item>ch</item><item>tmp</item></QWatchHistory></QuickWatch><Select-Ambiguous-Definitions><ColumnWidth0>664</ColumnWidth0><ColumnWidth1>94</ColumnWidth1><ColumnWidth2>1138</ColumnWidth2></Select-Ambiguous-Definitions><WATCH_1><expressions><item>auc_tmp</item><item></item></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>275</item><item>150</item><item>100</item><item>100</item></col-widths></WATCH_1><Memory><MemGotoHistory><item>0x20007d18</item></MemGotoHistory><FindAsHex>0</FindAsHex></Memory></Static>
+    <QuickWatch><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths><QWatchHistory><item>auc_u2_buffer</item><item>ch</item><item>tmp</item></QWatchHistory></QuickWatch><Select-Ambiguous-Definitions><ColumnWidth0>664</ColumnWidth0><ColumnWidth1>94</ColumnWidth1><ColumnWidth2>1138</ColumnWidth2></Select-Ambiguous-Definitions><WATCH_1><expressions><item>auc_tmp</item><item/></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>275</item><item>150</item><item>100</item><item>100</item></col-widths></WATCH_1><Memory><MemGotoHistory><item>0x20007d18</item></MemGotoHistory><FindAsHex>0</FindAsHex></Memory></Static>
     <Windows>
       
       

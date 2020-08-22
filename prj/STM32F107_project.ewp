@@ -1967,6 +1967,12 @@
       </file>
     </group>
     <group>
+      <name>exti</name>
+      <file>
+        <name>$PROJ_DIR$\..\src\driver\exti\exti.c</name>
+      </file>
+    </group>
+    <group>
       <name>gpio</name>
       <file>
         <name>$PROJ_DIR$\..\src\driver\gpio\gpio.c</name>
