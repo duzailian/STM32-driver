@@ -129,7 +129,7 @@
 *********************************************************************************************************
 */
 
-#if 1 /* Configure CPU interrupts disabled time ...           */
+#ifndef BOOT_PRJ/* Configure CPU interrupts disabled time ...           */
 #define CPU_CFG_INT_DIS_MEAS_EN /* ... measurements feature (see Note #1a).             */
 #endif
 

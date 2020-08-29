@@ -18,8 +18,8 @@ static st_info_t ast_info[] = {
 };
 
 extern void init_gpio(gpio_cfg_t *gpio_cfg) {
-  gpiox_t gpiox = gpio_cfg->gpiox;
-  st_info_t *info = &ast_info[gpiox];
+  gpiox_t port = gpio_cfg->port;
+  st_info_t *info = &ast_info[port];
   GPIO_TypeDef *GPIOX = info->GPIOx;
   uint32_t tmp = 0;
   uint8_t cnf = gpio_cfg->cnf;
@@ -58,18 +58,25 @@ extern void init_gpio(gpio_cfg_t *gpio_cfg) {
   return;
 }
 
-extern void set_pin(gpiox_t gpiox, gpio_pin_t pinx) {
-  st_info_t *info = &ast_info[gpiox];
+extern void set_pin(gpiox_t port, gpio_pin_t pinx) {
+  st_info_t *info = &ast_info[port];
   GPIO_TypeDef *GPIOX = info->GPIOx;
 
   GPIOX->BSRR = 1 << pinx;
   return;
 }
 
-extern void reset_pin(gpiox_t gpiox, gpio_pin_t pinx) {
-  st_info_t *info = &ast_info[gpiox];
+extern void reset_pin(gpiox_t port, gpio_pin_t pinx) {
+  st_info_t *info = &ast_info[port];
   GPIO_TypeDef *GPIOX = info->GPIOx;
 
   GPIOX->BRR = 1 << pinx;
   return;
+}
+
+extern int get_pin(gpiox_t port, gpio_pin_t pinx) {
+  st_info_t *info = &ast_info[port];
+  GPIO_TypeDef *GPIOX = info->GPIOx;
+
+  return GPIOX->IDR & 1 << pinx;
 }

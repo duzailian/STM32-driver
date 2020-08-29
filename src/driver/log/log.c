@@ -32,12 +32,13 @@ extern void log_output(en_log_t en_log_type, const char *func,
   va_start(args, format);
   vprintf(format, args);
   va_end(args);
+  printf("\r\n");
 Return:
   return;
 }
 extern void init_log(void) {
   open_usart(PRINT_USART);
-#if DRV_DBG
+#if DRV_DBG || BSP_DBG
   set_log_level(en_dbg);
 #else
   set_log_level(en_info);
@@ -66,6 +67,7 @@ extern void log_output(en_log_t en_log_type, const char *func,
   printf("%sFunc:%s,Line:%zd,", apc_level[en_log_type], func, line);
   va_start(args, format);
   vprintf(format, args);
+  printf("\r\n");
   OSMutexPost(&st_info.mutex, OS_OPT_POST_NONE, &err);
   va_end(args);
 Return:
@@ -78,7 +80,7 @@ extern void init_log(void) {
 
   OSMutexCreate(&st_info.mutex, "log mutex", &err);
   if (OS_ERR_NONE != err) printf("log init error!");
-#if DRV_DBG
+#if DRV_DBG || BSP_DBG
   set_log_level(en_dbg);
 #else
   set_log_level(en_info);

@@ -51,7 +51,7 @@ typedef enum {
 
 typedef const struct {
   /*GPIO config*/
-  gpiox_t gpiox;
+  gpiox_t port;
   gpio_pin_t pinx;
   gpio_io_mode_t io_mode;  // gpio_input etc.
   uint8_t cnf;             // gpio_input_cnf_t or gpio_output_cnf_t
@@ -63,5 +63,6 @@ typedef const struct {
 
 extern void init_gpio(gpio_cfg_t *gpio_cfg);
 
-extern void reset_pin(gpiox_t gpiox, gpio_pin_t pinx);
-extern void set_pin(gpiox_t gpiox, gpio_pin_t pinx);
+extern void reset_pin(gpiox_t port, gpio_pin_t pinx);
+extern void set_pin(gpiox_t port, gpio_pin_t pinx);
+extern int get_pin(gpiox_t port, gpio_pin_t pinx);

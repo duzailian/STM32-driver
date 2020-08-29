@@ -16,11 +16,11 @@ static void AppTaskStart(void *p_arg) {
   CPU_IntDisMeasMaxCurReset();
 #endif
   while (DEF_TRUE) { /* Task body, always written as an infinite loop. */
-#if DRV_DBG
-    drv_dbg();
-#endif
 #if BSP_DBG
     bsp_dbg();
+#endif
+#if DRV_DBG
+    drv_dbg();
 #endif
     OSTimeDlyHMSM(0, 0, 0, 100, OS_OPT_TIME_HMSM_STRICT, &err);
   }

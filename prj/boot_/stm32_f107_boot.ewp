@@ -34,20 +34,20 @@
         <option>
           <name>Input variant</name>
           <version>3</version>
-          <state>7</state>
+          <state>0</state>
         </option>
         <option>
           <name>Input description</name>
-          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing, without multibyte support.</state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>Output variant</name>
           <version>2</version>
-          <state>6</state>
+          <state>0</state>
         </option>
         <option>
           <name>Output description</name>
-          <state>No specifier a, A, no specifier n, no float nor long long, without multibyte support.</state>
+          <state>Automatic choice of formatter.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
@@ -93,7 +93,7 @@
         </option>
         <option>
           <name>GenLowLevelInterface</name>
-          <state>0</state>
+          <state>1</state>
         </option>
         <option>
           <name>GEndianModeBE</name>
@@ -716,7 +716,7 @@
         </option>
         <option>
           <name>IlinkLogFile</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>IlinkLogInitialization</name>
@@ -945,7 +945,7 @@
         </option>
         <option>
           <name>IlinkLogCallGraph</name>
-          <state>1</state>
+          <state>0</state>
         </option>
       </data>
     </settings>
@@ -2007,12 +2007,6 @@
       </file>
     </group>
     <group>
-      <name>list</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\src\driver\list\list.h</name>
-      </file>
-    </group>
-    <group>
       <name>log</name>
       <file>
         <name>$PROJ_DIR$\..\..\src\driver\log\log.c</name>
@@ -2028,12 +2022,6 @@
       <name>spi</name>
       <file>
         <name>$PROJ_DIR$\..\..\src\driver\spi\spi.c</name>
-      </file>
-    </group>
-    <group>
-      <name>systick</name>
-      <file>
-        <name>$PROJ_DIR$\..\..\src\driver\systick\systick.c</name>
       </file>
     </group>
     <group>

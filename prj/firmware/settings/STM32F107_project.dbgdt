@@ -19,7 +19,7 @@
           
           
           
-        <Column0>202</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>185</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Disassembly>
         <col-names>
@@ -37,7 +37,7 @@
       <Register>
         <RegFindHistory/>
       </Register>
-    <QuickWatch><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths><QWatchHistory><item>auc_u2_buffer</item><item>ch</item><item>tmp</item></QWatchHistory></QuickWatch><Select-Ambiguous-Definitions><ColumnWidth0>664</ColumnWidth0><ColumnWidth1>94</ColumnWidth1><ColumnWidth2>1138</ColumnWidth2></Select-Ambiguous-Definitions><WATCH_1><expressions><item>auc_tmp</item><item/></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>275</item><item>150</item><item>100</item><item>100</item></col-widths></WATCH_1><Memory><MemGotoHistory><item>0x20007d18</item></MemGotoHistory><FindAsHex>0</FindAsHex></Memory></Static>
+    <QuickWatch><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>100</item><item>150</item><item>100</item><item>100</item></col-widths><QWatchHistory><item>auc_u2_buffer</item><item>ch</item><item>tmp</item></QWatchHistory></QuickWatch><Select-Ambiguous-Definitions><ColumnWidth0>664</ColumnWidth0><ColumnWidth1>94</ColumnWidth1><ColumnWidth2>1138</ColumnWidth2></Select-Ambiguous-Definitions><WATCH_1><expressions><item>auc_tmp</item><item>pst_q-&gt;p_q</item><item>pst_q</item><item>pst_qself-&gt;st_qself-&gt;st_q</item><item>self-&gt;st_q</item><item></item></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>275</item><item>150</item><item>100</item><item>100</item></col-widths></WATCH_1><Memory><MemGotoHistory><item>0x20007d18</item></MemGotoHistory><FindAsHex>0</FindAsHex></Memory></Static>
     <Windows>
       
       
@@ -66,7 +66,7 @@
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>STM32F107_project</ExpandedNode><ExpandedNode>STM32F107_project/driver</ExpandedNode><ExpandedNode>STM32F107_project/driver/dma</ExpandedNode><ExpandedNode>STM32F107_project/driver/usart</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>STM32F107_project</ExpandedNode><ExpandedNode>STM32F107_project/driver</ExpandedNode><ExpandedNode>STM32F107_project/driver/dma</ExpandedNode><ExpandedNode>STM32F107_project/driver/usart</ExpandedNode><ExpandedNode>STM32F107_project/os</ExpandedNode><ExpandedNode>STM32F107_project/os/ucos</ExpandedNode><ExpandedNode>STM32F107_project/os/ucos/Task</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
@@ -106,7 +106,7 @@
       
       
       
-    <Top><Row0><Sizes><Toolbar-04824A48><key>iaridepm.enu1</key></Toolbar-04824A48></Sizes></Row0><Row1><Sizes><Toolbar-17B68B20><key>debuggergui.enu1</key></Toolbar-17B68B20></Sizes></Row1><Row2><Sizes><Toolbar-17B68738><key>armjlink2.enu1</key></Toolbar-17B68738></Sizes></Row2></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>509</Bottom><Right>276</Right><x>-2</x><y>-2</y><xscreen>381</xscreen><yscreen>238</yscreen><sizeHorzCX>377602</sizeHorzCX><sizeHorzCY>284010</sizeHorzCY><sizeVertCX>275520</sizeVertCX><sizeVertCY>609785</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>509</Bottom><Right>428</Right><x>-2</x><y>-2</y><xscreen>381</xscreen><yscreen>238</yscreen><sizeHorzCX>377602</sizeHorzCX><sizeHorzCY>284010</sizeHorzCY><sizeVertCX>426165</sizeVertCX><sizeVertCY>609785</sizeVertCY></Rect></Wnd2></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>236</Bottom><Right>1011</Right><x>-2</x><y>-2</y><xscreen>1013</xscreen><yscreen>238</yscreen><sizeHorzCX>1003964</sizeHorzCX><sizeHorzCY>284010</sizeHorzCY><sizeVertCX>377602</sizeVertCX><sizeVertCY>284010</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-01D7C648><key>iaridepm.enu1</key></Toolbar-01D7C648></Sizes></Row0><Row1><Sizes><Toolbar-0FB96568><key>debuggergui.enu1</key></Toolbar-0FB96568></Sizes></Row1><Row2><Sizes><Toolbar-0FB96AE0><key>armjlink2.enu1</key></Toolbar-0FB96AE0></Sizes></Row2></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>509</Bottom><Right>276</Right><x>-2</x><y>-2</y><xscreen>381</xscreen><yscreen>238</yscreen><sizeHorzCX>377602</sizeHorzCX><sizeHorzCY>284010</sizeHorzCY><sizeVertCX>275520</sizeVertCX><sizeVertCY>609785</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>509</Bottom><Right>280</Right><x>-2</x><y>-2</y><xscreen>381</xscreen><yscreen>238</yscreen><sizeHorzCX>377602</sizeHorzCX><sizeHorzCY>284010</sizeHorzCY><sizeVertCX>279485</sizeVertCX><sizeVertCY>609785</sizeVertCY></Rect></Wnd2></Sizes></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>236</Bottom><Right>1011</Right><x>-2</x><y>-2</y><xscreen>1013</xscreen><yscreen>238</yscreen><sizeHorzCX>1003964</sizeHorzCX><sizeHorzCY>284010</sizeHorzCY><sizeVertCX>377602</sizeVertCX><sizeVertCY>284010</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Project>
 

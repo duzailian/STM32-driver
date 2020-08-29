@@ -38,7 +38,7 @@ typedef const struct {
           {                                                       \
               .sck =                                              \
                   {                                               \
-                      .gpiox = GPIO_SPI##ch##_SCK_PORT,           \
+                      .port = GPIO_SPI##ch##_SCK_PORT,           \
                       .pinx = GPIO_SPI##ch##_SCK_PIN,             \
                       .io_mode = gpio_output_10M,                 \
                       .cnf = gpio_af_opp,                         \
@@ -47,7 +47,7 @@ typedef const struct {
                   },                                              \
               .miso =                                             \
                   {                                               \
-                      .gpiox = GPIO_SPI##ch##_MISO_PORT,          \
+                      .port = GPIO_SPI##ch##_MISO_PORT,          \
                       .pinx = GPIO_SPI##ch##_MISO_PIN,            \
                       .io_mode = gpio_input,                      \
                       .cnf = gpio_pull_up,                        \
@@ -56,7 +56,7 @@ typedef const struct {
                   },                                              \
               .mosi =                                             \
                   {                                               \
-                      .gpiox = GPIO_SPI##ch##_MOSI_PORT,          \
+                      .port = GPIO_SPI##ch##_MOSI_PORT,          \
                       .pinx = GPIO_SPI##ch##_MOSI_PIN,            \
                       .io_mode = gpio_output_10M,                 \
                       .cnf = gpio_af_opp,                         \
@@ -175,7 +175,7 @@ extern st_drv_if_t *open_spi(en_spi_t channel) {
 
 static void init_nrf24l01_gpio(void) {
   static gpio_cfg_t gpio = {
-      .gpiox = GPIO_NRF1_CS_PORT,
+      .port = GPIO_NRF1_CS_PORT,
       .pinx = GPIO_NRF1_CS_PIN,
       .io_mode = gpio_output_2M,
       .cnf = gpio_gen_opp,

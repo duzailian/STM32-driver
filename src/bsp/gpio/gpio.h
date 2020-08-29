@@ -31,3 +31,8 @@
 
 #define GPIO_SPI1_REMAP_EN 0    //  0 for disable
 #define GPIO_SPI1_REMAP_MASK 0  //  0 for disable
+
+#ifdef BOOT_PRJ
+#define GPIO_IAP_PORT gpioc
+#define GPIO_IAP_PIN gpio_pin8
+#endif

@@ -11,4 +11,6 @@ typedef struct {
   drv_close_if_t close;
 } st_drv_if_t;
 
+typedef st_drv_if_t *(*open_if_t)(int channel);
+
 typedef void (*rx_cb_t)(uint8_t *puc_buffer, size_t sz_len, int channel);

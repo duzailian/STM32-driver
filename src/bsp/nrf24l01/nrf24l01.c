@@ -56,7 +56,7 @@ typedef const struct {
           {                                              \
               .ce =                                      \
                   {                                      \
-                      .gpiox = GPIO_NRF##ch##_CE_PORT,   \
+                      .port = GPIO_NRF##ch##_CE_PORT,   \
                       .pinx = GPIO_NRF##ch##_CE_PIN,     \
                       .io_mode = gpio_output_2M,         \
                       .cnf = gpio_gen_opp,               \
@@ -65,7 +65,7 @@ typedef const struct {
                   },                                     \
               .cs =                                      \
                   {                                      \
-                      .gpiox = GPIO_NRF##ch##_CS_PORT,   \
+                      .port = GPIO_NRF##ch##_CS_PORT,   \
                       .pinx = GPIO_NRF##ch##_CS_PIN,     \
                       .io_mode = gpio_output_2M,         \
                       .cnf = gpio_gen_opp,               \
@@ -74,7 +74,7 @@ typedef const struct {
                   },                                     \
               .irq =                                     \
                   {                                      \
-                      .gpiox = GPIO_NRF##ch##_IRQ_PORT,  \
+                      .port = GPIO_NRF##ch##_IRQ_PORT,  \
                       .pinx = GPIO_NRF##ch##_IRQ_PIN,    \
                       .io_mode = gpio_input,             \
                       .cnf = gpio_pull_up,               \
@@ -126,9 +126,9 @@ static void __write_spi(st_info_t *self, void *buffer, size_t len) {
   st_drv_if_t *spi_if = self->pst_spi->drv_if;
 
   assert(NULL != spi_if);
-  reset_pin(pst_gpio->cs.gpiox, pst_gpio->cs.pinx);
+  reset_pin(pst_gpio->cs.port, pst_gpio->cs.pinx);
   spi_if->write(spi_if, buffer, len);
-  set_pin(pst_gpio->cs.gpiox, pst_gpio->cs.pinx);
+  set_pin(pst_gpio->cs.port, pst_gpio->cs.pinx);
   return;
 }
 
@@ -137,9 +137,9 @@ static void __read_spi(st_info_t *self, void *buffer, size_t len) {
   st_drv_if_t *spi_if = self->pst_spi->drv_if;
 
   assert(NULL != spi_if);
-  reset_pin(pst_gpio->cs.gpiox, pst_gpio->cs.pinx);
+  reset_pin(pst_gpio->cs.port, pst_gpio->cs.pinx);
   spi_if->read(spi_if, buffer, len);
-  set_pin(pst_gpio->cs.gpiox, pst_gpio->cs.pinx);
+  set_pin(pst_gpio->cs.port, pst_gpio->cs.pinx);
   return;
 }
 

@@ -1,6 +1,7 @@
 #ifndef __DRIVER_H
 #define __DRIVER_H
 
+#include "list/list.h"
 #include "cfg/cfg.h"
 #include "interrupt/interrupt.h"
 #include "dma/dma.h"
@@ -11,11 +12,10 @@
 #include "tool/tool.h"
 #include "usart/usart.h"
 #include "exti/exti.h"
+#include "systick/systick.h"
 
 extern void init_driver(void);
-
 #if DRV_DBG
 extern void drv_dbg(void);
 #endif
-
 #endif

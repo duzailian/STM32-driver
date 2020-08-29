@@ -4,6 +4,7 @@
 int main(int arc, char **argv) {
   init_driver();
   init_bsp();
+  iap_proc();
   return 0;
 }
 #else
