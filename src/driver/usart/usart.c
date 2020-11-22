@@ -11,7 +11,7 @@
   (USART_FLAG_ORE | USART_FLAG_NE | USART_FLAG_FE | USART_FLAG_PE)
 
 typedef struct {
-  uint16_t us_len;  // received data length
+  uint16_t us_len; // received data length
   uint8_t auc_data[0];
 } __st_packet_t;
 
@@ -22,8 +22,8 @@ typedef const struct {
 
 #ifndef BOOT_PRJ
 typedef struct {
-  OS_Q* p_q;
-  char* name;
+  OS_Q *p_q;
+  char *name;
   OS_MSG_QTY q_size;
 } st_q_t;
 #else
@@ -34,33 +34,33 @@ typedef struct {
 #endif
 
 typedef struct {
-  uint8_t* puc_buffer;
-  uint8_t* puc_index;  // buffer index
-  uint16_t us_len;     // buffer size
-  uint16_t us_num;     // buffers total number
+  uint8_t *puc_buffer;
+  uint8_t *puc_index; // buffer index
+  uint16_t us_len; // buffer size
+  uint16_t us_num; // buffers total number
 } st_buffer_t;
 
 typedef const struct {
-  st_drv_if_t st_if;  // operate API for usart
-  USART_TypeDef* USARTx;
-  st_gpio_t* pst_gpio;
-  const st_dma_parm_t* pst_dma;
+  st_drv_if_t st_if; // operate API for usart
+  USART_TypeDef *USARTx;
+  st_gpio_t *pst_gpio;
+  const st_dma_parm_t *pst_dma;
 #ifndef BOOT_PRJ
   st_q_t st_q;
 #else
-  list_t* pst_q;
+  list_t *pst_q;
 #endif
-  st_int_parm_t st_int;  // information for interrupt
+  st_int_parm_t st_int; // information for interrupt
   st_buffer_t st_buffer;
 
   uint32_t ul_rcc_enr;
   uint32_t ul_bandrate;
 } st_info_t;
 
-static int __usart_send(void* __self, uint8_t* puc_data, size_t sz_len);
-static int __usart_recv(void* __self, uint8_t* puc_buffer, size_t sz_len);
-static int __usart_close(void* __self);
-static int __ISR(void* self);
+static int __usart_send(void *__self, uint8_t *puc_data, size_t sz_len);
+static int __usart_recv(void *__self, uint8_t *puc_buffer, size_t sz_len);
+static int __usart_close(void *__self);
+static int __ISR(void *self);
 
 #define GPIO_INFO(__port, __mode)                              \
   {                                                            \
@@ -71,11 +71,11 @@ static int __ISR(void* self);
     .af_remap_mask = GPIO_USART##__port##_REMAP_MASK,          \
   }
 
-#define RCC_USART1_ENR RCC_APB2ENR(USART1)
-#define RCC_USART2_ENR RCC_APB1ENR(USART2)
-#define RCC_USART3_ENR RCC_APB1ENR(USART3)
-#define RCC_USART4_ENR RCC_APB1ENR(UART4)
-#define RCC_USART5_ENR RCC_APB1ENR(UART5)
+#define RCC_USART1_ENR RCC_ENR(APB2, USART1)
+#define RCC_USART2_ENR RCC_ENR(APB1, USART2)
+#define RCC_USART3_ENR RCC_ENR(APB1, USART3)
+#define RCC_USART4_ENR RCC_ENR(APB1, UART4)
+#define RCC_USART5_ENR RCC_ENR(APB1, UART5)
 
 #ifndef BOOT_PRJ
 #define INFO(ch)                                       \
@@ -94,7 +94,7 @@ static int __ISR(void* self);
           {                                            \
               .en_int = en_USART##ch##_int,            \
               .func = __ISR,                           \
-              .p_arg = (void*)&ast_info[usart##ch],    \
+              .p_arg = (void *)&ast_info[usart##ch],   \
           },                                           \
       .st_q =                                          \
           {                                            \
@@ -128,7 +128,7 @@ static int __ISR(void* self);
           {                                            \
               .en_int = en_USART##ch##_int,            \
               .func = __ISR,                           \
-              .p_arg = (void*)&ast_info[usart##ch],    \
+              .p_arg = (void *)&ast_info[usart##ch],   \
           },                                           \
       .pst_q = &u##ch##_q,                             \
       .st_buffer =                                     \
@@ -162,9 +162,9 @@ static int __ISR(void* self);
           (uint32_t)&auc_u##ch##_buffer[0][offsetof(__st_packet_t, auc_data)], \
       .us_len = sizeof(auc_u##ch##_buffer[0]),                                 \
       .complete_cb = __ISR,                                                    \
-      .complete_cb_arg = (void*)&ast_info[usart##ch],                          \
+      .complete_cb_arg = (void *)&ast_info[usart##ch],                         \
   };
-#else  // defined BOOT_PRJ
+#else // defined BOOT_PRJ
 #define ADD_CHANNEL(ch)                                                        \
   static OS_Q u##ch##_q = {0};                                                 \
   static uint8_t auc_u##ch##_buffer[USART##ch##_BUFFER_NUM]                    \
@@ -184,20 +184,20 @@ static int __ISR(void* self);
                                            offsetof(st_q_t, st_pkt)],          \
       .us_len = sizeof(auc_u##ch##_buffer[0]),                                 \
       .complete_cb = __ISR,                                                    \
-      .complete_cb_arg = (void*)&ast_info[usart##ch],                          \
+      .complete_cb_arg = (void *)&ast_info[usart##ch],                         \
   };
-#endif  // ifndef BOOT_PRJ
+#endif // ifndef BOOT_PRJ
 
 static st_info_t ast_info[];
 
-ADD_CHANNEL(2)  // usart2
+ADD_CHANNEL(2) // usart2
 
 static st_info_t ast_info[] = {
-    INFO(2),  // usart2
+    INFO(2), // usart2
 };
 
-static void __init_reg(st_info_t* self) {
-  USART_TypeDef* USARTx = self->USARTx;
+static void __init_reg(st_info_t *self) {
+  USART_TypeDef *USARTx = self->USARTx;
   uint32_t fck = 0;
   RCC_ClocksTypeDef RCC_Clocks;
 
@@ -214,15 +214,15 @@ static void __init_reg(st_info_t* self) {
   return;
 }
 
-static void __init_gpio(st_gpio_t* self) {
+static void __init_gpio(st_gpio_t *self) {
   init_gpio(&self->rx);
   init_gpio(&self->tx);
   return;
 }
 
-static void inline __init_rcc(st_info_t* self) {
+static void inline __init_rcc(st_info_t *self) {
   if (self->USARTx == USART1)
-    RCC->APB2ENR |= RCC_APB2ENR(USART1);
+    RCC->APB2ENR |= RCC_ENR(APB2, USART1);
   else
     RCC->APB1ENR |= self->ul_rcc_enr;
 
@@ -230,7 +230,7 @@ static void inline __init_rcc(st_info_t* self) {
 }
 
 #ifndef BOOT_PRJ
-static void __init_q(const st_q_t* pst_q) {
+static void __init_q(const st_q_t *pst_q) {
   OS_ERR err;
   OSQCreate(pst_q->p_q, pst_q->name, pst_q->q_size, &err);
   if (OS_ERR_NONE != err) {
@@ -245,7 +245,7 @@ static void __init_q(const st_q_t* pst_q) {
   } while (0)
 #endif
 
-static st_info_t* __init_channel(st_info_t* self) {
+static st_info_t *__init_channel(st_info_t *self) {
   __init_rcc(self);
   __init_reg(self);
   __init_gpio(self->pst_gpio);
@@ -259,10 +259,10 @@ static st_info_t* __init_channel(st_info_t* self) {
   return self;
 }
 
-static int __usart_send(void* __self, uint8_t* puc_data, size_t sz_len) {
-  st_info_t* self = (st_info_t*)__self;
+static int __usart_send(void *__self, uint8_t *puc_data, size_t sz_len) {
+  st_info_t *self = (st_info_t *)__self;
   int ret = 0;
-  USART_TypeDef* USARTx = self->USARTx;
+  USART_TypeDef *USARTx = self->USARTx;
   size_t i = 0;
 
   for (i = 0; i < sz_len; i++) {
@@ -273,28 +273,29 @@ static int __usart_send(void* __self, uint8_t* puc_data, size_t sz_len) {
   return ret;
 }
 
-static int __usart_recv(void* __self, uint8_t* puc_data, size_t sz_len) {
-  st_info_t* self = (st_info_t*)__self;
+static int __usart_recv(void *__self, uint8_t *puc_data, size_t sz_len) {
+  st_info_t *self = (st_info_t *)__self;
   int ret = -1;
-  __st_packet_t* pst_ret = NULL;
+  __st_packet_t *pst_ret = NULL;
 
-#ifndef BOOT_PRJ  // TODO
+#ifndef BOOT_PRJ // TODO
   OS_ERR err;
   OS_MSG_SIZE msg_size = 0;
-  const st_q_t* pst_q = &self->st_q;
+  const st_q_t *pst_q = &self->st_q;
   pst_ret = OSQPend(pst_q->p_q, 0, OS_OPT_PEND_BLOCKING, &msg_size, NULL, &err);
   if ((OS_ERR_NONE != err) || (msg_size != sizeof(pst_ret))) {
     LOG_ERR("usart q wait failed(%d)!", err);
     goto Error;
   }
 #else
-  st_q_t* pst_q = NULL;
+  st_q_t *pst_q = NULL;
   CPU_SR_ALLOC();
 
   CPU_CRITICAL_ENTER();
-  pst_q = (st_q_t*)list_pop_tail(self->pst_q);
+  pst_q = (st_q_t *)list_pop_tail(self->pst_q);
   CPU_CRITICAL_EXIT();
-  if (NULL == pst_q) goto Error;  // q is empty
+  if (NULL == pst_q)
+    goto Error; // q is empty
   pst_ret = &pst_q->st_pkt;
 #endif
   ret = (pst_ret->us_len > sz_len) ? sz_len : pst_ret->us_len;
@@ -304,7 +305,7 @@ Error:
   return ret;
 }
 
-static int __usart_close(void* __self) {
+static int __usart_close(void *__self) {
 #if 0
   st_info_t *self = (st_info_t *)__self;
   int ret = 0;
@@ -315,8 +316,8 @@ static int __usart_close(void* __self) {
 #endif
 }
 
-static void __resart_dma(const st_buffer_t* pst_buffer,
-                         const st_dma_parm_t* pst_dma) {
+static void __resart_dma(const st_buffer_t *pst_buffer,
+                         const st_dma_parm_t *pst_dma) {
   st_dma_parm_t st_dma = *pst_dma;
   uint8_t uc_index = *pst_buffer->puc_index;
 
@@ -333,7 +334,7 @@ static void __resart_dma(const st_buffer_t* pst_buffer,
                  offsetof(__st_packet_t, auc_data) + offsetof(st_q_t, st_pkt) +
                  pst_buffer->puc_buffer);
 #endif
-#if 0  // USART_DBG
+#if 0 // USART_DBG
   printf("st_dma.mem_addr:0x%x\r\n", st_dma.mem_addr);
 #endif
   start_dma(&st_dma);
@@ -341,13 +342,13 @@ static void __resart_dma(const st_buffer_t* pst_buffer,
   return;
 }
 
-static void post_data(st_info_t* self, uint8_t uc_data) {
-  const st_buffer_t* pst_buffer = &self->st_buffer;
+static void post_data(st_info_t *self, uint8_t uc_data) {
+  const st_buffer_t *pst_buffer = &self->st_buffer;
   size_t sz_index = (uint32_t)*pst_buffer->puc_index * pst_buffer->us_len;
 
 #ifndef BOOT_PRJ
-  __st_packet_t* pst_ret = (__st_packet_t*)&pst_buffer->puc_buffer[sz_index];
-  const st_q_t* pst_q = &self->st_q;
+  __st_packet_t *pst_ret = (__st_packet_t *)&pst_buffer->puc_buffer[sz_index];
+  const st_q_t *pst_q = &self->st_q;
   OS_ERR err;
 
   pst_ret->us_len = get_transterred_size(self->pst_dma);
@@ -356,7 +357,7 @@ static void post_data(st_info_t* self, uint8_t uc_data) {
     LOG_ERR("usart data post error(%d)!", err);
   }
 #else
-  st_q_t* pst_ret = (st_q_t*)&pst_buffer->puc_buffer[sz_index];
+  st_q_t *pst_ret = (st_q_t *)&pst_buffer->puc_buffer[sz_index];
   CPU_SR_ALLOC();
 
   pst_ret->st_pkt.us_len = get_transterred_size(self->pst_dma);
@@ -368,17 +369,17 @@ static void post_data(st_info_t* self, uint8_t uc_data) {
   return;
 }
 
-static int __ISR(void* __self) {
-  st_info_t* self = (st_info_t*)__self;
-  USART_TypeDef* USARTx = self->USARTx;
+static int __ISR(void *__self) {
+  st_info_t *self = (st_info_t *)__self;
+  USART_TypeDef *USARTx = self->USARTx;
   uint32_t status = USARTx->SR;
 
-  if (status & ERRO_FLG) {  // received error!
+  if (status & ERRO_FLG) { // received error!
     LOG_ERR("usart received error(%d)!", status & ERRO_FLG);
     goto Return;
   }
-  if (status & USART_FLAG_IDLE) {  // one packet received
-    const st_buffer_t* pst_buffer = &self->st_buffer;
+  if (status & USART_FLAG_IDLE) { // one packet received
+    const st_buffer_t *pst_buffer = &self->st_buffer;
 
     post_data(self, USARTx->DR);
     __resart_dma(pst_buffer, self->pst_dma);
@@ -387,14 +388,14 @@ Return:
   return 0;
 }
 
-extern st_drv_if_t* open_usart(en_usart_t channel) {
+extern st_drv_if_t *open_usart(en_usart_t channel) {
   assert(channel < sizeof_array(ast_info));
   assert(NULL != &ast_info[channel].USARTx);
-  return (st_drv_if_t*)__init_channel(&ast_info[channel]);
+  return (st_drv_if_t *)__init_channel(&ast_info[channel]);
 }
 
-extern int fputc(int ch, FILE* stream) {
-  USART_TypeDef* USARTx = ast_info[PRINT_USART].USARTx;
+extern int fputc(int ch, FILE *stream) {
+  USART_TypeDef *USARTx = ast_info[PRINT_USART].USARTx;
   while (!(USARTx->SR & USART_FLAG_TXE))
     ;
   USARTx->DR = ch;
@@ -404,7 +405,7 @@ extern int fputc(int ch, FILE* stream) {
 #if USART_DBG
 extern void test_usart(void) {
   static uint8_t auc_tmp[100];
-  st_drv_if_t* usart = open_usart(usart2);
+  st_drv_if_t *usart = open_usart(usart2);
 
   if (0 == usart->write(usart, "This is a usart test!\r\n",
                         strlen("This is a usart test!\r\n"))) {
@@ -413,8 +414,10 @@ extern void test_usart(void) {
     LOG_ERR("usart send test fail!");
   }
   while (1) {
-    if (usart->read(usart, auc_tmp, sizeof(auc_tmp)) < 0) continue;
-    printf("recv:%s\r\n", auc_tmp);
+    int recv = usart->read(usart, auc_tmp, sizeof(auc_tmp));
+    if (recv < 0)
+      continue;
+    usart->write(usart, auc_tmp, recv);
   }
 }
 #endif

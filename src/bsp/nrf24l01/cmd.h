@@ -14,4 +14,3 @@
 #define NOP 0xff
 
 #define MAX_FIFO_SZ 32
-

@@ -1,6 +1,8 @@
 #include "include.h"
 
-void init_bsp(void) { return; }
+void init_bsp(void) {
+  return;
+}
 
 #if BSP_DBG
 extern void bsp_dbg(void) {

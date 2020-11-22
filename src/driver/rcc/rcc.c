@@ -16,26 +16,23 @@
 
 #define DWT_CR_CYCCNTENA (1 << 0)
 
-uint32_t get_clk_freq(void)
-{
-    RCC_ClocksTypeDef rcc_clocks;
+uint32_t get_clk_freq(void) {
+  RCC_ClocksTypeDef rcc_clocks;
 
-    RCC_GetClocksFreq(&rcc_clocks);
+  RCC_GetClocksFreq(&rcc_clocks);
 
-    return ((uint32_t)rcc_clocks.HCLK_Frequency);
+  return ((uint32_t)rcc_clocks.HCLK_Frequency);
 }
 
 #if (CPU_CFG_TS_TMR_EN == DEF_ENABLED)
-void CPU_TS_TmrInit(void)
-{
-    CPU_INT32U cpu_clk_freq_hz;
+void CPU_TS_TmrInit(void) {
+  CPU_INT32U cpu_clk_freq_hz;
 
-    DEM_CR |=
-        (CPU_INT32U)DEM_CR_TRCENA; /* Enable Cortex-M3's DWT CYCCNT reg. */
-    DWT_CYCCNT = (CPU_INT32U)0u;
-    DWT_CR |= (CPU_INT32U)DWT_CR_CYCCNTENA;
+  DEM_CR |= (CPU_INT32U)DEM_CR_TRCENA; /* Enable Cortex-M3's DWT CYCCNT reg. */
+  DWT_CYCCNT = (CPU_INT32U)0u;
+  DWT_CR |= (CPU_INT32U)DWT_CR_CYCCNTENA;
 
-    cpu_clk_freq_hz = get_clk_freq();
-    CPU_TS_TmrFreqSet(cpu_clk_freq_hz);
+  cpu_clk_freq_hz = get_clk_freq();
+  CPU_TS_TmrFreqSet(cpu_clk_freq_hz);
 }
 #endif

@@ -1,7 +1,6 @@
 #pragma once
 
-#define RCC_APB1ENR(peripheral) RCC_APB1ENR_##peripheral##EN
-#define RCC_APB2ENR(peripheral) RCC_APB2ENR_##peripheral##EN
+#define RCC_ENR(bus, per) RCC_##bus##ENR_##per##EN
 
 #define init_rcc(rcc_reg, value) \
   do {                           \

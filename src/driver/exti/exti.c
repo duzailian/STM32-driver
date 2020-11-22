@@ -13,8 +13,8 @@ typedef enum {
 } en_trigger_t;
 
 typedef struct {
-  int_func func;   // callback function
-  void *func_arg;  // parameter for callback function
+  int_func func; // callback function
+  void *func_arg; // parameter for callback function
 } st_cb_t;
 
 typedef struct {
@@ -22,7 +22,7 @@ typedef struct {
   en_type_t en_type;
   en_trigger_t en_trigger;
   st_cb_t *p_func;
-  en_int_t en_int;  // interrupt channel
+  en_int_t en_int; // interrupt channel
 } st_info_t;
 
 #define INFO(ch)                     \

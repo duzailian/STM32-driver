@@ -15,9 +15,9 @@ typedef enum {
   en_dma_ch6,
   en_dma_ch7,
 } en_dma_ch_t;
-typedef enum {  // transfer direction
-  en_from_mem,  // from memory to peripheral
-  en_to_mem,    // from memory to peripheral
+typedef enum { // transfer direction
+  en_from_mem, // from memory to peripheral
+  en_to_mem, // from memory to peripheral
 } en_tr_dir_t;
 
 typedef struct {
@@ -25,9 +25,9 @@ typedef struct {
   en_dma_ch_t en_dma_ch;
 
   en_tr_dir_t en_tr_dir;
-  uint32_t per_addr;  // peripheral address
-  uint32_t mem_addr;  // memory address
-  size_t us_len;      // data length
+  uint32_t per_addr; // peripheral address
+  uint32_t mem_addr; // memory address
+  size_t us_len; // data length
 
   int_func complete_cb;
   void *complete_cb_arg;

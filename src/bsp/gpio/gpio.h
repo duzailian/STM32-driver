@@ -1,8 +1,8 @@
 #pragma once
 
 /*USART 2*/
-#define GPIO_USART2_REMAP_EN GPIO_Remap_USART2    //  0 for disable
-#define GPIO_USART2_REMAP_MASK GPIO_Remap_USART2  //  0 for disable
+#define GPIO_USART2_REMAP_EN GPIO_Remap_USART2 //  0 for disable
+#define GPIO_USART2_REMAP_MASK GPIO_Remap_USART2 //  0 for disable
 
 #define GPIO_USART2_TX_PORT gpiod
 #define GPIO_USART2_TX_PIN gpio_pin5
@@ -29,8 +29,8 @@
 #define GPIO_SPI1_MOSI_PORT gpioa
 #define GPIO_SPI1_MOSI_PIN gpio_pin7
 
-#define GPIO_SPI1_REMAP_EN 0    //  0 for disable
-#define GPIO_SPI1_REMAP_MASK 0  //  0 for disable
+#define GPIO_SPI1_REMAP_EN 0 //  0 for disable
+#define GPIO_SPI1_REMAP_MASK 0 //  0 for disable
 
 #ifdef BOOT_PRJ
 #define GPIO_IAP_PORT gpioc

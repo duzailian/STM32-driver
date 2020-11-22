@@ -12,7 +12,7 @@ void __init_os(void) {
 
   Mem_Init(); /* Initialize Memory Management Module                  */
 
-#if 0  //(APP_CFG_SERIAL_EN == DEF_ENABLED)
+#if 0 //(APP_CFG_SERIAL_EN == DEF_ENABLED)
 	BSP_Ser_Init(
 		115200); /* Enable Serial Interface                              */
 #endif

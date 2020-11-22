@@ -12,8 +12,8 @@ typedef struct {
 
 typedef const struct {
   uint32_t ul_bandrate;
-  uint8_t uc_phase;  // CPOL & CPHA SPI_CPOL_Low, SPI_CPHA_1Edge etc.
-  bool b_lsb_first;  //  MSB/LSB transmitted first
+  uint8_t uc_phase; // CPOL & CPHA SPI_CPOL_Low, SPI_CPHA_1Edge etc.
+  bool b_lsb_first; //  MSB/LSB transmitted first
 } st_cfg_t;
 
 typedef const struct {
@@ -38,7 +38,7 @@ typedef const struct {
           {                                                       \
               .sck =                                              \
                   {                                               \
-                      .port = GPIO_SPI##ch##_SCK_PORT,           \
+                      .port = GPIO_SPI##ch##_SCK_PORT,            \
                       .pinx = GPIO_SPI##ch##_SCK_PIN,             \
                       .io_mode = gpio_output_10M,                 \
                       .cnf = gpio_af_opp,                         \
@@ -47,7 +47,7 @@ typedef const struct {
                   },                                              \
               .miso =                                             \
                   {                                               \
-                      .port = GPIO_SPI##ch##_MISO_PORT,          \
+                      .port = GPIO_SPI##ch##_MISO_PORT,           \
                       .pinx = GPIO_SPI##ch##_MISO_PIN,            \
                       .io_mode = gpio_input,                      \
                       .cnf = gpio_pull_up,                        \
@@ -56,7 +56,7 @@ typedef const struct {
                   },                                              \
               .mosi =                                             \
                   {                                               \
-                      .port = GPIO_SPI##ch##_MOSI_PORT,          \
+                      .port = GPIO_SPI##ch##_MOSI_PORT,           \
                       .pinx = GPIO_SPI##ch##_MOSI_PIN,            \
                       .io_mode = gpio_output_10M,                 \
                       .cnf = gpio_af_opp,                         \
@@ -72,9 +72,9 @@ typedef const struct {
           },                                                      \
   }
 
-#define RCC_SPI1_ENR RCC_APB2ENR(SPI1)
-#define RCC_SPI2_ENR RCC_APB1ENR(SPI2)
-#define RCC_SPI3_ENR RCC_APB1ENR(SPI3)
+#define RCC_SPI1_ENR RCC_ENR(APB2, SPI1)
+#define RCC_SPI2_ENR RCC_ENR(APB1, SPI2)
+#define RCC_SPI3_ENR RCC_ENR(APB1, SPI3)
 
 static int __spi_recv(void *self, uint8_t *puc_buffer, size_t len);
 static int __spi_send(void *self, uint8_t *puc_buffer, size_t len);
@@ -86,7 +86,7 @@ static st_info_t ast_info[] = {
 
 static void inline __init_rcc(st_info_t *self) {
   if (self->SPIx == SPI1)
-    RCC->APB2ENR |= RCC_APB2ENR(SPI1);
+    RCC->APB2ENR |= RCC_ENR(APB2, SPI1);
   else
     RCC->APB1ENR |= self->ul_rcc_enr;
 
@@ -196,7 +196,8 @@ extern void test_spi(void) {
   spi_if->read(spi_if, auc_tmp, 6);
   set_pin(gpioe, gpio_pin8);
 
-  for (int i = 0; i < 6; i++) printf("0x%x ", auc_tmp[i]);
+  for (int i = 0; i < 6; i++)
+    printf("0x%x ", auc_tmp[i]);
   printf("\r\n");
 }
 #endif

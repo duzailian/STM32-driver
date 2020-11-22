@@ -98,7 +98,7 @@ typedef enum {
 
 #define RF_CH_MASK ((1 << 7) - 1)
 
-#define CONT_WAVE (1 << 7)  // Enables continuous carrier transmit when high
+#define CONT_WAVE (1 << 7) // Enables continuous carrier transmit when high
 /*data rates*/
 #define RF_DR_2M (1 << 3)
 #define RF_DR_1M (0)
@@ -130,7 +130,7 @@ typedef enum {
 // FIFO STATUS
 #define TX_REUSE (1 << 6)
 #ifndef TX_FULL
-#define TX_FULL (1 << 5)  // TX_FULL in FIFO STATUS register
+#define TX_FULL (1 << 5) // TX_FULL in FIFO STATUS register
 #endif
 #define TX_EMPTY (1 << 4)
 #define RX_FULL (1 << 1)

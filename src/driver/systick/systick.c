@@ -9,8 +9,9 @@ extern void delay_ms(uint32_t ms) {
   CPU_REG_NVIC_ST_RELOAD = RCC_Clocks.HCLK_Frequency / 8 / 1000;
   enable_systick();
   CPU_REG_NVIC_ST_CURRENT = RCC_Clocks.HCLK_Frequency / 8 / 1000;
-  for (i = 0; i < ms;i++) {
-    while ((CPU_REG_NVIC_ST_CTRL & CPU_REG_NVIC_ST_CTRL_COUNTFLAG) == 0);
+  for (i = 0; i < ms; i++) {
+    while ((CPU_REG_NVIC_ST_CTRL & CPU_REG_NVIC_ST_CTRL_COUNTFLAG) == 0)
+      ;
   }
   disable_systick();
   return;

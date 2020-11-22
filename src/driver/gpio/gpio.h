@@ -36,10 +36,10 @@ typedef enum {
 } gpio_input_cnf_t;
 
 typedef enum {
-  gpio_gen_opp,  // General purpose output push-pull
-  gpio_gen_opd,  // General purpose output Open-drain
-  gpio_af_opp,   // Alternate function output Push-pull
-  gpio_af_opd,   // Alternate function output Open-drain
+  gpio_gen_opp, // General purpose output push-pull
+  gpio_gen_opd, // General purpose output Open-drain
+  gpio_af_opp, // Alternate function output Push-pull
+  gpio_af_opd, // Alternate function output Open-drain
 } gpio_output_cnf_t;
 
 typedef enum {
@@ -53,11 +53,11 @@ typedef const struct {
   /*GPIO config*/
   gpiox_t port;
   gpio_pin_t pinx;
-  gpio_io_mode_t io_mode;  // gpio_input etc.
-  uint8_t cnf;             // gpio_input_cnf_t or gpio_output_cnf_t
+  gpio_io_mode_t io_mode; // gpio_input etc.
+  uint8_t cnf; // gpio_input_cnf_t or gpio_output_cnf_t
 
   /*AFIO config*/
-  uint32_t af_remap;  // 0 for disable
+  uint32_t af_remap; // 0 for disable
   uint32_t af_remap_mask;
 } gpio_cfg_t;
 

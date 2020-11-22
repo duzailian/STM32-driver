@@ -1,12 +1,12 @@
 #include "include.h"
 
-#define DMA_CHANNEL_SZ 7  // number of DMA  channels
+#define DMA_CHANNEL_SZ 7 // number of DMA  channels
 
-#define CCR_TEIE (1 << 3)  //  Transfer error interrupt enable
+#define CCR_TEIE (1 << 3) //  Transfer error interrupt enable
 
-#define CCR_TCIE (1 << 1)  //  Transfer complete interrupt enable
+#define CCR_TCIE (1 << 1) //  Transfer complete interrupt enable
 
-#define CCR_EN (1 << 0)  //  Channel enable
+#define CCR_EN (1 << 0) //  Channel enable
 
 typedef struct {
   DMA_Channel_TypeDef *DMA_chx;
@@ -45,16 +45,17 @@ static int ISR(void *__self) {
 
   for (int i = 0; i < sizeof_array(self->DMA_chs); i++) {
     tmp = (1 << (4 * i + 1));
-    if (sta & tmp) {  // Channel x transfer complete flag
+    if (sta & tmp) { // Channel x transfer complete flag
       if (self->DMA_chs[i]) {
         int_func func = self->DMA_chs[i]->st_int_parm.func;
         void *p_arg = self->DMA_chs[i]->st_int_parm.p_arg;
-        if (func) func(p_arg);
+        if (func)
+          func(p_arg);
         DMA_chx->IFCR = tmp;
       }
     }
     tmp <<= 2;
-    if (sta & tmp) {  // Channel x transfer error flag
+    if (sta & tmp) { // Channel x transfer error flag
       LOG_ERR("DMA:%s transfer error(0x%x)!\r\n", (DMA_chx == DMA1) ? "1" : "2",
               sta & tmp);
     }
@@ -62,12 +63,12 @@ static int ISR(void *__self) {
   return 0;
 }
 
-#define __init_int(pst_ch, self)                   \
+#define __init_int(pst_ch, self)                       \
   do {                                                 \
     st_int_parm_t int_parameter;                       \
     int_parameter.en_int = pst_ch->st_int_parm.en_int; \
     int_parameter.func = ISR;                          \
-    int_parameter.p_arg = (void *)self;            \
+    int_parameter.p_arg = (void *)self;                \
     reg_int_func(&int_parameter);                      \
   } while (0)
 
@@ -115,13 +116,13 @@ int start_dma(const st_dma_parm_t *pst_param) {
   self = &ast_info[en_dma];
   pst_ch = self->DMA_chs[en_dma_ch];
 
-  pst_ch->DMA_chx->CCR &= ~CCR_EN;  // disable dma
+  pst_ch->DMA_chx->CCR &= ~CCR_EN; // disable dma
   __init_rcc(self->ul_rcc_enr);
   __init_int(pst_ch,
-             self);  // register ISR function to interrupt management module
+             self); // register ISR function to interrupt management module
   __int_reg(pst_param, pst_ch->DMA_chx);
-  __save_cb(pst_ch, pst_param);    // save callback function
-  pst_ch->DMA_chx->CCR |= CCR_EN;  // enable dma
+  __save_cb(pst_ch, pst_param); // save callback function
+  pst_ch->DMA_chx->CCR |= CCR_EN; // enable dma
   return 0;
 Error:
   return -1;

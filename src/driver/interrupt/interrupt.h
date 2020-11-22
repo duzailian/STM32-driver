@@ -17,4 +17,3 @@ typedef struct {
 extern void init_int(void);
 extern void int_dis_all(void);
 extern int reg_int_func(const st_int_parm_t *parameter);
-

@@ -26,7 +26,8 @@ extern void log_output(en_log_t en_log_type, const char *func,
       [en_err] = "[ERROR]",
   };
 
-  if (en_log_type < st_info.en_log_level) goto Return;
+  if (en_log_type < st_info.en_log_level)
+    goto Return;
 
   printf("%sFunc:%s,Line:%zd,", apc_level[en_log_type], func, line);
   va_start(args, format);
@@ -57,7 +58,8 @@ extern void log_output(en_log_t en_log_type, const char *func,
   };
   OS_ERR err;
 
-  if (en_log_type < st_info.en_log_level) goto Return;
+  if (en_log_type < st_info.en_log_level)
+    goto Return;
 
   OSMutexPend(&st_info.mutex, 0, OS_OPT_PEND_BLOCKING, NULL, &err);
   if (OS_ERR_NONE != err) {
@@ -79,7 +81,8 @@ extern void init_log(void) {
   open_usart(PRINT_USART);
 
   OSMutexCreate(&st_info.mutex, "log mutex", &err);
-  if (OS_ERR_NONE != err) printf("log init error!");
+  if (OS_ERR_NONE != err)
+    printf("log init error!");
 #if DRV_DBG || BSP_DBG
   set_log_level(en_dbg);
 #else

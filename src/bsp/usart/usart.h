@@ -9,4 +9,3 @@
 #ifdef BOOT_PRJ
 #define IAP_usart usart2
 #endif
-

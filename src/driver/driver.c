@@ -17,11 +17,11 @@ void drv_dbg(void) {
 
 extern void init_driver(void) {
 #ifndef BOOT_PRJ
-  int_dis_all();  // disable alll interrupt
+  int_dis_all(); // disable alll interrupt
 #endif
   init_log();
   init_int();
-#if DRV_DBG && defined (BOOT_PRJ)
+#if DRV_DBG && defined(BOOT_PRJ)
   drv_dbg();
 #endif
   return;
