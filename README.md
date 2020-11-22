@@ -8,9 +8,9 @@
 
 #### 安装教程
 
-1.  安装IAR for ARM
-2.  打开prj目录下的工程文件
-3.  编译并烧录到MCU中即可
+1.  安装IAR for ARM、python3及make(可选)
+2.  在prj目录下执行make命令，或在prj/scripts目录下执行python iar.py即可自动生成IAR工程到prj目录下
+3.  打开prj/编译并烧录到MCU中即可
 
 #### 使用说明
 
