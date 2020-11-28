@@ -4,13 +4,25 @@ Projects = {
             'name':
             'comm-setting',
             'include': [
-                "src/app", "src/bsp", "src/driver", "src/lib", "src/os",
-                "src/os/ucos/cfg/", "src/os/ucos/Task/", "src/os/ucos/uC-CPU/",
-                "src/os/ucos/uC-CPU/ARM-Cortex-M3/IAR/", "src/os/ucos/uC-LIB/",
+                "src/app",
+                "src/bsp",
+                "src/driver",
+                "src/lib",
+                "src/os",
+                "src/os/ucos/cfg/",
+                "src/os/ucos/Task/",
+                "src/os/ucos/uC-CPU/",
+                "src/os/ucos/uC-CPU/ARM-Cortex-M3/IAR/",
+                "src/os/ucos/uC-LIB/",
                 "src/os/ucos/uCOS-III/Ports/ARM-Cortex-M3/Generic/IAR",
                 "src/os/ucos/uCOS-III/Source/",
             ],
             "define": ["STM32F10X_CL", "USE_STDPERIPH_DRIVER", "DEBUG_EN"],
+            "icf": {
+                "symbol __ICFEDIT_region_ROM_start__": "0x08000000",
+                "symbol __ICFEDIT_region_ROM_end__":"0x0800ffff",
+                "symbol __ICFEDIT_size_heap__":"0",
+            },
         },
         {
             'name': 'app',
@@ -47,15 +59,26 @@ Projects = {
             'name':
             'comm-setting',
             'include': [
-                "src/app", "src/bsp", "src/driver", "src/lib", "src/os",
-                "src/os/ucos/cfg/", "src/os/ucos/Task/", "src/os/ucos/uC-CPU/",
-                "src/os/ucos/uC-CPU/ARM-Cortex-M3/IAR/", "src/os/ucos/uC-LIB/",
+                "src/app",
+                "src/bsp",
+                "src/driver",
+                "src/lib",
+                "src/os",
+                "src/os/ucos/cfg/",
+                "src/os/ucos/Task/",
+                "src/os/ucos/uC-CPU/",
+                "src/os/ucos/uC-CPU/ARM-Cortex-M3/IAR/",
+                "src/os/ucos/uC-LIB/",
                 "src/os/ucos/uCOS-III/Ports/ARM-Cortex-M3/Generic/IAR",
                 "src/os/ucos/uCOS-III/Source/",
-                 "src/lib/ST/inc",
+                "src/lib/ST/inc",
             ],
             "define":
             ["STM32F10X_CL", "USE_STDPERIPH_DRIVER", "DEBUG_EN", "BOOT_PRJ"],
+            "icf": {
+                "symbol __ICFEDIT_region_ROM_start__": "0x08010000",
+                "symbol __ICFEDIT_size_heap__": "0x00"
+            },
         },
         {
             'name': 'app',

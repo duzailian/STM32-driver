@@ -161,6 +161,24 @@ def add_group(parent, name, files):
         stateTemp.text = convert_file_name(i)
     '''
 
+def gen_icf(prj_path, prj_name, icf_data):
+    icf_path = "%s\\settings\\%s.icf" %(prj_path, prj_name)
+    data_list = []
+    with open("template/project/template.icf", "r", encoding='utf-8') as fd :
+        for data in fd:
+            for key, val in icf_data.items():
+                pos = data.find(key)
+                if (pos < 0):
+                    continue
+                data = data[:pos]
+                data += "%s = %s;\r\n" %(key, val)
+                break
+            data_list.append(data)
+
+    with open(icf_path, "w", encoding="utf-8") as fd :
+        for data in data_list:
+            fd.write(data)
+    return
 
 # automation to do
 def changeItemForMcu(tree, element_dict, project_name):
@@ -171,9 +189,9 @@ def changeItemForMcu(tree, element_dict, project_name):
                 for option in data.findall('option'):
                     if option.find('name').text == 'IlinkOutputFile':
                         option.find('state').text = project_name + '.out'
-                    if option.find('name').text == 'IlinkIcfFile':
-                        option.find(
-                            'state').text = element_dict["IlinkIcfFile"]
+                    #if option.find('name').text == 'IlinkIcfFile':
+                    #    option.find(
+                    #        'state').text = element_dict["IlinkIcfFile"]
             if settings.find('name').text == 'OBJCOPY':
                 data = settings.find('data')
                 for option in data.findall('option'):
@@ -225,14 +243,16 @@ def gen_workspace(target, prj_list):
     return
 
 
-def set_prj_param(root, script):
+def set_prj_param(root, script, project_path, project_name):
     includes = []
     defines = []
+    icf_data = {}
 
     for group in script:
         if (group["name"] == "comm-setting"):
             includes = group["include"]
             defines = group["define"]
+            icf_data.update(group["icf"])
             script.remove(group)  #移除 "comm-setting"项
             break
 
@@ -265,6 +285,18 @@ def set_prj_param(root, script):
             path = SubElement(tag, 'state')
             path.text = '__iar_program_start'
             continue
+        if (tag.find("name").text == "IlinkIcfOverride"):
+            tag.remove(tag.find("state"))
+            for include in includes:
+                path = SubElement(tag, 'state')
+                path.text = "1"
+            continue
+        if (tag.find("name").text == "IlinkIcfFile"):
+            tag.remove(tag.find("state"))
+            path = SubElement(tag, "state")
+            path.text = '$PROJ_DIR$\\settings\\%s.icf' %(project_name)
+            continue
+    gen_icf(project_path, project_name, icf_data)
     return
 
 
@@ -278,8 +310,11 @@ def gen_project(target, script, project_name):
     project_path = os.path.dirname(os.path.abspath(target))
 
     project_opts_path = os.path.join(project_path, "opts")
+    project_cfg_path = os.path.join(project_path, "settings")
     if not os.path.isdir(project_opts_path):
         os.makedirs(project_opts_path)  #创建 "opts" 文件夹
+    if not os.path.isdir(project_cfg_path):
+        os.makedirs(project_cfg_path)  #创建 "settings" 文件夹
 
     get_element_value(element_dict, project_name)  #获取参数
 
@@ -291,7 +326,7 @@ def gen_project(target, script, project_name):
     tree = etree.parse(projfilename)
     root = tree.getroot()
 
-    set_prj_param(root, script)
+    set_prj_param(root, script, project_path, project_name)
     existedFileNameString = []
     # copy repeat source file and replace old one
     for group in script:
