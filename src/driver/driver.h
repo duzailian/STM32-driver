@@ -12,7 +12,9 @@
 #include "tool/tool.h"
 #include "usart/usart.h"
 #include "exti/exti.h"
+#ifdef BOOT_PRJ
 #include "systick/systick.h"
+#endif
 
 extern void init_driver(void);
 #if DRV_DBG

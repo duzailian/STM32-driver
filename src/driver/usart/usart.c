@@ -238,14 +238,22 @@ static void __init_q(const st_q_t *pst_q) {
   }
   return;
 }
+
+#define is_inited(self) (self->st_q.p_q->NamePtr != NULL)
+
 #else
 #define __init_q(pst_q)    \
   do {                     \
     list_init_head(pst_q); \
   } while (0)
+
+#define is_inited(self) (self->pst_q->next != NULL)
+
 #endif
 
 static st_info_t *__init_channel(st_info_t *self) {
+  if (is_inited(self))
+    goto Return;
   __init_rcc(self);
   __init_reg(self);
   __init_gpio(self->pst_gpio);
@@ -256,6 +264,7 @@ static st_info_t *__init_channel(st_info_t *self) {
 #endif
   start_dma(self->pst_dma);
   reg_int_func(&self->st_int);
+Return:
   return self;
 }
 
@@ -404,7 +413,7 @@ extern int fputc(int ch, FILE *stream) {
 
 #if USART_DBG
 extern void test_usart(void) {
-  static uint8_t auc_tmp[100];
+  static uint8_t auc_tmp[1000];
   st_drv_if_t *usart = open_usart(usart2);
 
   if (0 == usart->write(usart, "This is a usart test!\r\n",

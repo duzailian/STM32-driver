@@ -17,7 +17,7 @@ extern void delay_ms(uint32_t ms) {
   return;
 }
 
-#ifdef BOOT_PRJ
+#if SYS_TICK_DBG
 extern void systick_dbg(void) {
   open_usart(PRINT_USART);
   while (1) {
@@ -25,5 +25,4 @@ extern void systick_dbg(void) {
     printf("emmm!\r\n");
   }
 }
-
 #endif
