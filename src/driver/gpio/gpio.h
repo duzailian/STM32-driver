@@ -59,9 +59,9 @@ typedef const struct {
   /*AFIO config*/
   uint32_t af_remap; // 0 for disable
   uint32_t af_remap_mask;
-} gpio_cfg_t;
+} st_gpio_cfg_t;
 
-extern void init_gpio(gpio_cfg_t *gpio_cfg);
+extern void init_gpio(st_gpio_cfg_t *st_gpio_cfg);
 
 extern void reset_pin(gpiox_t port, gpio_pin_t pinx);
 extern void set_pin(gpiox_t port, gpio_pin_t pinx);

@@ -7,7 +7,7 @@
 
 #define PACKET_MAX_SZ 512
 
-#define START_CODE  0x7e
+#define START_CODE 0x7e
 
 #pragma pack(1)
 typedef struct {

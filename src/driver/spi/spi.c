@@ -5,9 +5,9 @@
 #define CR1_SPE_Reset ((uint16_t)0xFFBF)
 
 typedef struct {
-  gpio_cfg_t sck;
-  gpio_cfg_t miso;
-  gpio_cfg_t mosi;
+  st_gpio_cfg_t sck;
+  st_gpio_cfg_t miso;
+  st_gpio_cfg_t mosi;
 } st_gpio_t;
 
 typedef const struct {
@@ -31,6 +31,7 @@ typedef const struct {
               .write = __spi_send,                                \
               .read = __spi_recv,                                 \
               .close = __spi_close,                               \
+              .ioctl = __spi_ctrl,                                \
           },                                                      \
       .SPIx = SPI##ch,                                            \
       .ul_rcc_enr = RCC_SPI##ch##_ENR,                            \
@@ -66,7 +67,7 @@ typedef const struct {
           },                                                      \
       .st_cfg =                                                   \
           {                                                       \
-              .ul_bandrate = SPI_BaudRatePrescaler_64,            \
+              .ul_bandrate = SPI_BaudRatePrescaler_128,           \
               .uc_phase = SPI_CPOL_Low | SPI_CPHA_1Edge,          \
               .b_lsb_first = false,                               \
           },                                                      \
@@ -78,6 +79,7 @@ typedef const struct {
 
 static int __spi_recv(void *self, uint8_t *puc_buffer, size_t len);
 static int __spi_send(void *self, uint8_t *puc_buffer, size_t len);
+static int __spi_ctrl(void *self, int req, ...);
 static int __spi_close(void *self);
 
 static st_info_t ast_info[] = {
@@ -107,7 +109,7 @@ static void __init_reg(st_info_t *self) {
 
   ul_tmp = SPI_CR1_SSM | SPI_Mode_Master |
            ((uint32_t)pst_cfg->b_lsb_first << 7) | pst_cfg->ul_bandrate |
-           pst_cfg->uc_phase;
+           pst_cfg->uc_phase | CR1_SPE_Set;
   SPIx->CR1 = ul_tmp;
   return;
 }
@@ -124,17 +126,14 @@ static int __spi_recv(void *__self, uint8_t *puc_buffer, size_t len) {
   SPI_TypeDef *SPIx = self->SPIx;
   size_t i = 0;
 
-  SPIx->DR = puc_buffer[0];
-  SPIx->CR1 |= CR1_SPE_Set;
   for (i = 0; i < len; i++) {
-    while (!(SPIx->SR & SPI_I2S_FLAG_RXNE))
-      ;
-    puc_buffer[i] = SPIx->DR;
     while (!(SPIx->SR & SPI_I2S_FLAG_TXE))
       ;
     SPIx->DR = 0;
+    while (!(SPIx->SR & SPI_I2S_FLAG_RXNE))
+      ;
+    puc_buffer[i] = SPIx->DR;
   }
-  SPIx->CR1 &= ~CR1_SPE_Set;
 
   return i;
 }
@@ -142,12 +141,9 @@ static int __spi_recv(void *__self, uint8_t *puc_buffer, size_t len) {
 static int __spi_send(void *__self, uint8_t *puc_buffer, size_t len) {
   st_info_t *self = (st_info_t *)__self;
   SPI_TypeDef *SPIx = self->SPIx;
-  size_t i = 0;
   uint32_t tmp = 0;
 
-  SPIx->DR = puc_buffer[i++];
-  SPIx->CR1 |= CR1_SPE_Set;
-  for (; i < len; i++) {
+  for (size_t i = 0; i < len; i++) {
     while (!(SPIx->SR & SPI_I2S_FLAG_TXE))
       ;
     SPIx->DR = puc_buffer[i];
@@ -155,9 +151,83 @@ static int __spi_send(void *__self, uint8_t *puc_buffer, size_t len) {
       ;
     tmp = SPIx->DR;
   }
-  SPIx->CR1 &= ~CR1_SPE_Set;
   (void)tmp;
-  return i;
+  return len;
+}
+
+static int set_baud(SPI_TypeDef *SPIx, en_spi_br_t en_baud) {
+  uint32_t tmp = SPIx->CR1 & ~SPI_BaudRatePrescaler_mask;
+
+  switch (en_baud) {
+    case spi_br0: {
+      tmp |= SPI_BaudRatePrescaler_2;
+      break;
+    }
+    case spi_br1: {
+      tmp |= SPI_BaudRatePrescaler_4;
+      break;
+    }
+    case spi_br2: {
+      tmp |= SPI_BaudRatePrescaler_8;
+      break;
+    }
+    case spi_br3: {
+      tmp |= SPI_BaudRatePrescaler_16;
+      break;
+    }
+    case spi_br4: {
+      tmp |= SPI_BaudRatePrescaler_32;
+      break;
+    }
+    case spi_br5: {
+      tmp |= SPI_BaudRatePrescaler_64;
+      break;
+    }
+    case spi_br6: {
+      tmp |= SPI_BaudRatePrescaler_128;
+      break;
+    }
+    case spi_br7: {
+      tmp |= SPI_BaudRatePrescaler_256;
+      break;
+    }
+    default:
+      goto Fail;
+  }
+  SPIx->CR1 = tmp;
+  return 0;
+Fail:
+  return -1;
+}
+
+static int __spi_ctrl(void *__self, int req, ...) {
+  st_info_t *self = (st_info_t *)__self;
+  SPI_TypeDef *SPIx = self->SPIx;
+  uint32_t ul_para = 0;
+  va_list va;
+  int ret = 0;
+
+  va_start(va, req);
+  ul_para = va_arg(va, int);
+  va_end(va);
+  switch (req) {
+    case SPI_CTRL: {
+      if (ul_para)
+        SPIx->CR1 |= CR1_SPE_Set;
+      else
+        SPIx->CR1 &= ~CR1_SPE_Set;
+      break;
+    }
+    case SPI_BAUD: {
+      ret = set_baud(SPIx, (en_spi_br_t)ul_para);
+      break;
+    }
+    default:
+      ret = -1;
+      break;
+  }
+
+  return ret;
 }
 
 static int __spi_close(void *self) {
@@ -174,7 +244,7 @@ extern st_drv_if_t *open_spi(en_spi_t channel) {
 #if SPI_DBG
 
 static void init_nrf24l01_gpio(void) {
-  static gpio_cfg_t gpio = {
+  static st_gpio_cfg_t gpio = {
       .port = GPIO_NRF1_CS_PORT,
       .pinx = GPIO_NRF1_CS_PIN,
       .io_mode = gpio_output_2M,

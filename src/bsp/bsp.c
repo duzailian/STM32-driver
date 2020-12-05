@@ -1,6 +1,7 @@
 #include "include.h"
 
 void init_bsp(void) {
+  ext_flash_init();
   return;
 }
 

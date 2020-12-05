@@ -10,6 +10,7 @@
 #include "spi/spi.h"
 #include "usart/usart.h"
 #include "exti/exti.h"
+#include "ext_flash/ext_flash.h"
 
 extern void init_bsp(void);
 #if BSP_DBG

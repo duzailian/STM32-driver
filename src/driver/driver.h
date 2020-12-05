@@ -12,6 +12,7 @@
 #include "tool/tool.h"
 #include "usart/usart.h"
 #include "exti/exti.h"
+#include "flash/flash.h"
 #ifdef BOOT_PRJ
 #include "systick/systick.h"
 #endif

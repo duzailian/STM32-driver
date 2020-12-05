@@ -2,6 +2,11 @@
 
 struct __st_drv_if_t;
 
+typedef enum {
+  en_disable,
+  en_enable,
+} en_ctrl_t;
+
 /*drivers transfer operate function*/
 typedef int (*drv_tr_if_t)(void *self, uint8_t *puc_buffer, size_t len);
 /*drivers close operate function*/

@@ -54,6 +54,7 @@ Projects = {
                 'src/driver/rcc/rcc.c',
                 'src/driver/spi/spi.c',
                 'src/driver/usart/usart.c',
+                'src/driver/flash/flash.c',
             ],
         },
         {
@@ -145,6 +146,8 @@ Projects = {
             'src': [
                 'src/bsp/bsp.c',
                 'src/bsp/nrf24l01/nrf24l01.c',
+                'src/bsp/ext_flash/ext_flash.c',
+                'src/bsp/ext_flash/sst25/sst25.c',
             ],
         },
         {
@@ -161,6 +164,7 @@ Projects = {
                 'src/driver/spi/spi.c',
                 'src/driver/systick/systick.c',
                 'src/driver/usart/usart.c',
+                'src/driver/flash/flash.c',
             ],
         },
         {

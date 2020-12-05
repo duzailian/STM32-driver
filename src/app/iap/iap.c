@@ -81,11 +81,11 @@ static st_self_t ast_self[] = {
 #ifndef IAP_DBG
 static int __is_enable(void) {
   int ret = -1;
-  gpio_cfg_t iap_gpio = {.port = GPIO_IAP_PORT,
-                         .pinx = GPIO_IAP_PIN,
-                         .io_mode = gpio_input,
-                         .cnf = gpio_pull_up,
-                         .af_remap = 0};
+  st_gpio_cfg_t iap_gpio = {.port = GPIO_IAP_PORT,
+                            .pinx = GPIO_IAP_PIN,
+                            .io_mode = gpio_input,
+                            .cnf = gpio_pull_up,
+                            .af_remap = 0};
 
   init_gpio(&iap_gpio);
   if (0 == get_pin(iap_gpio.port, iap_gpio.pinx)) {
@@ -173,6 +173,8 @@ Fail:
 static en_err_t status_write_flash(st_self_t *self, st_proc_t *pst_proc) {
   pst_proc->proc_func = status_read_data;
 
+  write_ext_flash(auc_code[pst_proc->us_index * PACKET_MAX_SZ],
+                  pst_proc->puc_recv, pst_proc->us_rxlen);
 #if IAP_DBG
   static uint16_t us_cnt = 0;
   us_cnt++;

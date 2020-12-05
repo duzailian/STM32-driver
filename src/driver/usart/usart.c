@@ -16,8 +16,8 @@ typedef struct {
 } __st_packet_t;
 
 typedef const struct {
-  gpio_cfg_t rx;
-  gpio_cfg_t tx;
+  st_gpio_cfg_t rx;
+  st_gpio_cfg_t tx;
 } st_gpio_t;
 
 #ifndef BOOT_PRJ
