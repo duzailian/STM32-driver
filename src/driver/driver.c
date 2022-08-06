@@ -2,6 +2,9 @@
 
 #if DRV_DBG
 void drv_dbg(void) {
+#if TIM_DBG
+  test_timer();
+#endif
 #if USART_DBG
   test_usart();
 #endif
@@ -21,6 +24,7 @@ extern void init_driver(void) {
 #endif
   init_log();
   init_int();
+  timer_init();
 #if DRV_DBG && defined(BOOT_PRJ)
   drv_dbg();
 #endif

@@ -13,6 +13,7 @@
 #include "usart/usart.h"
 #include "exti/exti.h"
 #include "flash/flash.h"
+#include "timer/timer.h"
 #ifdef BOOT_PRJ
 #include "systick/systick.h"
 #endif
