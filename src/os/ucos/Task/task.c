@@ -8,8 +8,8 @@ static void AppTaskStart(void *p_arg) {
   OS_ERR err;
 
 #if OS_CFG_STAT_TASK_EN > 0u
-  OSStatTaskCPUUsageInit(
-      &err); /* Compute CPU capacity with no task running            */
+  /* Compute CPU capacity with no task running            */
+  OSStatTaskCPUUsageInit(&err);
 #endif
 
 #ifdef CPU_CFG_INT_DIS_MEAS_EN

@@ -47,7 +47,7 @@ static int ISR(void *__self) {
     tmp = (1 << (4 * i + 1));
     if (sta & tmp) { // Channel x transfer complete flag
       if (self->DMA_chs[i]) {
-        int_func func = self->DMA_chs[i]->st_int_parm.func;
+        int_func_t func = self->DMA_chs[i]->st_int_parm.func;
         void *p_arg = self->DMA_chs[i]->st_int_parm.p_arg;
         if (func)
           func(p_arg);
@@ -84,7 +84,7 @@ static void __int_reg(const st_dma_parm_t *pst_param,
     ul_tmp |= DMA_DIR_PeripheralDST;
   }
   DMA_chx->CCR = ul_tmp;
-  DMA_chx->CNDTR = pst_param->us_len;
+  DMA_chx->CNDTR = pst_param->sz_len;
   DMA_chx->CPAR = pst_param->per_addr;
   DMA_chx->CMAR = pst_param->mem_addr;
 
@@ -143,7 +143,7 @@ int get_transterred_size(const st_dma_parm_t *pst_param) {
   self = &ast_info[en_dma];
   pst_ch = self->DMA_chs[en_dma_ch];
 
-  return pst_param->us_len - pst_ch->DMA_chx->CNDTR;
+  return pst_param->sz_len - pst_ch->DMA_chx->CNDTR;
 Error:
   return -1;
 }

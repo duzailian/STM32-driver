@@ -1,6 +1,6 @@
 #pragma once
 
-typedef int (*int_func)(void *);
+typedef int (*int_func_t)(void *);
 
 typedef enum {
   USART2_DMA_IRQ,
@@ -10,7 +10,7 @@ typedef enum {
 
 typedef struct {
   en_int_t en_int;
-  int_func func;
+  int_func_t func;
   void *p_arg;
 } st_int_parm_t;
 

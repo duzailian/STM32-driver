@@ -13,7 +13,7 @@ typedef enum {
 } en_trigger_t;
 
 typedef struct {
-  int_func func; // callback function
+  int_func_t func; // callback function
   void *func_arg; // parameter for callback function
 } st_cb_t;
 

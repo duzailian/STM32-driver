@@ -24,12 +24,12 @@ typedef struct {
   en_dma_t en_dma;
   en_dma_ch_t en_dma_ch;
 
-  en_tr_dir_t en_tr_dir;
+  en_tr_dir_t en_tr_dir;// transmit direction
   uint32_t per_addr; // peripheral address
   uint32_t mem_addr; // memory address
-  size_t us_len; // data length
+  size_t sz_len; // data length
 
-  int_func complete_cb;
+  int_func_t complete_cb;
   void *complete_cb_arg;
 } st_dma_parm_t;
 

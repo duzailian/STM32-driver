@@ -34,7 +34,7 @@
 
 typedef struct {
   IRQn_Type IRQn;
-  int_func func;
+  int_func_t func;
   void *func_arg;
   uint32_t PreemptPriority;
   uint32_t SubPriority;

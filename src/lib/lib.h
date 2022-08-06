@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include <limits.h>
 
 #include "ST/inc/stm32f10x.h"
 #include "library/library.h"

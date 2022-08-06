@@ -12,8 +12,8 @@ typedef struct {
 
 typedef const struct {
   uint32_t ul_bandrate;
-  uint8_t uc_phase; // CPOL & CPHA SPI_CPOL_Low, SPI_CPHA_1Edge etc.
-  bool b_lsb_first; //  MSB/LSB transmitted first
+  uint8_t uc_phase;  // CPOL & CPHA SPI_CPOL_Low, SPI_CPHA_1Edge etc.
+  bool b_lsb_first;  //  MSB/LSB transmitted first
 } st_cfg_t;
 
 typedef const struct {

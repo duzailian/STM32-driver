@@ -160,7 +160,7 @@ static int __ISR(void *self);
       .per_addr = (uint32_t)&USART##ch->DR,                                    \
       .mem_addr =                                                              \
           (uint32_t)&auc_u##ch##_buffer[0][offsetof(__st_packet_t, auc_data)], \
-      .us_len = sizeof(auc_u##ch##_buffer[0]),                                 \
+      .sz_len = sizeof(auc_u##ch##_buffer[0]),                                 \
       .complete_cb = __ISR,                                                    \
       .complete_cb_arg = (void *)&ast_info[usart##ch],                         \
   };

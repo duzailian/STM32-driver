@@ -26,7 +26,7 @@ typedef enum {
 
 typedef const struct {
   en_exti_ch_t en_ch;
-  int_func func; // callback function
+  int_func_t func; // callback function
   void *func_arg; // parameter for callback function
 } st_exti_t;
 
