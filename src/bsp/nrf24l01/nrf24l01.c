@@ -7,18 +7,18 @@
 #endif
 
 typedef enum {
+  en_rx_pip0,
   en_rx_pip1,
   en_rx_pip2,
   en_rx_pip3,
   en_rx_pip4,
   en_rx_pip5,
-  en_rx_pip6,
 } en_rx_pip_t;
 
 typedef const struct {
-  gpio_cfg_t ce;
-  gpio_cfg_t cs;
-  gpio_cfg_t irq;
+  st_gpio_cfg_t ce;
+  st_gpio_cfg_t cs;
+  st_gpio_cfg_t irq;
 } st_gpio_t;
 
 typedef struct {
@@ -27,7 +27,7 @@ typedef struct {
 } st_spi_t;
 
 typedef struct {
-#if NODE_TYPE == MASTER_NODE
+#if NODE_TYPE == SERVER_MODE
   // master mode receive data in callback mode
   rx_cb_t rx_cb;
 #else
@@ -38,7 +38,7 @@ typedef struct {
 typedef const struct {
   st_drv_if_t st_drv_if;
   st_gpio_t st_gpio;
-  st_exti_t st_exti;  // information for EXTI
+  st_exti_t st_exti; // information for EXTI
   st_spi_t *pst_spi;
   st_ioctl_t *pst_ioctl;
 } st_info_t;
@@ -56,7 +56,7 @@ typedef const struct {
           {                                              \
               .ce =                                      \
                   {                                      \
-                      .port = GPIO_NRF##ch##_CE_PORT,   \
+                      .port = GPIO_NRF##ch##_CE_PORT,    \
                       .pinx = GPIO_NRF##ch##_CE_PIN,     \
                       .io_mode = gpio_output_2M,         \
                       .cnf = gpio_gen_opp,               \
@@ -65,7 +65,7 @@ typedef const struct {
                   },                                     \
               .cs =                                      \
                   {                                      \
-                      .port = GPIO_NRF##ch##_CS_PORT,   \
+                      .port = GPIO_NRF##ch##_CS_PORT,    \
                       .pinx = GPIO_NRF##ch##_CS_PIN,     \
                       .io_mode = gpio_output_2M,         \
                       .cnf = gpio_gen_opp,               \
@@ -74,7 +74,7 @@ typedef const struct {
                   },                                     \
               .irq =                                     \
                   {                                      \
-                      .port = GPIO_NRF##ch##_IRQ_PORT,  \
+                      .port = GPIO_NRF##ch##_IRQ_PORT,   \
                       .pinx = GPIO_NRF##ch##_IRQ_PIN,    \
                       .io_mode = gpio_input,             \
                       .cnf = gpio_pull_up,               \
@@ -97,7 +97,7 @@ typedef const struct {
       .spi = NRF##ch##_SPI_PORT,     \
   };
 
-#if NODE_TYPE == MASTER_NODE
+#if NODE_TYPE == SERVER_MODE
 #define ADD_CHANNEL(ch)  \
   ADD_CHANNEL_COMMON(ch) \
   static st_ioctl_t __$$##ch##_ioctl = {0};
@@ -146,12 +146,12 @@ static void __read_spi(st_info_t *self, void *buffer, size_t len) {
 static int __read_reg(st_info_t *self, uint8_t uc_addr, uint8_t *puc_buffer,
                       uint8_t __len) {
   uint8_t auc_tmp[MAX_REG_SZ + 1] = {0};
-  size_t len = get_reg_size(uc_addr);  // get register size
+  size_t len = get_reg_size(uc_addr); // get register size
 
   assert(NULL != puc_buffer);
   assert(__len >= (len - 1));
 
-  len++;  // add length of STATUS register
+  len++; // add length of STATUS register
 
   auc_tmp[0] = uc_addr & REG_ADDR_MASK;
   __read_spi(self, &auc_tmp[0], len);
@@ -178,7 +178,7 @@ static int __write_reg(st_info_t *self, uint8_t uc_addr, uint8_t *puc_buffer) {
     __write_reg(self, STATUS, &flg); \
   } while (0)
 
-#if NODE_TYPE == MASTER_NODE  // only master always in the rx mode
+#if NODE_TYPE == SERVER_MODE // only master always in the rx mode
 /*Received Power Detector.*/
 static inline uint8_t __is_channel_busy(st_info_t *self) {
   uint8_t ret = 0;
@@ -331,14 +331,22 @@ Error:
   return -1;
 }
 
-#if NODE_TYPE != MASTER_NODE
+#if 0
 static int __write_tx_pl(st_info_t *self, uint8_t *puc_buffer, size_t len) {
+#if NODE_TYPE != SERVER_MODE
   uint8_t cmd = W_TX_PAYLOAD;
-  uint8_t auc_tmp[len + 1];
+#else
+  uint8_t cmd = W_ACK_PAYLOAD;
+#endif
+  uint8_t auc_tmp[MAX_FIFO_SZ + 1];
   uint8_t uc_index = 0;
 
-  if (nrf_nack == self->pst_ioctl->en_ack) cmd = W_TX_PAYLOAD_NACK;
-
+  if (len > MAX_FIFO_SZ)
+    len = MAX_FIFO_SZ;
+#if NODE_TYPE != SERVER_MODE
+  if (en_nrf_nack == self->pst_ioctl->en_ack)
+    cmd = W_TX_PAYLOAD_NACK;
+#endif
   auc_tmp[uc_index++] = (cmd & REG_ADDR_MASK) | W_REGISTER;
   memcpy(&auc_tmp[uc_index], puc_buffer, len);
 
@@ -356,10 +364,10 @@ static int __isr(void *__self) {
   int len = 0;
 
   status = __get_status(self);
-#if NODE_TYPE == MASTER_NODE  // master mode ,receive data in callback
-  if (status & RX_DR) {     // Data Ready RX FIFO interrupt.
+#if NODE_TYPE == SERVER_MODE // master mode ,receive data in callback
+  if (status & RX_DR) { // Data Ready RX FIFO interrupt.
     len = __read_rx_pl(self, &channel, &puc_buffer);
-    if (len > 0) {  // read payload success
+    if (len > 0) { // read payload success
       self->pst_ioctl->rx_cb(puc_buffer, len, channel);
     }
   }
@@ -380,7 +388,7 @@ reading from RX_FIFO
 #define __get_rx_pip_num(status) ((RX_P_NO_MASK & status) >> RX_P_NO_POS)
 
 /*if rx payload available*/
-#define __is_rx_invalid(status) (__get_rx_pip_num(status) > en_rx_pip6)
+#define __is_rx_invalid(status) (__get_rx_pip_num(status) > en_rx_pip5)
 
 /*Maximum number of TX retransmits interrupt*/
 #define __is_max_retrans(status) (status & MAX_RT)
@@ -411,8 +419,8 @@ static int __read_rx_pl(st_info_t *self, int *channel, uint8_t **ppuc_buffer) {
   int len = 0;
 
   assert(NULL != channel);
-  if ((0 == __is_rx_ready(status)) ||  // not ready
-      (__is_rx_invalid(status)))       // rx FIFO empty
+  if ((0 == __is_rx_ready(status)) || // not ready
+      (__is_rx_invalid(status))) // rx FIFO empty
   {
     LOG_ERR("read RX FIFO error!");
     goto Error;
@@ -423,8 +431,8 @@ static int __read_rx_pl(st_info_t *self, int *channel, uint8_t **ppuc_buffer) {
     goto Error;
   }
   *channel = rx_ch;
-  *ppuc_buffer = &auc_tmp[1];  // auc_tmp[0] is the value of STATUS register
-  len++;                       // add length of STATUS register
+  *ppuc_buffer = &auc_tmp[1]; // auc_tmp[0] is the value of STATUS register
+  len++; // add length of STATUS register
 
   auc_tmp[0] = R_RX_PAYLOAD;
   __read_spi(self, &auc_tmp[0], len);
@@ -435,8 +443,8 @@ Error:
 }
 
 static int __nrf_recv(void *__self, uint8_t *puc_buffer, size_t len) {
-#if NODE_TYPE == MASTER_NODE
-  assert(0);  // master receive data only in callback mode
+#if NODE_TYPE == SERVER_MODE
+  assert(0); // master receive data only in callback mode
   return -1;
 #else
   st_info_t *self = (st_info_t *)__self;
@@ -452,7 +460,7 @@ static int __nrf_send(void *__self, uint8_t *puc_buffer, size_t len) {
   // TODO
   assert(len <= MAX_FIFO_SZ);
   assert(NULL != puc_buffer);
-#if NODE_TYPE == MASTER_NODE
+#if NODE_TYPE == SERVER_MODE
   // TODO
   (void)ret;
   (void)self;
@@ -473,7 +481,7 @@ static void __chg_freq(st_info_t *self) {
 
   __read_reg(self, RF_CH, &current_freq, sizeof(current_freq));
   current_freq &= RF_CH_MASK;
-  current_freq++;  // increase frequency
+  current_freq++; // increase frequency
   current_freq &= RF_CH_MASK;
   __write_reg(self, RF_CH, &current_freq);
   return;
@@ -486,25 +494,25 @@ static int __nrf_ctl(void *__self, int req, ...) {
 
   va_start(vl, req);
   switch (req) {
-#if NODE_TYPE == MASTER_NODE  // master
-    case nrf_set_rx_cb: {   //  only master mode receive data in callback mode
+#if NODE_TYPE == SERVER_MODE // master
+    case nrf_set_rx_cb: { //  only master mode receive data in callback mode
       self->pst_ioctl->rx_cb = va_arg(vl, rx_cb_t);
       ret = 0;
       break;
     }
-    case nrt_rpd: {
+    case nrf_rpd: {
       uint8_t *puc_ret = va_arg(vl, uint8_t *);
       *puc_ret = __is_channel_busy(self);
       ret = 0;
       break;
     }
-#else  // slave
-    case nrf_set_ack: {// enable/disable ack
+#else // slave
+    case nrf_set_ack: { // enable/disable ack
       self->pst_ioctl->en_ack = (en_nrf_ack_t)va_arg(vl, int);
       ret = 0;
       break;
     }
-    case nrf_get_los_cnt: {  // get lost count
+    case nrf_get_los_cnt: { // get lost count
       uint8_t *puc_cnt = va_arg(vl, uint8_t *);
       *puc_cnt = __get_lost_cnt(self);
       ret = 0;
@@ -539,12 +547,12 @@ static int __nrf_close(void *__self) {
 static void __init_reg(st_info_t *self) {
   uint8_t uc_tmp = 0;
 
-#if NODE_TYPE == MASTER_NODE
-  uc_tmp = CRCO | EN_CRC | PRIM_RX;  // master is in RX mode
+#if NODE_TYPE == SERVER_MODE
+  uc_tmp = CRCO | EN_CRC | PRIM_RX; // server is in RX mode
 #else
   uc_tmp = CRCO | EN_CRC;
 #endif
-  __write_reg(self, CONFIG, &uc_tmp);  // POWER DOWN / PTX / CRC16
+  __write_reg(self, CONFIG, &uc_tmp); // POWER DOWN / PTX / CRC16
 
   /*Enable auto acknowledgement data pipe 0 - 5*/
   uc_tmp = ENAA_P0 | ENAA_P1 | ENAA_P2 | ENAA_P3 | ENAA_P4 | ENAA_P5;
@@ -567,22 +575,51 @@ static void __init_reg(st_info_t *self) {
   __write_reg(self, RF_CH, &uc_tmp);
 
   /*RF Setup Register*/
-  uc_tmp = RF_DR_1M | RF_PWR_0DB;
+  uc_tmp = RF_DR_2M | RF_PWR_0DB;
   __write_reg(self, RF_SETUP, &uc_tmp);
 
+#if NODE_TYPE == SERVER_MODE // server
   /*Set Receive address data pipe 0*/
-  __set_rx_addrs(self, en_rx_pip1, (uint8_t *)"center");
+  __set_rx_addrs(self, en_rx_pip0, (uint8_t *)"0addr");
+  __set_rx_addrs(self, en_rx_pip1, (uint8_t *)"1addr");
+  __set_rx_addrs(self, en_rx_pip2, (uint8_t *)"2");
+  __set_rx_addrs(self, en_rx_pip3, (uint8_t *)"3");
+  __set_rx_addrs(self, en_rx_pip4, (uint8_t *)"4");
+  __set_rx_addrs(self, en_rx_pip5, (uint8_t *)"5");
 
   /*Set Transmit address*/
-  __set_tx_addrs(self, "center");
+  __set_tx_addrs(self, "serve");
+#else
+  /*Set Receive address data pipe 0*/
+  __set_rx_addrs(self, en_rx_pip0, (uint8_t *)"serve");
 
+#if NODE_TYPE == CLIENT0_MODE
+  /*Set Transmit address*/
+  __set_tx_addrs(self, "0addr");
+#elif NODE_TYPE == CLIENT1_MODE
+  /*Set Transmit address*/
+  __set_tx_addrs(self, "1addr");
+#elif NODE_TYPE == CLIENT2_MODE
+  /*Set Transmit address*/
+  __set_tx_addrs(self, "2addr");
+#elif NODE_TYPE == CLIENT3_MODE
+  /*Set Transmit address*/
+  __set_tx_addrs(self, "3addr");
+#elif NODE_TYPE == CLIENT4_MODE
+  /*Set Transmit address*/
+  __set_tx_addrs(self, "4addr");
+#elif NODE_TYPE == CLIENT5_MODE
+  /*Set Transmit address*/
+  __set_tx_addrs(self, "5addr");
+#endif
+#endif
   /*Enable dynamic payload length*/
+  __enable_dynamic_pl_x(self, en_rx_pip0);
   __enable_dynamic_pl_x(self, en_rx_pip1);
   __enable_dynamic_pl_x(self, en_rx_pip2);
   __enable_dynamic_pl_x(self, en_rx_pip3);
   __enable_dynamic_pl_x(self, en_rx_pip4);
   __enable_dynamic_pl_x(self, en_rx_pip5);
-  __enable_dynamic_pl_x(self, en_rx_pip6);
 
   /*Enables Dynamic Payload Length*/
   __enable_dynamic_pl(self);
