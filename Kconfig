@@ -1,0 +1,20 @@
+mainmenu "STM32 Practice Configuration"
+
+
+menu "Driver Configuration"
+	menu "Usart Configuration"
+        config USART_PORT
+            int "Serial Point"
+            default 0
+            range 0 USART_PORT_MAX
+
+        config USART_PORT_MAX
+            int "Serial Point Max"
+            default 0
+
+        config USART_BAUDRATE
+            int "Serial Baudrate"
+            default 115200
+    endmenu
+endmenu
+

@@ -3,9 +3,7 @@
 /*Embedded FLASH base address*/
 #define IN_FLASH_BASE_ADDR (0x08000000)
 
-#ifdef STM32F10X_CL
 #define IN_CODE_FLASH_SZ (0x3FFFF)
-#endif
 
 #pragma pack(1)
 

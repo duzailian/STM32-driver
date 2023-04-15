@@ -1,7 +1,6 @@
 #ifndef __DRIVER_H
 #define __DRIVER_H
 
-#include "list/list.h"
 #include "cfg/cfg.h"
 #include "interrupt/interrupt.h"
 #include "dma/dma.h"
@@ -14,7 +13,7 @@
 #include "exti/exti.h"
 #include "flash/flash.h"
 #include "timer/timer.h"
-#ifdef BOOT_PRJ
+#if 1 // TODO: 将BOOT_PRJ添加到kconfig
 #include "systick/systick.h"
 #endif
 

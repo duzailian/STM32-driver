@@ -7,6 +7,7 @@ static OS_TCB AppTaskStartTCB = {0};
 static void AppTaskStart(void *p_arg) {
   OS_ERR err;
 
+  (void)p_arg;
 #if OS_CFG_STAT_TASK_EN > 0u
   /* Compute CPU capacity with no task running            */
   OSStatTaskCPUUsageInit(&err);

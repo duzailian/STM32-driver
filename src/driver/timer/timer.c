@@ -147,15 +147,15 @@ static uint32_t get_psc(TIM_TypeDef *reg, uint16_t us_inr) {
   static const TIM_TypeDef *rcc_regs[] = {
       TIM1, TIM8, TIM9, TIM10, TIM11,
   };
-  ul_freq = RCC_Clocks->PCLK1_Frequency;
-  for (int i = 0; i < sizeof_array(rcc_regs); i++) {
+  ul_freq = RCC_Clocks.PCLK1_Frequency;
+  for (size_t i = 0; i < sizeof_array(rcc_regs); i++) {
     if (rcc_regs[i] == reg)
-      ul_freq = RCC_Clocks->PCLK2_Frequency;
+      ul_freq = RCC_Clocks.PCLK2_Frequency;
   }
 #endif
   ul_ret = us_inr * (ul_freq / MHZ) - 1;
   if (ul_ret > USHRT_MAX)
-    printf("timer psc out of range:%d!\r\n", ul_ret);
+    printf("timer psc out of range:%ld!\r\n", ul_ret);
   return ul_ret;
 }
 
@@ -180,7 +180,7 @@ static int __reg_init(st_info_t *pst_info) {
 }
 
 extern int timer_init(void) {
-  for (int i = 0; i < sizeof_array(ast_info); i++) {
+  for (size_t i = 0; i < sizeof_array(ast_info); i++) {
     __reg_init(&ast_info[i]);
   }
   return 0;

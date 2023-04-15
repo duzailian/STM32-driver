@@ -43,7 +43,7 @@ static int ISR(void *__self) {
   uint32_t sta = DMA_chx->ISR;
   uint32_t tmp = 0;
 
-  for (int i = 0; i < sizeof_array(self->DMA_chs); i++) {
+  for (size_t i = 0; i < sizeof_array(self->DMA_chs); i++) {
     tmp = (1 << (4 * i + 1));
     if (sta & tmp) { // Channel x transfer complete flag
       if (self->DMA_chs[i]) {
@@ -56,7 +56,7 @@ static int ISR(void *__self) {
     }
     tmp <<= 2;
     if (sta & tmp) { // Channel x transfer error flag
-      LOG_ERR("DMA:%s transfer error(0x%x)!\r\n", (DMA_chx == DMA1) ? "1" : "2",
+      pr_err("DMA:%s transfer error(0x%lx)!\r\n", (DMA_chx == DMA1) ? "1" : "2",
               sta & tmp);
     }
   }
@@ -110,7 +110,7 @@ int start_dma(const st_dma_parm_t *pst_param) {
 
   if (en_dma >= sizeof_array(ast_info) ||
       (NULL == ast_info[en_dma].DMA_chs[en_dma_ch])) {
-    LOG_ERR("DMA init parameters error!");
+    pr_err("DMA init parameters error!");
     goto Error;
   }
   self = &ast_info[en_dma];
@@ -136,7 +136,7 @@ int get_transterred_size(const st_dma_parm_t *pst_param) {
 
   if (en_dma >= sizeof_array(ast_info) ||
       (NULL == ast_info[en_dma].DMA_chs[en_dma_ch])) {
-    LOG_ERR("DMA init parameters error!");
+    pr_err("DMA init parameters error!");
     goto Error;
   }
 

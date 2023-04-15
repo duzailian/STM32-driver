@@ -78,6 +78,7 @@ static inline void __init_reg(st_info_t *self, st_exti_t *pst_cfg) {
     EXTI->RTSR |= self->en_ch;
   if ((en_all_edge == self->en_trigger) || (en_falling == self->en_trigger))
     EXTI->FTSR |= self->en_ch;
+  (void)pst_cfg;
   return;
 }
 

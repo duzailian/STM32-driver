@@ -14,7 +14,7 @@
     if (self->func) {                                  \
       self->func(self->func_arg);                      \
     } else {                                           \
-      LOG_ERR("ISR not register!");                    \
+      pr_err("ISR not register!");                    \
     }                                                  \
   }
 #else
@@ -27,7 +27,7 @@
       self->func(self->func_arg);                      \
       CPU_CRITICAL_EXIT();                             \
     } else {                                           \
-      LOG_ERR("ISR not register!");                    \
+      pr_err("ISR not register!");                    \
     }                                                  \
   }
 #endif
@@ -47,7 +47,7 @@ static st_info_t ast_info[] = {
 };
 
 extern void init_int(void) {
-  int i = 0;
+  size_t i = 0;
   uint32_t group = NVIC_GetPriorityGrouping();
   const st_info_t *self = &ast_info[0];
   uint32_t ul_priority = 0;

@@ -323,7 +323,7 @@ static inline int __get_rx_len(st_info_t *self) {
   if (MAX_FIFO_SZ < ret[1]) {
     /*Flush RX FIFO if the read value is larger than 32 bytes.*/
     __send_1byte_cmd(self, FLUSH_RX);
-    LOG_INFO("get nRF24L01 RX length error,flush rx buffer!");
+    pr_info("get nRF24L01 RX length error,flush rx buffer!");
     goto Error;
   }
   return ret[1];
@@ -422,7 +422,7 @@ static int __read_rx_pl(st_info_t *self, int *channel, uint8_t **ppuc_buffer) {
   if ((0 == __is_rx_ready(status)) || // not ready
       (__is_rx_invalid(status))) // rx FIFO empty
   {
-    LOG_ERR("read RX FIFO error!");
+    pr_err("read RX FIFO error!");
     goto Error;
   }
   // FIXME
@@ -466,7 +466,7 @@ static int __nrf_send(void *__self, uint8_t *puc_buffer, size_t len) {
   (void)self;
 #else
   if (__write_tx_pl(self, puc_buffer, len) < 0) {
-    LOG_ERR("write tx FIFO error!");
+    pr_err("write tx FIFO error!");
     goto Error;
   }
 #endif

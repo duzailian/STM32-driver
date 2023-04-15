@@ -6,12 +6,12 @@
 @
 @               All rights reserved.  Protected by international copyright laws.
 @
-@               uC/CPU is provided in source form to registered licensees ONLY.  It is 
-@               illegal to distribute this source code to any third party unless you receive 
-@               written permission by an authorized Micrium representative.  Knowledge of 
+@               uC/CPU is provided in source form to registered licensees ONLY.  It is
+@               illegal to distribute this source code to any third party unless you receive
+@               written permission by an authorized Micrium representative.  Knowledge of
 @               the source code may NOT be used to develop a similar product.
 @
-@               Please help us continue to provide the Embedded community with the finest 
+@               Please help us continue to provide the Embedded community with the finest
 @               software available.  Your honesty is greatly appreciated.
 @
 @               You can contact us at www.micrium.com.
@@ -110,7 +110,7 @@ CPU_IntEn:
 .thumb_func
 CPU_SR_Save:
         MRS     R0, PRIMASK                     @ Set prio int mask to mask all (except faults)
-        CPSID   I 
+        CPSID   I
         BX      LR
 
 .thumb_func
@@ -119,7 +119,7 @@ CPU_SR_Restore:                                 @ See Note #2.
         BX      LR
 
 
-@$PAGE
+@$PAGE
 @********************************************************************************************************
 @                                         WAIT FOR INTERRUPT
 @
@@ -152,12 +152,12 @@ CPU_WaitForExcept:
         BX      LR
 
 
-@$PAGE
+@$PAGE
 @********************************************************************************************************
 @                                         CPU_CntLeadZeros()
 @                                        COUNT LEADING ZEROS
 @
-@ Description : Counts the number of contiguous, most-significant, leading zero bits before the 
+@ Description : Counts the number of contiguous, most-significant, leading zero bits before the
 @                   first binary one bit in a data value.
 @
 @ Prototype   : CPU_DATA  CPU_CntLeadZeros(CPU_DATA  val);
@@ -168,10 +168,10 @@ CPU_WaitForExcept:
 @
 @ Caller(s)   : Application.
 @
-@               This function is an INTERNAL CPU module function but MAY be called by application 
+@               This function is an INTERNAL CPU module function but MAY be called by application
 @               function(s).
 @
-@ Note(s)     : (1) (a) Supports 32-bit data value size as configured by 'CPU_DATA' (see 'cpu.h  
+@ Note(s)     : (1) (a) Supports 32-bit data value size as configured by 'CPU_DATA' (see 'cpu.h
 @                       CPU WORD CONFIGURATION  Note #1').
 @
 @                   (b) For 32-bit values :
@@ -191,7 +191,7 @@ CPU_WaitForExcept:
 @                              0    0    0         0    0    0    0    0           32
 @
 @
-@               (2) MUST be defined in 'cpu_a.asm' (or 'cpu_c.c') if CPU_CFG_LEAD_ZEROS_ASM_PRESENT is 
+@               (2) MUST be defined in 'cpu_a.asm' (or 'cpu_c.c') if CPU_CFG_LEAD_ZEROS_ASM_PRESENT is
 @                   #define'd in 'cpu_cfg.h' or 'cpu.h'.
 @********************************************************************************************************
 
@@ -201,12 +201,12 @@ CPU_CntLeadZeros:
         BX      LR
 
 
-@$PAGE
+@$PAGE
 @********************************************************************************************************
 @                                         CPU_CntTrailZeros()
 @                                        COUNT TRAILING ZEROS
 @
-@ Description : Counts the number of contiguous, least-significant, trailing zero bits before the 
+@ Description : Counts the number of contiguous, least-significant, trailing zero bits before the
 @                   first binary one bit in a data value.
 @
 @ Prototype   : CPU_DATA  CPU_CntTrailZeros(CPU_DATA  val);
@@ -217,10 +217,10 @@ CPU_CntLeadZeros:
 @
 @ Caller(s)   : Application.
 @
-@               This function is an INTERNAL CPU module function but MAY be called by application 
+@               This function is an INTERNAL CPU module function but MAY be called by application
 @               function(s).
 @
-@ Note(s)     : (1) (a) Supports 32-bit data value size as configured by 'CPU_DATA' (see 'cpu.h  
+@ Note(s)     : (1) (a) Supports 32-bit data value size as configured by 'CPU_DATA' (see 'cpu.h
 @                       CPU WORD CONFIGURATION  Note #1').
 @
 @                   (b) For 32-bit values :
@@ -240,7 +240,7 @@ CPU_CntLeadZeros:
 @                              0    0    0    0    0         0    0    0           32
 @
 @
-@               (2) MUST be defined in 'cpu_a.asm' (or 'cpu_c.c') if CPU_CFG_TRAIL_ZEROS_ASM_PRESENT is 
+@               (2) MUST be defined in 'cpu_a.asm' (or 'cpu_c.c') if CPU_CFG_TRAIL_ZEROS_ASM_PRESENT is
 @                   #define'd in 'cpu_cfg.h' or 'cpu.h'.
 @********************************************************************************************************
 
@@ -251,7 +251,7 @@ CPU_CntTrailZeros:
         BX      LR
 
 
-@$PAGE
+@$PAGE
 @********************************************************************************************************
 @                                            CPU_RevBits()
 @                                            REVERSE BITS
@@ -287,7 +287,7 @@ CPU_RevBits:
         BX      LR
 
 
-@$PAGE
+@$PAGE
 @********************************************************************************************************
 @                                     CPU ASSEMBLY PORT FILE END
 @********************************************************************************************************

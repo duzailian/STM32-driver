@@ -7,12 +7,12 @@
 *
 *               All rights reserved.  Protected by international copyright laws.
 *
-*               uC/LIB is provided in source form to registered licensees ONLY.  It is 
-*               illegal to distribute this source code to any third party unless you receive 
-*               written permission by an authorized Micrium representative.  Knowledge of 
+*               uC/LIB is provided in source form to registered licensees ONLY.  It is
+*               illegal to distribute this source code to any third party unless you receive
+*               written permission by an authorized Micrium representative.  Knowledge of
 *               the source code may NOT be used to develop a similar product.
 *
-*               Please help us continue to provide the Embedded community with the finest 
+*               Please help us continue to provide the Embedded community with the finest
 *               software available.  Your honesty is greatly appreciated.
 *
 *               You can contact us at www.micrium.com.
@@ -207,7 +207,7 @@ static CPU_INT32U Str_ParseNbr_Int32(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 * Argument(s) : pstr        Pointer to string (see Note #1).
 *
-* Return(s)   : Length of string; number of characters in string before terminating NULL character 
+* Return(s)   : Length of string; number of characters in string before terminating NULL character
 *                   (see Note #2b1).
 *
 * Caller(s)   : Application.
@@ -216,7 +216,7 @@ static CPU_INT32U Str_ParseNbr_Int32(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strlen() : DESCRIPTION' states that :
 *
-*                       (1) "The strlen() function shall compute the number of bytes in the string to 
+*                       (1) "The strlen() function shall compute the number of bytes in the string to
 *                            which 's' ('pstr') points," ...
 *                       (2) "not including the terminating null byte."
 *
@@ -258,10 +258,10 @@ CPU_SIZE_T Str_Len(const CPU_CHAR *pstr)
 *
 *               len_max     Maximum number of characters to search (see Note #3c).
 *
-* Return(s)   : Length of string; number of characters in string before terminating NULL character, 
+* Return(s)   : Length of string; number of characters in string before terminating NULL character,
 *                   if terminating NULL character     found (see Note #2b1).
 *
-*               Requested maximum number of characters to search, 
+*               Requested maximum number of characters to search,
 *                   if terminating NULL character NOT found (see Note #3c).
 *
 * Caller(s)   : Application.
@@ -270,7 +270,7 @@ CPU_SIZE_T Str_Len(const CPU_CHAR *pstr)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strlen() : DESCRIPTION' states that :
 *
-*                       (1) "The strlen() function shall compute the number of bytes in the string to 
+*                       (1) "The strlen() function shall compute the number of bytes in the string to
 *                            which 's' ('pstr') points," ...
 *                       (2) "not including the terminating null byte."
 *
@@ -343,7 +343,7 @@ CPU_SIZE_T Str_Len_N(const CPU_CHAR *pstr, CPU_SIZE_T len_max)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strcpy() : DESCRIPTION' states that :
 *
-*                       (1) "The strcpy() function shall copy the string pointed to by 's2' ('pstr_src') 
+*                       (1) "The strcpy() function shall copy the string pointed to by 's2' ('pstr_src')
 *                            ... into the array pointed to by 's1' ('pstr_dest')" ...
 *                       (2) "(including the terminating null byte)."
 *
@@ -351,7 +351,7 @@ CPU_SIZE_T Str_Len_N(const CPU_CHAR *pstr, CPU_SIZE_T len_max)
 *
 *                       (1) "The strcpy() function shall return 's1' ('pstr_dest');" ...
 *                       (2) "no return value is reserved to indicate an error."
-*                           (A) #### This requirement is intentionally NOT implemented in order to return 
+*                           (A) #### This requirement is intentionally NOT implemented in order to return
 *                               NULL for any error(s).
 *
 *                   (c) IEEE Std 1003.1, 2004 Edition, Section 'strcpy() : DESCRIPTION' states that "if
@@ -407,31 +407,31 @@ CPU_CHAR *Str_Copy(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_src)
 *
 *               (2) (a) (1) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : DESCRIPTION' states that :
 *
-*                           (A) "The strncpy() function shall copy ... the array pointed to by 's2' 
+*                           (A) "The strncpy() function shall copy ... the array pointed to by 's2'
 *                               ('pstr_src') to the array pointed to by 's1' ('pstr_dest')"; ...
 *                           (B)  but "not more than 'n' ('len_max') bytes"                   ...
 *                           (C)  &   "(bytes that follow a null byte are not copied)".
 *
-*                       (2) (A) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : DESCRIPTION' adds that 
-*                              "if the array pointed to by 's2' ('pstr_src') is a string that is shorter 
-*                               than 'n' ('len_max') bytes, null bytes shall be appended to the copy in 
-*                               the array pointed to by 's1' ('pstr_dest'), until 'n' ('len_max') bytes 
+*                       (2) (A) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : DESCRIPTION' adds that
+*                              "if the array pointed to by 's2' ('pstr_src') is a string that is shorter
+*                               than 'n' ('len_max') bytes, null bytes shall be appended to the copy in
+*                               the array pointed to by 's1' ('pstr_dest'), until 'n' ('len_max') bytes
 *                               in all are written."
 *
-*                               (1) #### Since Str_Copy() limits the maximum number of characters to copy 
-*                                   via Str_Copy_N() by the CPU's maximum number of addressable characters, 
-*                                   this requirement is intentionally NOT implemented to avoid appending 
+*                               (1) #### Since Str_Copy() limits the maximum number of characters to copy
+*                                   via Str_Copy_N() by the CPU's maximum number of addressable characters,
+*                                   this requirement is intentionally NOT implemented to avoid appending
 *                                   a potentially large number of unnecessary terminating NULL characters.
 *
-*                           (B) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : APPLICATION USAGE' also  
-*                               states that "if there is no null byte in the first 'n' ('len_max') bytes of 
+*                           (B) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : APPLICATION USAGE' also
+*                               states that "if there is no null byte in the first 'n' ('len_max') bytes of
 *                               the array pointed to by 's2' ('pstr_src'), the result is not null-terminated".
 *
 *                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : RETURN VALUE' states that :
 *
 *                       (1) "The strncpy() function shall return 's1' ('pstr_dest');" ...
 *                       (2) "no return value is reserved to indicate an error."
-*                           (A) #### This requirement is intentionally ignored in order to return NULL 
+*                           (A) #### This requirement is intentionally ignored in order to return NULL
 *                               for any error(s).
 *
 *                   (c) IEEE Std 1003.1, 2004 Edition, Section 'strncpy() : DESCRIPTION' states that "if
@@ -449,7 +449,7 @@ CPU_CHAR *Str_Copy(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_src)
 *                       (1) Entire source string copied into destination string buffer (see Note #2a1A).
 *
 *                   (d) 'len_max' number of characters copied.
-*                       (1) 'len_max' number of characters MAY include the terminating NULL character 
+*                       (1) 'len_max' number of characters MAY include the terminating NULL character
 *                           (see Note #2a1C).
 *                       (2) Null copies allowed (i.e. zero-length copies).
 *                           (A) No string copy performed; destination string returned  (see Note #2b1).
@@ -522,26 +522,26 @@ CPU_CHAR *Str_Copy_N(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_src,
 *
 * Note(s)     : (1) (a) Destination buffer size NOT validated; buffer overruns MUST be prevented by caller.
 *
-*                       (1) Destination buffer size MUST be large enough to accommodate the entire 
+*                       (1) Destination buffer size MUST be large enough to accommodate the entire
 *                           concatenated string size including the terminating NULL character.
 *
 *                   (b) Concatenation string buffer NOT modified.
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strcat() : DESCRIPTION' states that :
 *
-*                       (1) "The strcat() function shall append a copy of the string pointed to by 's2' 
+*                       (1) "The strcat() function shall append a copy of the string pointed to by 's2'
 *                           ('pstr_cat') ... to the end of the string pointed to by 's1' ('pstr_dest')."
 *
-*                       (2) (A) "The initial byte of 's2' ('pstr_cat') overwrites the null byte at the 
+*                       (2) (A) "The initial byte of 's2' ('pstr_cat') overwrites the null byte at the
 *                                end of 's1' ('pstr_dest')."
-*                           (B)  A "terminating null byte" is appended at the end of the concatenated 
+*                           (B)  A "terminating null byte" is appended at the end of the concatenated
 *                                destination strings.
 *
 *                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strcat() : RETURN VALUE' states that :
 *
 *                       (1) "The strcat() function shall return 's1' ('pstr_dest');" ...
 *                       (2) "no return value shall be reserved to indicate an error."
-*                           (A) #### This requirement is intentionally NOT implemented in order to return 
+*                           (A) #### This requirement is intentionally NOT implemented in order to return
 *                               NULL for any error(s).
 *
 *                   (c) IEEE Std 1003.1, 2004 Edition, Section 'strcat() : DESCRIPTION' states that "if
@@ -590,18 +590,18 @@ CPU_CHAR *Str_Cat(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_cat)
 *
 * Note(s)     : (1) (a) Destination buffer size NOT validated; buffer overruns MUST be prevented by caller.
 *
-*                       (1) Destination buffer size MUST be large enough to accommodate the entire 
+*                       (1) Destination buffer size MUST be large enough to accommodate the entire
 *                           concatenated string size including the terminating NULL character.
 *
 *                   (b) Concatenation string buffer NOT modified.
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strncat() : DESCRIPTION' states that :
 *
-*                       (1) (A) "The strncat() function shall append ... the array pointed to by 's2' 
+*                       (1) (A) "The strncat() function shall append ... the array pointed to by 's2'
 *                               ('pstr_cat') to the end of the string pointed to by 's1' ('pstr_dest')" ...
 *                           (B)  but "not more than 'n' ('len_max') bytes".
 *
-*                       (2) (A) "The initial byte of 's2' ('pstr_cat') overwrites the null byte at the 
+*                       (2) (A) "The initial byte of 's2' ('pstr_cat') overwrites the null byte at the
 *                                end of 's1' ('pstr_dest')."
 *                           (B) "(a null byte and bytes that follow it are not appended)."
 *                           (C) "A terminating null byte is always appended to the result."
@@ -610,7 +610,7 @@ CPU_CHAR *Str_Cat(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_cat)
 *
 *                       (1) "The strncat() function shall return 's1' ('pstr_dest');" ...
 *                       (2) "no return value shall be reserved to indicate an error."
-*                           (A) #### This requirement is intentionally NOT implemented in order to return 
+*                           (A) #### This requirement is intentionally NOT implemented in order to return
 *                               NULL for any error(s).
 *
 *                   (c) IEEE Std 1003.1, 2004 Edition, Section 'strncat() : DESCRIPTION' states that "if
@@ -629,11 +629,11 @@ CPU_CHAR *Str_Cat(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_cat)
 *
 *                   (d) 'len_max' number of characters concatenated.
 *
-*                       (1) 'len_max' number of characters does NOT include the terminating NULL character 
+*                       (1) 'len_max' number of characters does NOT include the terminating NULL character
 *                           (see Note #2a2).
 *
 *                       (2) Null concatenations allowed (i.e. zero-length concatenations).
-*                           (A) No string concatenation performed; destination string returned 
+*                           (A) No string concatenation performed; destination string returned
 *                               (see Note #2b1).
 *********************************************************************************************************
 */
@@ -722,7 +722,7 @@ CPU_CHAR *Str_Cat_N(CPU_CHAR *pstr_dest, const CPU_CHAR *pstr_cat,
 * Note(s)     : (1) String buffers NOT modified.
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strcmp() : DESCRIPTION' states that "the
-*                       strcmp() function shall compare the string pointed to by 's1' ('p1_str') to the 
+*                       strcmp() function shall compare the string pointed to by 's1' ('p1_str') to the
 *                       string pointed to by 's2' ('p2_str)".
 *
 *                   (b) (1) IEEE Std 1003.1, 2004 Edition, Section 'strcmp() : RETURN VALUE' states that
@@ -810,7 +810,7 @@ CPU_INT16S Str_Cmp(const CPU_CHAR *p1_str, const CPU_CHAR *p2_str)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strncmp() : DESCRIPTION' states that :
 *
-*                       (1) "The strncmp() function shall compare ... the array pointed to by 's1' ('p1_str') 
+*                       (1) "The strncmp() function shall compare ... the array pointed to by 's1' ('p1_str')
 *                            to the array pointed to by 's2' ('p2_str)" ...
 *                       (2)  but "not more than 'n' ('len_max') bytes" of either array.
 *
@@ -985,7 +985,7 @@ CPU_INT16S Str_Cmp_N(const CPU_CHAR *p1_str, const CPU_CHAR *p2_str,
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strcasecmp() : DESCRIPTION' states that :
 *
-*                       (1) (A) "The strcasecmp() function shall compare ... the string pointed to by 's1' 
+*                       (1) (A) "The strcasecmp() function shall compare ... the string pointed to by 's1'
 *                                ('p1_str') to the string pointed to by 's2' ('p2_str')" ...
 *                           (B) "ignoring differences in case".
 *
@@ -1083,7 +1083,7 @@ CPU_INT16S Str_CmpIgnoreCase(const CPU_CHAR *p1_str, const CPU_CHAR *p2_str)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strncasecmp() : DESCRIPTION' states that :
 *
-*                       (1) (A) "The strncasecmp() function shall compare ... the string pointed to by 's1' 
+*                       (1) (A) "The strncasecmp() function shall compare ... the string pointed to by 's1'
 *                                ('p1_str') to the string pointed to by 's2' ('p2_str')" ...
 *                           (B) "ignoring differences in case"                           ...
 *                           (C)  but "not more than 'n' ('len_max') bytes" of either string.
@@ -1276,16 +1276,16 @@ CPU_INT16S Str_CmpIgnoreCase_N(const CPU_CHAR *p1_str, const CPU_CHAR *p2_str,
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strchr() : DESCRIPTION' states that :
 *
-*                       (1) "The strchr() function shall locate the first occurrence of 'c' ('srch_char') 
+*                       (1) "The strchr() function shall locate the first occurrence of 'c' ('srch_char')
 *                            ... in the string pointed to by 's' ('pstr')."
 *                       (2) "The terminating null byte is considered to be part of the string."
 *
-*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strchr() : RETURN VALUE' states that 
+*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strchr() : RETURN VALUE' states that
 *                       "upon completion, strchr() shall return" :
 *
 *                       (1) "a pointer to the byte," ...
 *                       (2) "or a null pointer if the byte was not found."
-*                           (A) #### Although NO strchr() specification states to return NULL for 
+*                           (A) #### Although NO strchr() specification states to return NULL for
 *                               any other reason(s), NULL is also returned for any error(s).
 *
 *               (3) String search terminates when :
@@ -1297,9 +1297,9 @@ CPU_INT16S Str_CmpIgnoreCase_N(const CPU_CHAR *p1_str, const CPU_CHAR *p2_str,
 *                       (1) String overlaps with NULL address; NULL pointer returned.
 *
 *                   (c) String's terminating NULL character found.
-*                       (1) Search character NOT found in search string; NULL pointer returned 
+*                       (1) Search character NOT found in search string; NULL pointer returned
 *                           (see Note #2b2).
-*                       (2) Applicable even if search character is the terminating NULL character 
+*                       (2) Applicable even if search character is the terminating NULL character
 *                           (see Note #2a2).
 *
 *                   (d) Search character found.
@@ -1322,7 +1322,7 @@ CPU_CHAR *Str_Char(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *********************************************************************************************************
 *                                            Str_Char_N()
 *
-* Description : Search string for first occurrence of specific character, up to a maximum number 
+* Description : Search string for first occurrence of specific character, up to a maximum number
 *                   of characters.
 *
 * Argument(s) : pstr            Pointer to string (see Note #1).
@@ -1341,21 +1341,21 @@ CPU_CHAR *Str_Char(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strchr() : DESCRIPTION' states that :
 *
-*                       (1) "The strchr() function shall locate the first occurrence of 'c' ('srch_char') 
+*                       (1) "The strchr() function shall locate the first occurrence of 'c' ('srch_char')
 *                            ... in the string pointed to by 's' ('pstr')."
 *                       (2) "The terminating null byte is considered to be part of the string."
 *
-*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strchr() : RETURN VALUE' states that 
+*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strchr() : RETURN VALUE' states that
 *                       "upon completion, strchr() shall return" :
 *
 *                       (1) "a pointer to the byte," ...
 *                       (2) "or a null pointer if the byte was not found."
-*                           (A) #### Although NO strchr() specification states to return NULL for 
+*                           (A) #### Although NO strchr() specification states to return NULL for
 *                               any other reason(s), NULL is also returned for any error(s).
 *
 *                   (c) Ideally, the 'len_max' argument would be the last argument in this function's
 *                       argument list for consistency with all other custom string library functions.
-*                       However, the 'len_max' argument is sequentially ordered as the second argument 
+*                       However, the 'len_max' argument is sequentially ordered as the second argument
 *                       to comply with most standard library's strnchr() argument list.
 *
 *               (3) String search terminates when :
@@ -1367,9 +1367,9 @@ CPU_CHAR *Str_Char(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *                       (1) String overlaps with NULL address; NULL pointer returned.
 *
 *                   (c) String's terminating NULL character found.
-*                       (1) Search character NOT found in search string; NULL pointer returned 
+*                       (1) Search character NOT found in search string; NULL pointer returned
 *                           (see Note #2b2).
-*                       (2) Applicable even if search character is the terminating NULL character 
+*                       (2) Applicable even if search character is the terminating NULL character
 *                           (see Note #2a2).
 *
 *                   (d) Search character found.
@@ -1377,9 +1377,9 @@ CPU_CHAR *Str_Char(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *                           (see Note #2a1).
 *
 *                   (e) 'len_max' number of characters searched.
-*                       (1) Search character NOT found in search string within first 'len_max' number 
+*                       (1) Search character NOT found in search string within first 'len_max' number
 *                           of characters; NULL pointer returned.
-*                       (2) 'len_max' number of characters MAY include terminating NULL character 
+*                       (2) 'len_max' number of characters MAY include terminating NULL character
 *                           (see Note #2a2).
 *********************************************************************************************************
 */
@@ -1461,16 +1461,16 @@ CPU_CHAR *Str_Char_N(const CPU_CHAR *pstr, CPU_SIZE_T len_max,
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strrchr() : DESCRIPTION' states that :
 *
-*                       (1) "The strrchr() function shall locate the last occurrence of 'c' ('srch_char') 
+*                       (1) "The strrchr() function shall locate the last occurrence of 'c' ('srch_char')
 *                            ... in the string pointed to by 's' ('pstr')."
 *                       (2) "The terminating null byte is considered to be part of the string."
 *
-*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strrchr() : RETURN VALUE' states that 
+*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strrchr() : RETURN VALUE' states that
 *                       "upon successful completion, strrchr() shall return" :
 *
 *                       (1) "a pointer to the byte" ...
 *                       (2) "or a null pointer if 'c' ('srch_char') does not occur in the string."
-*                           (A) #### Although NO strrchr() specification states to return NULL for 
+*                           (A) #### Although NO strrchr() specification states to return NULL for
 *                               any other reason(s), NULL is also returned for any error(s).
 *
 *               (3) String search terminates when :
@@ -1483,11 +1483,11 @@ CPU_CHAR *Str_Char_N(const CPU_CHAR *pstr, CPU_SIZE_T len_max,
 *
 *                   (c) String searched from end to beginning.
 *                       (1) Search character NOT found in search string; NULL pointer returned.
-*                       (2) Applicable even if search character is the terminating NULL character 
+*                       (2) Applicable even if search character is the terminating NULL character
 *                           (see Note #2a2).
 *
 *                   (d) Search character found.
-*                       (1) Return pointer to last occurrence of search character in search string 
+*                       (1) Return pointer to last occurrence of search character in search string
 *                           (see Note #2a1).
 *********************************************************************************************************
 */
@@ -1506,7 +1506,7 @@ CPU_CHAR *Str_Char_Last(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *********************************************************************************************************
 *                                          Str_Char_Last_N()
 *
-* Description : Search string for last occurrence of specific character, up to a maximum number 
+* Description : Search string for last occurrence of specific character, up to a maximum number
 *                   of characters.
 *
 * Argument(s) : pstr            Pointer to string (see Note #1).
@@ -1525,21 +1525,21 @@ CPU_CHAR *Str_Char_Last(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strrchr() : DESCRIPTION' states that :
 *
-*                       (1) "The strrchr() function shall locate the last occurrence of 'c' ('srch_char') 
+*                       (1) "The strrchr() function shall locate the last occurrence of 'c' ('srch_char')
 *                            ... in the string pointed to by 's' ('pstr')."
 *                       (2) "The terminating null byte is considered to be part of the string."
 *
-*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strrchr() : RETURN VALUE' states that 
+*                   (b) IEEE Std 1003.1, 2004 Edition, Section 'strrchr() : RETURN VALUE' states that
 *                       "upon successful completion, strrchr() shall return" :
 *
 *                       (1) "a pointer to the byte" ...
 *                       (2) "or a null pointer if 'c' ('srch_char') does not occur in the string."
-*                           (A) #### Although NO strrchr() specification states to return NULL for 
+*                           (A) #### Although NO strrchr() specification states to return NULL for
 *                               any other reason(s), NULL is also returned for any error(s).
 *
 *                   (c) Ideally, the 'len_max' argument would be the last argument in this function's
 *                       argument list for consistency with all other custom string library functions.
-*                       However, the 'len_max' argument is sequentially ordered as the second argument 
+*                       However, the 'len_max' argument is sequentially ordered as the second argument
 *                       to comply with most standard library's strnrchr() argument list.
 *
 *                       See also 'Str_Char_N()  Note #2c'.
@@ -1553,19 +1553,19 @@ CPU_CHAR *Str_Char_Last(const CPU_CHAR *pstr, CPU_CHAR srch_char)
 *                       (1) String overlaps with NULL address; NULL pointer returned.
 *
 *                   (c) String searched from end to beginning.
-*                       (1) Search character NOT found in search string; NULL pointer returned 
+*                       (1) Search character NOT found in search string; NULL pointer returned
 *                           (see Note #2b2).
-*                       (2) Applicable even if search character is the terminating NULL character 
+*                       (2) Applicable even if search character is the terminating NULL character
 *                           (see Note #2a2).
 *
 *                   (d) Search character found.
-*                       (1) Return pointer to last occurrence of search character in search string 
+*                       (1) Return pointer to last occurrence of search character in search string
 *                           (see Note #2a1).
 *
 *                   (e) 'len_max' number of characters searched.
-*                       (1) Search character NOT found in search string within last 'len_max' number 
+*                       (1) Search character NOT found in search string within last 'len_max' number
 *                           of characters; NULL pointer returned.
-*                       (2) 'len_max' number of characters MAY include terminating NULL character 
+*                       (2) 'len_max' number of characters MAY include terminating NULL character
 *                           (see Note #2a2).
 *********************************************************************************************************
 */
@@ -1776,8 +1776,8 @@ CPU_CHAR *Str_Char_Replace_N(CPU_CHAR *pstr, CPU_CHAR char_srch,
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strstr() : DESCRIPTION' states that :
 *
-*                       (1) "The strstr() function shall locate the first occurrence  in the string 
-*                            pointed to by 's1' ('pstr') of the sequence of bytes ... in the string 
+*                       (1) "The strstr() function shall locate the first occurrence  in the string
+*                            pointed to by 's1' ('pstr') of the sequence of bytes ... in the string
 *                            pointed to by 's2' ('pstr_srch')" ...
 *                       (2) "(excluding the terminating null byte)."
 *
@@ -1786,10 +1786,10 @@ CPU_CHAR *Str_Char_Replace_N(CPU_CHAR *pstr, CPU_CHAR char_srch,
 *                       (1) "Upon successful completion, strstr() shall return" :
 *                           (A) "a pointer to the located string" ...
 *                           (B) "or a null pointer if the string is not found."
-*                               (1) #### Although NO strstr() specification states to return NULL for 
+*                               (1) #### Although NO strstr() specification states to return NULL for
 *                                   any other reason(s), NULL is also returned for any error(s).
 *
-*                       (2) "If 's2' ('pstr_srch') points to a string with zero length, the function 
+*                       (2) "If 's2' ('pstr_srch') points to a string with zero length, the function
 *                            shall return 's1' ('pstr')."
 *
 *               (3) String search terminates when :
@@ -1828,7 +1828,7 @@ CPU_CHAR *Str_Str(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch)
 *********************************************************************************************************
 *                                             Str_Str_N()
 *
-* Description : Search string for first occurence of a specific search string, up to a maximum number 
+* Description : Search string for first occurence of a specific search string, up to a maximum number
 *                   of characters.
 *
 * Argument(s) : pstr            Pointer to        string (see Note #1).
@@ -1849,8 +1849,8 @@ CPU_CHAR *Str_Str(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch)
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strstr() : DESCRIPTION' states that :
 *
-*                       (1) "The strstr() function shall locate the first occurrence  in the string 
-*                            pointed to by 's1' ('pstr') of the sequence of bytes ... in the string 
+*                       (1) "The strstr() function shall locate the first occurrence  in the string
+*                            pointed to by 's1' ('pstr') of the sequence of bytes ... in the string
 *                            pointed to by 's2' ('pstr_srch')" ...
 *                       (2) "(excluding the terminating null byte)."
 *
@@ -1859,10 +1859,10 @@ CPU_CHAR *Str_Str(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch)
 *                       (1) "Upon successful completion, strstr() shall return" :
 *                           (A) "a pointer to the located string" ...
 *                           (B) "or a null pointer if the string is not found."
-*                               (1) #### Although NO strstr() specification states to return NULL for 
+*                               (1) #### Although NO strstr() specification states to return NULL for
 *                                   any other reason(s), NULL is also returned for any error(s).
 *
-*                       (2) "If 's2' ('pstr_srch') points to a string with zero length, the function 
+*                       (2) "If 's2' ('pstr_srch') points to a string with zero length, the function
 *                            shall return 's1' ('pstr')."
 *
 *               (3) String search terminates when :
@@ -2016,7 +2016,7 @@ CPU_CHAR *Str_Str_N(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch,
 *
 * Caller(s)   : Application.
 *
-* Note(s)     : (1) (a) If the number of digits to format ('nbr_dig') is zero; then NO formatting 
+* Note(s)     : (1) (a) If the number of digits to format ('nbr_dig') is zero; then NO formatting
 *                       is performed except possible NULL-termination of the string (see Note #4).
 *
 *                           Example :
@@ -2027,8 +2027,8 @@ CPU_CHAR *Str_Str_N(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch,
 *
 *                               pstr     = ""                   See Note #6a
 *
-*                   (b) If the number of digits to format ('nbr_dig') is less than the number of 
-*                       significant integer digits of the number to format ('nbr'); then an invalid 
+*                   (b) If the number of digits to format ('nbr_dig') is less than the number of
+*                       significant integer digits of the number to format ('nbr'); then an invalid
 *                       string is formatted instead of truncating any significant integer digits.
 *
 *                           Example :
@@ -2048,8 +2048,8 @@ CPU_CHAR *Str_Str_N(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch,
 *                       (2) (A) Leading character MUST NOT be a number base digit, ...
 *                           (B) with the exception of '0'.
 *
-*                   (b) The number of leading characters is such that the total number of significant 
-*                       integer digits plus the number of leading characters is equal to the requested 
+*                   (b) The number of leading characters is such that the total number of significant
+*                       integer digits plus the number of leading characters is equal to the requested
 *                       number of integer digits to format ('nbr_dig').
 *
 *                           Example :
@@ -2081,8 +2081,8 @@ CPU_CHAR *Str_Str_N(const CPU_CHAR *pstr, const CPU_CHAR *pstr_srch,
 *                           Character array size MUST be  >=  ('nbr_dig'          +
 *                                                               1 'NUL' terminator)  characters
 *
-*               (6) For any unsuccessful string format or error(s), an invalid string of question marks 
-*                   ('?') will be formatted, where the number of question marks is determined by the 
+*               (6) For any unsuccessful string format or error(s), an invalid string of question marks
+*                   ('?') will be formatted, where the number of question marks is determined by the
 *                   number of digits to format ('nbr_dig') :
 *
 *                      Invalid string's     {  (a)   0 (NULL string)  ,  if 'nbr_dig' = 0
@@ -2156,7 +2156,7 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *
 * Caller(s)   : Application.
 *
-* Note(s)     : (1) (a) If the number of digits to format ('nbr_dig') is zero; then NO formatting 
+* Note(s)     : (1) (a) If the number of digits to format ('nbr_dig') is zero; then NO formatting
 *                       is performed except possible NULL-termination of the string (see Note #4).
 *
 *                           Example :
@@ -2167,8 +2167,8 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *
 *                               pstr     = ""                   See Note #6a
 *
-*                   (b) If the number of digits to format ('nbr_dig') is less than the number of 
-*                       significant integer digits of the number to format ('nbr'); then an invalid 
+*                   (b) If the number of digits to format ('nbr_dig') is less than the number of
+*                       significant integer digits of the number to format ('nbr'); then an invalid
 *                       string is formatted instead of truncating any significant integer digits.
 *
 *                           Example :
@@ -2179,9 +2179,9 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *
 *                               pstr     = "???"                See Note #6b
 *
-*                   (c) If the number to format ('nbr') is negative but the number of digits to format 
-*                       ('nbr_dig') is equal to the number of significant integer digits of the number 
-*                       to format ('nbr'); then an invalid string is formatted instead of truncating 
+*                   (c) If the number to format ('nbr') is negative but the number of digits to format
+*                       ('nbr_dig') is equal to the number of significant integer digits of the number
+*                       to format ('nbr'); then an invalid string is formatted instead of truncating
 *                       the negative sign.
 *
 *                           Example :
@@ -2201,9 +2201,9 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *                       (2) (A) Leading character MUST NOT be a number base digit, ...
 *                           (B) with the exception of '0'.
 *
-*                   (b) (1) The number of leading characters is such that the total number of significant 
-*                           integer digits plus the number of leading characters plus possible negative 
-*                           sign character is equal to the requested number of integer digits to format 
+*                   (b) (1) The number of leading characters is such that the total number of significant
+*                           integer digits plus the number of leading characters plus possible negative
+*                           sign character is equal to the requested number of integer digits to format
 *                           ('nbr_dig').
 *
 *                               Examples :
@@ -2223,8 +2223,8 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *
 *                                   pstr      = " -23456"
 *
-*                       (2) (A) If the number to format ('nbr') is negative AND the leading character 
-*                               ('lead_char') is     a '0' digit; then the negative sign character 
+*                       (2) (A) If the number to format ('nbr') is negative AND the leading character
+*                               ('lead_char') is     a '0' digit; then the negative sign character
 *                               prefixes all leading characters prior to the formatted number.
 *
 *                                   Examples :
@@ -2245,8 +2245,8 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *
 *                                       pstr       = "-000ABCD"
 *
-*                           (B) If the number to format ('nbr') is negative AND the leading character 
-*                               ('lead_char') is NOT a '0' digit; then the negative sign character 
+*                           (B) If the number to format ('nbr') is negative AND the leading character
+*                               ('lead_char') is NOT a '0' digit; then the negative sign character
 *                               immediately prefixes the most significant digit of the formatted number.
 *
 *                                   Examples :
@@ -2288,8 +2288,8 @@ CPU_CHAR *Str_FmtNbr_Int32U(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *                                                               1 negative sign   +
 *                                                               1 'NUL' terminator)  characters
 *
-*               (6) For any unsuccessful string format or error(s), an invalid string of question marks 
-*                   ('?') will be formatted, where the number of question marks is determined by the 
+*               (6) For any unsuccessful string format or error(s), an invalid string of question marks
+*                   ('?') will be formatted, where the number of question marks is determined by the
 *                   number of digits to format ('nbr_dig') :
 *
 *                      Invalid string's     {  (a)   0 (NULL string)  ,  if 'nbr_dig' = 0
@@ -2379,10 +2379,10 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *                                       Number-Internal-Base-Digits     Number of internal number base
 *                                                                           significant digits (i.e. 24)
 *
-*                   (b) Some CPUs' &/or compilers' floating-point implementations MAY further reduce the 
+*                   (b) Some CPUs' &/or compilers' floating-point implementations MAY further reduce the
 *                       maximum accuracy.
 *$PAGE*
-*               (2) (a) If the total number of digits to format ('nbr_dig + nbr_dp') is zero; then NO 
+*               (2) (a) If the total number of digits to format ('nbr_dig + nbr_dp') is zero; then NO
 *                       formatting is performed except possible NULL-termination of the string (see Note #4).
 *
 *                           Example :
@@ -2393,8 +2393,8 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                               pstr    = ""                        See Note #7a
 *
-*                   (b) (1) If the number of digits to format ('nbr_dig') is less than the number of 
-*                           significant integer digits of the number to format ('nbr'); then an invalid 
+*                   (b) (1) If the number of digits to format ('nbr_dig') is less than the number of
+*                           significant integer digits of the number to format ('nbr'); then an invalid
 *                           string is formatted instead of truncating any significant integer digits.
 *
 *                               Example :
@@ -2405,9 +2405,9 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                   pstr    = "??????"              See Note #7d
 *
-*                       (2) If the number to format ('nbr') is negative but the number of digits to format 
-*                           ('nbr_dig') is equal to the number of significant integer digits of the number 
-*                           to format ('nbr'); then an invalid string is formatted instead of truncating 
+*                       (2) If the number to format ('nbr') is negative but the number of digits to format
+*                           ('nbr_dig') is equal to the number of significant integer digits of the number
+*                           to format ('nbr'); then an invalid string is formatted instead of truncating
 *                           the negative sign.
 *
 *                               Example :
@@ -2418,9 +2418,9 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                   pstr    = "????????"            See Note #7d
 *
-*                       (3) If the number to format ('nbr') is negative but the number of significant 
-*                           integer digits is zero, & the number of digits to format ('nbr_dig') is one 
-*                           but the number of decimal point digits to format ('nbr_dp') is zero; then 
+*                       (3) If the number to format ('nbr') is negative but the number of significant
+*                           integer digits is zero, & the number of digits to format ('nbr_dig') is one
+*                           but the number of decimal point digits to format ('nbr_dp') is zero; then
 *                           an invalid string is formatted instead of truncating the negative sign.
 *
 *                               Example :
@@ -2431,10 +2431,10 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                   pstr    = "?"                   See Note #7d
 *
-*                       (4) (A) If the number to format ('nbr') is negative but the number of significant 
-*                               integer digits is zero, & the number of digits to format ('nbr_dig') is 
+*                       (4) (A) If the number to format ('nbr') is negative but the number of significant
+*                               integer digits is zero, & the number of digits to format ('nbr_dig') is
 *                               zero but the number of decimal point digits to format ('nbr_dp') is non-
-*                               zero; then the negative sign immediately prefixes the decimal point -- 
+*                               zero; then the negative sign immediately prefixes the decimal point --
 *                               with NO decimal digits formatted, NOT even a single decimal digit of '0'.
 *
 *                                   Example :
@@ -2445,13 +2445,13 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                       pstr    = "-.78"
 *
-*                           (B) If the number to format ('nbr') is positive but the number of significant 
-*                               integer digits is zero, & the number of digits to format ('nbr_dig') is 
+*                           (B) If the number to format ('nbr') is positive but the number of significant
+*                               integer digits is zero, & the number of digits to format ('nbr_dig') is
 *                               zero but the number of decimal point digits to format ('nbr_dp') is non-
 *                               zero; then a single decimal digit of '0' prefixes the decimal point.
 *
-*                               This '0' digit is used whenever a negative sign is not formatted (see 
-*                               Note #2b4A) so that the formatted string's decimal point is not floating, 
+*                               This '0' digit is used whenever a negative sign is not formatted (see
+*                               Note #2b4A) so that the formatted string's decimal point is not floating,
 *                               but fixed in the string as the 2nd character.
 *
 *                                   Example :
@@ -2464,11 +2464,11 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *$PAGE*
 *                   (c) (1) If the total number of digits to format ('nbr_dig + nbr_dp') is greater than ... :
 *
-*                           (A) ... the maximum accuracy of the CPU's &/or compiler's 32-bit floating-point 
-*                               numbers, digits following all significantly-accurate digits of the number to 
+*                           (A) ... the maximum accuracy of the CPU's &/or compiler's 32-bit floating-point
+*                               numbers, digits following all significantly-accurate digits of the number to
 *                               format ('nbr') will be inaccurate; ...
-*                           (B) ... the configured maximum accuracy ('LIB_STR_CFG_FP_MAX_NBR_DIG_SIG'), all 
-*                               digits or decimal places following all significantly-accurate digits of the 
+*                           (B) ... the configured maximum accuracy ('LIB_STR_CFG_FP_MAX_NBR_DIG_SIG'), all
+*                               digits or decimal places following all significantly-accurate digits of the
 *                               number to format ('nbr') will be replaced & formatted with zeros ('0').
 *
 *                                   Example :
@@ -2480,8 +2480,8 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                       pstr                           = "123456700.000000"
 *
-*                       (2) Therefore, one or more least-significant digit(s) of the number to format ('nbr') 
-*                           MAY be rounded & not necessarily truncated due to the inaccuracy of the CPU's 
+*                       (2) Therefore, one or more least-significant digit(s) of the number to format ('nbr')
+*                           MAY be rounded & not necessarily truncated due to the inaccuracy of the CPU's
 *                           &/or compiler's floating-point implementation.
 *
 *                       See also Note #1.
@@ -2493,9 +2493,9 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *                       (2) (A) Leading character MUST NOT be a base-10 digit, ...
 *                           (B) with the exception of '0'.
 *
-*                   (b) (1) The number of leading characters is such that the total number of significant 
-*                           integer digits plus the number of leading characters plus possible negative 
-*                           sign character is equal to the requested number of integer digits to format 
+*                   (b) (1) The number of leading characters is such that the total number of significant
+*                           integer digits plus the number of leading characters plus possible negative
+*                           sign character is equal to the requested number of integer digits to format
 *                           ('nbr_dig').
 *
 *                               Examples :
@@ -2515,8 +2515,8 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                   pstr      = " -23456.78"
 *
-*                       (2) (A) If the number to format ('nbr') is negative AND the leading character 
-*                               ('lead_char') is     a '0' digit; then the negative sign character 
+*                       (2) (A) If the number to format ('nbr') is negative AND the leading character
+*                               ('lead_char') is     a '0' digit; then the negative sign character
 *                               prefixes all leading characters prior to the formatted number.
 *
 *                                   Example :
@@ -2528,8 +2528,8 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                                       pstr      = "-0023456.78"
 *
-*                           (B) If the number to format ('nbr') is negative AND the leading character 
-*                               ('lead_char') is NOT a '0' digit; then the negative sign character 
+*                           (B) If the number to format ('nbr') is negative AND the leading character
+*                               ('lead_char') is NOT a '0' digit; then the negative sign character
 *                               immediately prefixes the most significant digit of the formatted number.
 *
 *                                   Examples :
@@ -2575,8 +2575,8 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *                   (b) Total number of digits to format ('nbr_dig + nbr_dp') is zero.
 *                       (1) NULL    string formatted (see Note #7a); NULL pointer returned.
 *
-*                   (c) Number of digits to format ('nbr_dig') is less than number of significant 
-*                           integer digits of the number to format ('nbr'), including possible 
+*                   (c) Number of digits to format ('nbr_dig') is less than number of significant
+*                           integer digits of the number to format ('nbr'), including possible
 *                           negative sign.
 *                       (1) Invalid string formatted (see Note #7);  NULL pointer returned.
 *
@@ -2585,8 +2585,8 @@ CPU_CHAR *Str_FmtNbr_Int32S(CPU_INT32S nbr, CPU_INT08U nbr_dig,
 *
 *                   (e) Number successfully formatted into character string array.
 *
-*               (7) For any unsuccessful string format or error(s), an invalid string of question marks 
-*                   ('?') will be formatted, where the number of question marks is determined by the 
+*               (7) For any unsuccessful string format or error(s), an invalid string of question marks
+*                   ('?') will be formatted, where the number of question marks is determined by the
 *                   number of digits ('nbr_dig') & number of decimal point digits ('nbr_dp') to format :
 *
 *                                           {  (a)    0 (NULL string)          ,  if 'nbr_dig' = 0  AND
@@ -2897,7 +2897,7 @@ CPU_CHAR *Str_FmtNbr_32(CPU_FP32 nbr, CPU_INT08U nbr_dig, CPU_INT08U nbr_dp,
 * Note(s)     : (1) String buffer NOT modified.
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strtoul() : DESCRIPTION' states that "these
-*                       functions shall convert the initial portion of the string pointed to by 'str' ('pstr') 
+*                       functions shall convert the initial portion of the string pointed to by 'str' ('pstr')
 *                       to a type unsigned long ... representation" :
 *
 *                       (1) "First, they decompose the input string into three parts" :
@@ -2913,8 +2913,8 @@ CPU_CHAR *Str_FmtNbr_32(CPU_FP32 nbr, CPU_INT08U nbr_dig, CPU_INT08U nbr_dp,
 *                           (B) (1) "A subject sequence interpreted as an integer represented in some radix
 *                                    determined by the value of 'base' ('nbr_base')" :
 *
-*                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the 
-*                                        subject sequence is that of a decimal constant, octal constant, or 
+*                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the
+*                                        subject sequence is that of a decimal constant, octal constant, or
 *                                        hexadecimal constant" :
 *
 *                                       (1) "A decimal constant begins with a non-zero digit, and consists of a
@@ -2927,8 +2927,8 @@ CPU_CHAR *Str_FmtNbr_32(CPU_FP32 nbr, CPU_INT08U nbr_dig, CPU_INT08U nbr_dp,
 *                                            by a sequence of the decimal digits and letters 'a' (or 'A') to 'f'
 *                                            (or 'F') with values 10 to 15 respectively."
 *
-*                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form 
-*                                        of the subject sequence is a sequence of letters and digits representing 
+*                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form
+*                                        of the subject sequence is a sequence of letters and digits representing
 *                                        an integer with the radix specified by 'base' ('nbr_base')" :
 *
 *                                       (1) (A) "The letters from 'a' (or 'A') to 'z' (or 'Z') inclusive are
@@ -2936,12 +2936,12 @@ CPU_CHAR *Str_FmtNbr_32(CPU_FP32 nbr, CPU_INT08U nbr_dig, CPU_INT08U nbr_dp,
 *                                           (B) "only letters whose ascribed values are less than that of base
 *                                                are permitted."
 *
-*                                       (2) (A) "If the value of 'base' ('nbr_base') is 16, the characters '0x' or 
+*                                       (2) (A) "If the value of 'base' ('nbr_base') is 16, the characters '0x' or
 *                                                '0X' may optionally precede the sequence of letters and digits."
 *
-*                                           (B) Although NO specification states that "if the value of 'base' 
-*                                               ('nbr_base') is" 8, the '0' character "may optionally precede 
-*                                               the sequence of letters and digits"; it seems reasonable to 
+*                                           (B) Although NO specification states that "if the value of 'base'
+*                                               ('nbr_base') is" 8, the '0' character "may optionally precede
+*                                               the sequence of letters and digits"; it seems reasonable to
 *                                               allow the '0' character to be optionally parsed.
 *
 *                               (2) "A subject sequence .... may be preceded by a '+' or '-' sign."
@@ -2958,20 +2958,20 @@ CPU_CHAR *Str_FmtNbr_32(CPU_FP32 nbr, CPU_INT08U nbr_dig, CPU_INT08U nbr_dp,
 *                           (A) "If the subject sequence is empty or does not have the expected form" :
 *
 *                               (1) "no conversion [is] performed"; ...
-*                               (2) "the value of 'str' ('pstr') [is] stored in the object pointed to by 'endptr' 
+*                               (2) "the value of 'str' ('pstr') [is] stored in the object pointed to by 'endptr'
 *                                    ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null pointer."
 *
 *                           (B) "If the subject sequence has the expected form" :
 *
-*                               (1) (a) "and the value of 'base' ('nbr_base') is 0, the sequence of characters 
+*                               (1) (a) "and the value of 'base' ('nbr_base') is 0, the sequence of characters
 *                                        starting with the first digit shall be interpreted as an integer constant."
 *
-*                                   (b) "and the value of 'base' ('nbr_base') is between 2 and 36, it shall be 
-*                                        used as the base for conversion, ascribing to each letter its value as 
+*                                   (b) "and the value of 'base' ('nbr_base') is between 2 and 36, it shall be
+*                                        used as the base for conversion, ascribing to each letter its value as
 *                                        given above" (see Note #2a1B1b1A).
 *
 *                               (2) "A pointer to the final string shall be stored in the object pointed to by
-*                                   'endptr' ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null 
+*                                   'endptr' ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null
 *                                   pointer."
 *
 *                       (3) Lastly, IEEE Std 1003.1, 2004 Edition, Section 'strtoul() : RETURN VALUE' states that :
@@ -3108,7 +3108,7 @@ CPU_INT32U Str_ParseNbr_Int32U(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 * Note(s)     : (1) String buffer NOT modified.
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strtol() : DESCRIPTION' states that "these
-*                       functions shall convert the initial portion of the string pointed to by 'str' ('pstr') 
+*                       functions shall convert the initial portion of the string pointed to by 'str' ('pstr')
 *                       to a type long ... representation" :
 *
 *                       (1) "First, they decompose the input string into three parts" :
@@ -3124,8 +3124,8 @@ CPU_INT32U Str_ParseNbr_Int32U(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                           (B) (1) "A subject sequence interpreted as an integer represented in some radix
 *                                    determined by the value of 'base' ('nbr_base')" :
 *
-*                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the 
-*                                        subject sequence is that of a decimal constant, octal constant, or 
+*                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the
+*                                        subject sequence is that of a decimal constant, octal constant, or
 *                                        hexadecimal constant" :
 *
 *                                       (1) "A decimal constant begins with a non-zero digit, and consists of a
@@ -3138,8 +3138,8 @@ CPU_INT32U Str_ParseNbr_Int32U(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                                            by a sequence of the decimal digits and letters 'a' (or 'A') to 'f'
 *                                            (or 'F') with values 10 to 15 respectively."
 *
-*                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form 
-*                                        of the subject sequence is a sequence of letters and digits representing 
+*                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form
+*                                        of the subject sequence is a sequence of letters and digits representing
 *                                        an integer with the radix specified by 'base' ('nbr_base')" :
 *
 *                                       (1) (A) "The letters from 'a' (or 'A') to 'z' (or 'Z') inclusive are
@@ -3147,12 +3147,12 @@ CPU_INT32U Str_ParseNbr_Int32U(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                                           (B) "only letters whose ascribed values are less than that of base
 *                                                are permitted."
 *
-*                                       (2) (A) "If the value of 'base' ('nbr_base') is 16, the characters '0x' or 
+*                                       (2) (A) "If the value of 'base' ('nbr_base') is 16, the characters '0x' or
 *                                                '0X' may optionally precede the sequence of letters and digits."
 *
-*                                           (B) Although NO specification states that "if the value of 'base' 
-*                                               ('nbr_base') is" 8, the '0' character "may optionally precede 
-*                                               the sequence of letters and digits"; it seems reasonable to 
+*                                           (B) Although NO specification states that "if the value of 'base'
+*                                               ('nbr_base') is" 8, the '0' character "may optionally precede
+*                                               the sequence of letters and digits"; it seems reasonable to
 *                                               allow the '0' character to be optionally parsed.
 *
 *                               (2) "A subject sequence .... may be preceded by a '+' or '-' sign."
@@ -3169,20 +3169,20 @@ CPU_INT32U Str_ParseNbr_Int32U(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                           (A) "If the subject sequence is empty or does not have the expected form" :
 *
 *                               (1) "no conversion is performed"; ...
-*                               (2) "the value of 'str' ('pstr') is stored in the object pointed to by 'endptr' 
+*                               (2) "the value of 'str' ('pstr') is stored in the object pointed to by 'endptr'
 *                                    ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null pointer."
 *
 *                           (B) "If the subject sequence has the expected form" :
 *
-*                               (1) (a) "and the value of 'base' ('nbr_base') is 0, the sequence of characters 
+*                               (1) (a) "and the value of 'base' ('nbr_base') is 0, the sequence of characters
 *                                        starting with the first digit shall be interpreted as an integer constant."
 *
-*                                   (b) "and the value of 'base' ('nbr_base') is between 2 and 36, it shall be 
-*                                        used as the base for conversion, ascribing to each letter its value as 
+*                                   (b) "and the value of 'base' ('nbr_base') is between 2 and 36, it shall be
+*                                        used as the base for conversion, ascribing to each letter its value as
 *                                        given above" (see Note #2a1B1b1A).
 *
 *                               (2) "A pointer to the final string shall be stored in the object pointed to by
-*                                   'endptr' ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null 
+*                                   'endptr' ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null
 *                                   pointer."
 *
 *                       (3) Lastly, IEEE Std 1003.1, 2004 Edition, Section 'strtol() : RETURN VALUE' states that :
@@ -3369,7 +3369,7 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                                       Number                  Number to format
 *                                       Base            Base of number to format
 *
-*                   (b) (1) If the number of digits to format ('nbr_dig') is zero; then NO formatting 
+*                   (b) (1) If the number of digits to format ('nbr_dig') is zero; then NO formatting
 *                           is performed except possible NULL-termination of the string (see Note #4).
 *
 *                               Example :
@@ -3380,8 +3380,8 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 *                                   pstr     = ""                   See Note #7a
 *
-*                       (2) If the number of digits to format ('nbr_dig') is less than the number of 
-*                           significant integer digits of the number to format ('nbr'); then an invalid 
+*                       (2) If the number of digits to format ('nbr_dig') is less than the number of
+*                           significant integer digits of the number to format ('nbr'); then an invalid
 *                           string is formatted instead of truncating any significant integer digits.
 *
 *                               Example :
@@ -3392,9 +3392,9 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 *                                   pstr     = "???"                See Note #7b
 *
-*                       (3) If the number to format ('nbr') is negative but the number of digits to format 
-*                           ('nbr_dig') is equal to the number of significant integer digits of the number 
-*                           to format ('nbr'); then an invalid string is formatted instead of truncating 
+*                       (3) If the number to format ('nbr') is negative but the number of digits to format
+*                           ('nbr_dig') is equal to the number of significant integer digits of the number
+*                           to format ('nbr'); then an invalid string is formatted instead of truncating
 *                           the negative sign.
 *
 *                               Example :
@@ -3414,9 +3414,9 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                       (2) (A) Leading character MUST NOT be a number base digit, ...
 *                           (B) with the exception of '0'.
 *
-*                   (b) (1) The number of leading characters is such that the total number of significant 
-*                           integer digits plus the number of leading characters plus possible negative 
-*                           sign character is equal to the requested number of integer digits to format 
+*                   (b) (1) The number of leading characters is such that the total number of significant
+*                           integer digits plus the number of leading characters plus possible negative
+*                           sign character is equal to the requested number of integer digits to format
 *                           ('nbr_dig').
 *
 *                               Examples :
@@ -3436,8 +3436,8 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 *                                   pstr      = " -23456"
 *
-*                       (2) (A) If the number to format ('nbr') is negative AND the leading character 
-*                               ('lead_char') is     a '0' digit; then the negative sign character 
+*                       (2) (A) If the number to format ('nbr') is negative AND the leading character
+*                               ('lead_char') is     a '0' digit; then the negative sign character
 *                               prefixes all leading characters prior to the formatted number.
 *
 *                                   Examples :
@@ -3458,8 +3458,8 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 *                                       pstr       = "-000ABCD"
 *
-*                           (B) If the number to format ('nbr') is negative AND the leading character 
-*                               ('lead_char') is NOT a '0' digit; then the negative sign character 
+*                           (B) If the number to format ('nbr') is negative AND the leading character
+*                               ('lead_char') is NOT a '0' digit; then the negative sign character
 *                               immediately prefixes the most significant digit of the formatted number.
 *
 *                                   Examples :
@@ -3509,8 +3509,8 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *                   (b) Number of digits to format ('nbr_dig') is zero.
 *                       (1) NULL    string formatted (see Note #7a); NULL pointer returned.
 *
-*                   (c) Number of digits to format ('nbr_dig') is less than number of significant 
-*                           integer digits of the number to format ('nbr'), including possible 
+*                   (c) Number of digits to format ('nbr_dig') is less than number of significant
+*                           integer digits of the number to format ('nbr'), including possible
 *                           negative sign.
 *                       (1) Invalid string formatted (see Note #7);  NULL pointer returned.
 *
@@ -3522,8 +3522,8 @@ CPU_INT32S Str_ParseNbr_Int32S(const CPU_CHAR *pstr, CPU_CHAR **pstr_next,
 *
 *                   (f) Number successfully formatted into character string array.
 *
-*               (7) For any unsuccessful string format or error(s), an invalid string of question marks 
-*                   ('?') will be formatted, where the number of question marks is determined by the 
+*               (7) For any unsuccessful string format or error(s), an invalid string of question marks
+*                   ('?') will be formatted, where the number of question marks is determined by the
 *                   number of digits to format ('nbr_dig') :
 *
 *                      Invalid string's     {  (a)   0 (NULL string)  ,  if 'nbr_dig' = 0
@@ -3540,7 +3540,7 @@ static CPU_CHAR *Str_FmtNbr_Int32(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 {
 	CPU_CHAR *pstr_fmt;
 	CPU_DATA i;
-	CPU_INT32U nbr_fmt;
+	CPU_INT32U nbr_fmt = -1;
 	CPU_INT32U nbr_log;
 	CPU_INT08U nbr_dig_max;
 	CPU_INT08U nbr_dig_min;
@@ -3773,7 +3773,7 @@ static CPU_CHAR *Str_FmtNbr_Int32(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 * Note(s)     : (1) String buffer NOT modified.
 *
 *               (2) (a) IEEE Std 1003.1, 2004 Edition, Section 'strtol() : DESCRIPTION' states that "these
-*                       functions shall convert the initial portion of the string pointed to by 'str' ('pstr') 
+*                       functions shall convert the initial portion of the string pointed to by 'str' ('pstr')
 *                       to a type long ... representation" :
 *
 *                       (1) "First, they decompose the input string into three parts" :
@@ -3789,8 +3789,8 @@ static CPU_CHAR *Str_FmtNbr_Int32(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *                           (B) (1) "A subject sequence interpreted as an integer represented in some radix
 *                                    determined by the value of 'base' ('nbr_base')" :
 *
-*                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the 
-*                                        subject sequence is that of a decimal constant, octal constant, or 
+*                                   (a) "If the value of 'base' ('nbr_base') is 0, the expected form of the
+*                                        subject sequence is that of a decimal constant, octal constant, or
 *                                        hexadecimal constant" :
 *
 *                                       (1) "A decimal constant begins with a non-zero digit, and consists of a
@@ -3803,8 +3803,8 @@ static CPU_CHAR *Str_FmtNbr_Int32(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *                                            by a sequence of the decimal digits and letters 'a' (or 'A') to 'f'
 *                                            (or 'F') with values 10 to 15 respectively."
 *
-*                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form 
-*                                        of the subject sequence is a sequence of letters and digits representing 
+*                                   (b) "If the value of 'base' ('nbr_base') is between 2 and 36, the expected form
+*                                        of the subject sequence is a sequence of letters and digits representing
 *                                        an integer with the radix specified by 'base' ('nbr_base')" :
 *
 *                                       (1) (A) "The letters from 'a' (or 'A') to 'z' (or 'Z') inclusive are
@@ -3812,12 +3812,12 @@ static CPU_CHAR *Str_FmtNbr_Int32(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *                                           (B) "only letters whose ascribed values are less than that of base
 *                                                are permitted."
 *
-*                                       (2) (A) "If the value of 'base' ('nbr_base') is 16, the characters '0x' or 
+*                                       (2) (A) "If the value of 'base' ('nbr_base') is 16, the characters '0x' or
 *                                               '0X' may optionally precede the sequence of letters and digits."
 *
-*                                           (B) Although NO specification states that "if the value of 'base' 
-*                                               ('nbr_base') is" 8, the '0' character "may optionally precede 
-*                                               the sequence of letters and digits"; it seems reasonable to 
+*                                           (B) Although NO specification states that "if the value of 'base'
+*                                               ('nbr_base') is" 8, the '0' character "may optionally precede
+*                                               the sequence of letters and digits"; it seems reasonable to
 *                                               allow the '0' character to be optionally parsed.
 *$PAGE*
 *                               (2) "A subject sequence .... may be preceded by a '+' or '-' sign."
@@ -3836,20 +3836,20 @@ static CPU_CHAR *Str_FmtNbr_Int32(CPU_INT32U nbr, CPU_INT08U nbr_dig,
 *                           (A) "If the subject sequence is empty or does not have the expected form" :
 *
 *                               (1) "no conversion is performed"; ...
-*                               (2) "the value of 'str' ('pstr') is stored in the object pointed to by 'endptr' 
+*                               (2) "the value of 'str' ('pstr') is stored in the object pointed to by 'endptr'
 *                                    ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null pointer."
 *
 *                           (B) "If the subject sequence has the expected form" :
 *
-*                               (1) (a) "and the value of 'base' ('nbr_base') is 0, the sequence of characters 
+*                               (1) (a) "and the value of 'base' ('nbr_base') is 0, the sequence of characters
 *                                        starting with the first digit shall be interpreted as an integer constant."
 *
-*                                   (b) "and the value of 'base' ('nbr_base') is between 2 and 36, it shall be 
-*                                        used as the base for conversion, ascribing to each letter its value as 
+*                                   (b) "and the value of 'base' ('nbr_base') is between 2 and 36, it shall be
+*                                        used as the base for conversion, ascribing to each letter its value as
 *                                        given above" (see Note #2a1B1b1A).
 *
 *                               (2) "A pointer to the final string shall be stored in the object pointed to by
-*                                   'endptr' ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null 
+*                                   'endptr' ('pstr_next'), provided that 'endptr' ('pstr_next') is not a null
 *                                   pointer."
 *
 *                       (3) Lastly, IEEE Std 1003.1, 2004 Edition, Section 'strtol() : RETURN VALUE' states that :

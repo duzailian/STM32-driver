@@ -220,7 +220,7 @@ static void __init_gpio(st_gpio_t *self) {
   return;
 }
 
-static void inline __init_rcc(st_info_t *self) {
+static inline void  __init_rcc(st_info_t *self) {
   if (self->USARTx == USART1)
     RCC->APB2ENR |= RCC_ENR(APB2, USART1);
   else
@@ -234,7 +234,7 @@ static void __init_q(const st_q_t *pst_q) {
   OS_ERR err;
   OSQCreate(pst_q->p_q, pst_q->name, pst_q->q_size, &err);
   if (OS_ERR_NONE != err) {
-    LOG_ERR("usart q creat failed(%d)!", err);
+    pr_err("usart q creat failed(%d)!", err);
   }
   return;
 }
@@ -293,7 +293,7 @@ static int __usart_recv(void *__self, uint8_t *puc_data, size_t sz_len) {
   const st_q_t *pst_q = &self->st_q;
   pst_ret = OSQPend(pst_q->p_q, 0, OS_OPT_PEND_BLOCKING, &msg_size, NULL, &err);
   if ((OS_ERR_NONE != err) || (msg_size != sizeof(pst_ret))) {
-    LOG_ERR("usart q wait failed(%d)!", err);
+    pr_err("usart q wait failed(%d)!", err);
     goto Error;
   }
 #else
@@ -315,14 +315,8 @@ Error:
 }
 
 static int __usart_close(void *__self) {
-#if 0
-  st_info_t *self = (st_info_t *)__self;
-  int ret = 0;
-
-  return ret;
-#else
+  (void)__self;
   return 0;
-#endif
 }
 
 static void __resart_dma(const st_buffer_t *pst_buffer,
@@ -363,8 +357,9 @@ static void post_data(st_info_t *self, uint8_t uc_data) {
   pst_ret->us_len = get_transterred_size(self->pst_dma);
   OSQPost(pst_q->p_q, pst_ret, sizeof(pst_ret), OS_OPT_POST_FIFO, &err);
   if (OS_ERR_NONE != err) {
-    LOG_ERR("usart data post error(%d)!", err);
+    pr_err("usart data post error(%d)!", err);
   }
+  (void)uc_data;
 #else
   st_q_t *pst_ret = (st_q_t *)&pst_buffer->puc_buffer[sz_index];
   CPU_SR_ALLOC();
@@ -384,7 +379,7 @@ static int __ISR(void *__self) {
   uint32_t status = USARTx->SR;
 
   if (status & ERRO_FLG) { // received error!
-    LOG_ERR("usart received error(%d)!", status & ERRO_FLG);
+    pr_err("usart received error(%ld)!", status & ERRO_FLG);
     goto Return;
   }
   if (status & USART_FLAG_IDLE) { // one packet received
@@ -403,13 +398,32 @@ extern st_drv_if_t *open_usart(en_usart_t channel) {
   return (st_drv_if_t *)__init_channel(&ast_info[channel]);
 }
 
-extern int fputc(int ch, FILE *stream) {
+#ifdef __CC_ARM
+extern int fputc(int ch, FILE *stream) {// TODO: 将标准输出函数全部改为wrap版本
   USART_TypeDef *USARTx = ast_info[PRINT_USART].USARTx;
   while (!(USARTx->SR & USART_FLAG_TXE))
     ;
   USARTx->DR = ch;
+  (void)stream;
   return ch;
 }
+#elif defined (__GNUC__)
+int __wrap_putchar ( int character ) {
+  USART_TypeDef *USARTx = ast_info[PRINT_USART].USARTx;
+  while (!(USARTx->SR & USART_FLAG_TXE))
+    ;
+  USARTx->DR = character;
+  return character;
+}
+
+int __wrap_puts ( const char * str ) {
+  while (str[0])
+    putchar(str[0]);
+  return 0;
+}
+#else
+#error "Compiler not support!"
+#endif
 
 #if USART_DBG
 extern void test_usart(void) {
@@ -418,9 +432,9 @@ extern void test_usart(void) {
 
   if (0 == usart->write(usart, "This is a usart test!\r\n",
                         strlen("This is a usart test!\r\n"))) {
-    LOG_INFO("usart send test succeed!");
+    pr_info("usart send test succeed!");
   } else {
-    LOG_ERR("usart send test fail!");
+    pr_err("usart send test fail!");
   }
   while (1) {
     int recv = usart->read(usart, auc_tmp, sizeof(auc_tmp));

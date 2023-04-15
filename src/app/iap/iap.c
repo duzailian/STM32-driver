@@ -189,7 +189,7 @@ static void print_err(en_err_t err) {
                            [err_timeout] = "wait data timeout"};
   if (err_none == err)
     goto Return;
-  LOG_ERR("IAP error:%s", err_str[err]);
+  pr_err("IAP error:%s", err_str[err]);
 Return:
   return;
 }

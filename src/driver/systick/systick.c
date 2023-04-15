@@ -1,8 +1,10 @@
 #include "include.h"
 
+#include "reg.h"
+
 extern void delay_ms(uint32_t ms) {
   RCC_ClocksTypeDef RCC_Clocks = {0};
-  int i = 0;
+  size_t i = 0;
 
   RCC_GetClocksFreq(&RCC_Clocks);
   assert((RCC_Clocks.HCLK_Frequency / 8 / 1000) <= SysTick_LOAD_RELOAD);

@@ -86,7 +86,7 @@ static st_info_t ast_info[] = {
     INFO(1),
 };
 
-static void inline __init_rcc(st_info_t *self) {
+static inline void  __init_rcc(st_info_t *self) {
   if (self->SPIx == SPI1)
     RCC->APB2ENR |= RCC_ENR(APB2, SPI1);
   else
@@ -231,8 +231,8 @@ static int __spi_ctrl(void *__self, int req, ...) {
 }
 
 static int __spi_close(void *self) {
-  int ret = 0;
-  return ret;
+  (void)self;
+  return 0;
 }
 
 extern st_drv_if_t *open_spi(en_spi_t channel) {
